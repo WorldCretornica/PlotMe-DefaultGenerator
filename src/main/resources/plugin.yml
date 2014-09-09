@@ -1,0 +1,9 @@
+name: ${project.name}
+main: ${main.class}
+version: ${project.version}
+author: ZachBora
+load: startup
+website: http://dev.bukkit.org/server-mods/plotme/
+loadbefore: [Multiverse-Core, MultiWorld, PlotMe-Core]
+description: >
+             Handles plot creation
