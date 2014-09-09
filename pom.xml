@@ -79,7 +79,7 @@
         </repository>
         <repository>
             <id>hawkfalcon-repo</id>
-            <url>http://jenkins.hawkfalcon.com/plugin/repository/everything/</url>
+            <url>http://ci.hawkfalcon.com/plugin/repository/everything/</url>
         </repository>
         <repository>
             <id>flungo-repo</id>
