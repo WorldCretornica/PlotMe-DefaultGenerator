@@ -82,10 +82,6 @@
             <url>http://ci.hawkfalcon.com/plugin/repository/everything/</url>
         </repository>
         <repository>
-            <id>flungo-repo</id>
-            <url>http://ci.flungo.me/plugin/repository/everything/</url>
-        </repository>
-        <repository>
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
