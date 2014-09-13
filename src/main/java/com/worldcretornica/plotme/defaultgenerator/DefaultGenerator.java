@@ -28,13 +28,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.PluginManager;
 import org.mcstats.Metrics;
 
 public class DefaultGenerator extends AbstractGenerator {
 
-    public static final String CORE_OLD_CONFIG = "config-old.yml";
-    public static final String DEFAULT_WORLD = "plotsworld";
+    public static final String CORE_OLD_CONFIG = "config.yml";
+    public static final String DEFAULT_WORLD = "plotworld";
 
     public String language;
 
@@ -77,7 +76,11 @@ public class DefaultGenerator extends AbstractGenerator {
         getLogger().info("Importing old PlotMe data");
 
         // Get the local worlds config section
-        final ConfigurationSection worldsCS = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
+        ConfigurationSection worldsCS = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
+
+        if (worldsCS == null) {
+        	worldsCS = getConfig().createSection(WORLDS_CONFIG_SECTION);
+        }
 
         // Create a mapping from oldConfig to config
         final Map<String, String> mapping = new HashMap<String, String>();
@@ -149,34 +152,24 @@ public class DefaultGenerator extends AbstractGenerator {
         saveConfig();
 
         // If there is anything left then save, otherwise delete config-old.yml
-        if (oldConfig.getKeys(false).isEmpty()) {
-            oldConfigFile.delete();
-            getLogger().info("Old data from PlotMe has been fully imported. " + CORE_OLD_CONFIG + " has been deleted.");
-        } else {
-            try {
-                oldConfig.save(oldConfigFile);
-                getLogger().info("Unimported config data in " + CORE_OLD_CONFIG + " of PlotMe, please review manually.");
-            } catch (IOException ex) {
-                getLogger().log(Level.SEVERE, "Could not save " + CORE_OLD_CONFIG + " to " + oldConfigFile, ex);
-            }
+        try {
+            oldConfig.save(oldConfigFile);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Could not save " + CORE_OLD_CONFIG + " to " + oldConfigFile, ex);
         }
     }
 
     @Override
     public void initialize() {
         genPlotManager = new DefaultPlotManager(this);
-        setupListeners();
         setupConfigs();
         setupMetrics();
     }
 
-    private void setupListeners() {
-        // Setup PluginListener
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new PluginListener(this), this);
-    }
-
     private void setupConfigs() {
+    	// Import old configs
+    	importOldConfigs();
+    	
         // Set defaults for WorldGenConfig
         for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
             WorldGenConfig.putDefault(wcp);

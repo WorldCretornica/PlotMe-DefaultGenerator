@@ -9,12 +9,16 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import me.flungo.bukkit.plotme.abstractgenerator.AbstractChunkGenerator;
 import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
+
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 
 public class DefaultChunkGenerator extends AbstractChunkGenerator {
@@ -27,7 +31,8 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
         super(instance, worldname);
         this.plugin = instance;
         this.worldname = worldname;
-        blockPopulators.add(new DefaultDataPopulator(plugin, worldname));
+        blockPopulators.add(new DefaultRoadPopulator(plugin, worldname));
+        blockPopulators.add(new DefaultContentPopulator(plugin, worldname));
     }
 
     @Override
@@ -53,8 +58,6 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
         short[][] result = new short[maxY / 16][];
 
         double size = plotsize + pathsize;
-        int valx;
-        int valz;
 
         double n1;
         double n2;
@@ -77,15 +80,16 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
         }
 
         for (int x = 0; x < 16; x++) {
+        	int valx = ((cx << 4) + x);
+
             for (int z = 0; z < 16; z++) {
                 int height = roadheight + 2;
+                int valz = ((cz << 4) + z);
+
+                biomes.setBiome(x, z, Biome.PLAINS);
 
                 for (int y = 0; y < height; y++) {
-                    valx = (cx * 16 + x);
-                    valz = (cz * 16 + z);
-
                     if (y == 0) {
-                        //result[(x * 16 + z) * 128 + y] = bottom;
                         setBlock(result, x, y, z, bottom);
 
                     } else if (y == roadheight) {
@@ -100,30 +104,24 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                             }
 
                             if (found) {
-                                //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
-                                //result[(x * 16 + z) * 128 + y] = filling; //filling
                                 setBlock(result, x, y, z, filling);
                             }
                         } else if ((valx - n2 + mod1) % size == 0 || (valx + n2 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0
                                     || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
-                                //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
-                                //result[(x * 16 + z) * 128 + y] = floor2; //floor2
                                 setBlock(result, x, y, z, floorMain);
                             }
                         } else if ((valx - n1 + mod1) % size == 0 || (valx + n1 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0
                                     || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
-                                //result[(x * 16 + z) * 128 + y] = floor2; //floor2
                                 setBlock(result, x, y, z, floorMain);
                             } else {
-                                //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                 setBlock(result, x, y, z, floorAlt);
                             }
                         } else {
@@ -136,11 +134,9 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                             }
 
                             if (found) {
-                                //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
                                 if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
-                                    //result[(x * 16 + z) * 128 + y] = floor2; //floor2
                                     setBlock(result, x, y, z, floorMain);
                                 } else {
                                     boolean found2 = false;
@@ -152,7 +148,6 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                                     }
 
                                     if (found2) {
-                                        //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                         setBlock(result, x, y, z, floorAlt);
                                     } else {
                                         boolean found3 = false;
@@ -164,10 +159,8 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                                         }
 
                                         if (found3) {
-                                            //result[(x * 16 + z) * 128 + y] = floor1; //floor1
                                             setBlock(result, x, y, z, floorAlt);
                                         } else {
-                                            //result[(x * 16 + z) * 128 + y] = plotfloor; //plotfloor
                                             setBlock(result, x, y, z, plotfloor);
                                         }
                                     }
@@ -187,10 +180,7 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                             }
 
                             if (found) {
-                                //result[(x * 16 + z) * 128 + y] = air;
-                                //setBlock(result, x, y, z, air);
                             } else {
-                                //result[(x * 16 + z) * 128 + y] = wall;
                                 setBlock(result, x, y, z, wall);
                             }
                         } else {
@@ -202,28 +192,19 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                                 }
                             }
 
-                            if (found) {
-                                //result[(x * 16 + z) * 128 + y] = air;
-                                //setBlock(result, x, y, z, air);
-                            } else {
+                            if (!found) {
                                 if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0) {
-                                    //result[(x * 16 + z) * 128 + y] = wall;
                                     setBlock(result, x, y, z, wall);
                                 } else {
-                                    //result[(x * 16 + z) * 128 + y] = air;
-                                    //setBlock(result, x, y, z, air);
                                 }
                             }
                         }
                     } else {
-                        //result[(x * 16 + z) * 128 + y] = filling;
                         setBlock(result, x, y, z, filling);
                     }
                 }
             }
         }
-
         return result;
     }
-
 }
