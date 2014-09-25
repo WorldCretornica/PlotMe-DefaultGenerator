@@ -1,31 +1,20 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.BASE_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenManager;
 import me.flungo.bukkit.plotme.abstractgenerator.BlockRepresentation;
 import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Jukebox;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.InventoryHolder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultPlotManager extends AbstractGenManager {
 
@@ -66,14 +55,14 @@ public class DefaultPlotManager extends AbstractGenManager {
                         || (valx + i + mod2) % size == 0) {
                     road = true;
 
-                    x = (int) Math.ceil((double) (valx - n3) / size);
+                    x = (int) Math.ceil((valx - n3) / size);
                     //x2 = (int) Math.ceil((double)(valx + n3) / size);
                 }
                 if ((valz - i + mod1) % size == 0
                         || (valz + i + mod2) % size == 0) {
                     road = true;
 
-                    z = (int) Math.ceil((double) (valz - n3) / size);
+                    z = (int) Math.ceil((valz - n3) / size);
                     //z2 = (int) Math.ceil((double)(valz + n3) / size);
                 }
             }
@@ -126,7 +115,6 @@ public class DefaultPlotManager extends AbstractGenManager {
         int maxX;
         int minZ;
         int maxZ;
-        boolean isWallX;
 
         WorldGenConfig wgc = getWGC(w);
         int h = wgc.getInt(GROUND_LEVEL);
@@ -150,7 +138,7 @@ public class DefaultPlotManager extends AbstractGenManager {
             maxX = Math.max(topPlot1.getBlockX(), topPlot2.getBlockX()) - plotSize;
         }
 
-        isWallX = (maxX - minX) > (maxZ - minZ);
+        boolean isWallX = (maxX - minX) > (maxZ - minZ);
 
         if (isWallX) {
             minX--;
@@ -509,7 +497,7 @@ public class DefaultPlotManager extends AbstractGenManager {
     public void adjustPlotFor(World w, String id, boolean Claimed, boolean Protected, boolean Auctionned, boolean ForSale) {
         WorldGenConfig wgc = getWGC(w);
 
-        List<String> wallids = new ArrayList<String>();
+        List<String> wallids = new ArrayList<>();
 
         int roadHeight = wgc.getInt(GROUND_LEVEL);
 

@@ -1,18 +1,13 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
-
-import java.util.Random;
-
 import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
-
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
+
+import java.util.Random;
+
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultContentPopulator extends BlockPopulator {
 
@@ -60,10 +55,8 @@ public class DefaultContentPopulator extends BlockPopulator {
                 for (int y = 0; y <= roadheight; y++) {
                     if (y < roadheight) {
                         setData(w, x, y, z, filling);
-                    } else {
-                        if (modX && modZ) {
-                            setData(w, x, y, z, plotfloor);
-                        }
+                    } else if (modX && modZ) {
+                        setData(w, x, y, z, plotfloor);
                     }
                 }
             }

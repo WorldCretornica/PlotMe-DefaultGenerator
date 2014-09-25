@@ -1,25 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.BASE_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.X_TRANSLATION;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.Z_TRANSLATION;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenManager;
 import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenerator;
 import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
@@ -30,12 +10,19 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.mcstats.Metrics;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
+
 public class DefaultGenerator extends AbstractGenerator {
 
     public static final String CORE_OLD_CONFIG = "config.yml";
     public static final String DEFAULT_WORLD = "plotworld";
-
-    public String language;
 
     private Boolean advancedlogging;
 
@@ -83,7 +70,7 @@ public class DefaultGenerator extends AbstractGenerator {
         }
 
         // Create a mapping from oldConfig to config
-        final Map<String, String> mapping = new HashMap<String, String>();
+        final Map<String, String> mapping = new HashMap<>();
 
         mapping.put("PlotSize", PLOT_SIZE.path);
         mapping.put("XTranslation", X_TRANSLATION.path);

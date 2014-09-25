@@ -1,31 +1,22 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.BASE_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+import me.flungo.bukkit.plotme.abstractgenerator.AbstractChunkGenerator;
+import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.BlockPopulator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractChunkGenerator;
-import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
-
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.generator.BlockPopulator;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultChunkGenerator extends AbstractChunkGenerator {
 
     private final String worldname;
     private final DefaultGenerator plugin;
-    private final List<BlockPopulator> blockPopulators = new ArrayList<BlockPopulator>();
+    private final List<BlockPopulator> blockPopulators = new ArrayList<>();
 
     public DefaultChunkGenerator(DefaultGenerator instance, String worldname) {
         super(instance, worldname);
@@ -135,34 +126,32 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
 
                             if (found) {
                                 setBlock(result, x, y, z, floorAlt);
+                            } else if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
+                                setBlock(result, x, y, z, floorMain);
                             } else {
-                                if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
-                                    setBlock(result, x, y, z, floorMain);
+                                boolean found2 = false;
+                                for (double i = n1; i >= 0; i--) {
+                                    if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
+                                        found2 = true;
+                                        break;
+                                    }
+                                }
+
+                                if (found2) {
+                                    setBlock(result, x, y, z, floorAlt);
                                 } else {
-                                    boolean found2 = false;
-                                    for (double i = n1; i >= 0; i--) {
-                                        if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
-                                            found2 = true;
+                                    boolean found3 = false;
+                                    for (double i = n3; i >= 0; i--) {
+                                        if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
+                                            found3 = true;
                                             break;
                                         }
                                     }
 
-                                    if (found2) {
+                                    if (found3) {
                                         setBlock(result, x, y, z, floorAlt);
                                     } else {
-                                        boolean found3 = false;
-                                        for (double i = n3; i >= 0; i--) {
-                                            if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
-                                                found3 = true;
-                                                break;
-                                            }
-                                        }
-
-                                        if (found3) {
-                                            setBlock(result, x, y, z, floorAlt);
-                                        } else {
-                                            setBlock(result, x, y, z, plotfloor);
-                                        }
+                                        setBlock(result, x, y, z, plotfloor);
                                     }
                                 }
                             }
@@ -179,8 +168,7 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                                 }
                             }
 
-                            if (found) {
-                            } else {
+                            if (!found) {
                                 setBlock(result, x, y, z, wall);
                             }
                         } else {
@@ -195,7 +183,6 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
                             if (!found) {
                                 if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0) {
                                     setBlock(result, x, y, z, wall);
-                                } else {
                                 }
                             }
                         }
