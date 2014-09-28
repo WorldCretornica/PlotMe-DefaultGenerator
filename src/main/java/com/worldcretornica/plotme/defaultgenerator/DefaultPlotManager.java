@@ -154,9 +154,7 @@ public class DefaultPlotManager extends AbstractGenManager {
                     if (y >= (h + 2)) {
                         w.getBlockAt(x, y, z).setType(Material.AIR);
                     } else if (y == (h + 1)) {
-                        if (isWallX && (x == minX || x == maxX)) {
-                            w.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, true);
-                        } else if (!isWallX && (z == minZ || z == maxZ)) {
+                        if (isWallX && (x == minX || x == maxX) || !isWallX && (z == minZ || z == maxZ)) {
                             w.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, true);
                         } else {
                             w.getBlockAt(x, y, z).setType(Material.AIR);
@@ -409,9 +407,9 @@ public class DefaultPlotManager extends AbstractGenManager {
         BlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
         BlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
 
-        int bottomX = 0;
+        int bottomX;
         int topX = top.getBlockX();
-        int bottomZ = 0;
+        int bottomZ;
         int topZ = top.getBlockZ();
         int maxY;
 
@@ -601,7 +599,7 @@ public class DefaultPlotManager extends AbstractGenManager {
         int minChunkZ = (int) Math.floor((double) bottomZ / 16);
         int maxChunkZ = (int) Math.floor((double) topZ / 16);
 
-        HashMap<Location, Biome> biomes = new HashMap<Location, Biome>();
+        HashMap<Location, Biome> biomes = new HashMap<>();
 
         for (int cx = minChunkX; cx <= maxChunkX; cx++) {
             int xx = cx << 4;

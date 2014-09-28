@@ -60,14 +60,11 @@ public class DefaultChunkGenerator extends AbstractChunkGenerator {
             n1 = Math.ceil(((double) pathsize) / 2) - 2;
             n2 = Math.ceil(((double) pathsize) / 2) - 1;
             n3 = Math.ceil(((double) pathsize) / 2);
+            mod2 = -1;
         } else {
             n1 = Math.floor(((double) pathsize) / 2) - 2;
             n2 = Math.floor(((double) pathsize) / 2) - 1;
             n3 = Math.floor(((double) pathsize) / 2);
-        }
-
-        if (pathsize % 2 == 1) {
-            mod2 = -1;
         }
 
         for (int x = 0; x < 16; x++) {
