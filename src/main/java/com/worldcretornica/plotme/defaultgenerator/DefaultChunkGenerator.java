@@ -1,10 +1,11 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractChunkGenerator;
-import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
+
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
-public class DefaultChunkGenerator extends AbstractChunkGenerator {
+public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
 
     private final String worldname;
     private final DefaultGenerator plugin;

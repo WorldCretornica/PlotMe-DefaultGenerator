@@ -1,7 +1,7 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractWorldConfigPath;
-import me.flungo.bukkit.plotme.abstractgenerator.WorldConfigPath;
+import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
+import com.worldcretornica.plotme_abstractgenerator.WorldConfigPath;
 
 /**
  *

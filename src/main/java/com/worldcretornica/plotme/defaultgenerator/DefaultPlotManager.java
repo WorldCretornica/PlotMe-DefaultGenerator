@@ -1,14 +1,16 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenManager;
-import me.flungo.bukkit.plotme.abstractgenerator.BlockRepresentation;
-import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.InventoryHolder;
+
+import com.worldcretornica.plotme_abstractgenerator.AbstractGenManager;
+import com.worldcretornica.plotme_abstractgenerator.BlockRepresentation;
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_core.api.ILocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class DefaultPlotManager extends AbstractGenManager {
     }
 
     @Override
-    public String getPlotId(Location loc) {
+    public String getPlotId(ILocation loc) {
         WorldGenConfig wgc = getWGC(loc.getWorld());
 
         if (wgc != null) {

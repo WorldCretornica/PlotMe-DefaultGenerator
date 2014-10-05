@@ -1,14 +1,15 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenManager;
-import me.flungo.bukkit.plotme.abstractgenerator.AbstractGenerator;
-import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.mcstats.Metrics;
+
+import com.worldcretornica.plotme_abstractgenerator.AbstractGenManager;
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
-public class DefaultGenerator extends AbstractGenerator {
+public class DefaultGenerator extends BukkitAbstractGenerator {
 
     public static final String CORE_OLD_CONFIG = "config.yml";
     public static final String DEFAULT_WORLD = "plotworld";

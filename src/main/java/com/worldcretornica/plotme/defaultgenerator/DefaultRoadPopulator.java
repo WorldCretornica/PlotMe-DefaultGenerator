@@ -1,9 +1,10 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import me.flungo.bukkit.plotme.abstractgenerator.WorldGenConfig;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
+
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 
 import java.util.Random;
 
