@@ -35,7 +35,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>com.worldcretornica:PlotMe-Core</include>
-                                    <include>me.flungo.bukkit:PlotMe-AbstractGenerator</include>
+                                    <include>com.worldcretornica:PlotMe-AbstractGenerator</include>
                                     <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
                             </artifactSet>
@@ -44,12 +44,13 @@
                                     <artifact>com.worldcretornica:PlotMe-Core</artifact>
                                     <includes>
                                         <include>com/worldcretornica/plotme_core/api/**</include>
+                                        <include>com/worldcretornica/plotme_core/bukkit/api/**</include>
                                     </includes>
                                 </filter>
                             </filters>
                             <relocations>
                                 <relocation>
-                                    <pattern>me.flungo.bukkit.plotme.abstractgenerator</pattern>
+                                    <pattern>com.worldcretornica.abstractgenerator</pattern>
                                     <shadedPattern>com.worldcretornica.plotme_defaultgenerator</shadedPattern>
                                 </relocation>
                                 <relocation>
@@ -99,7 +100,7 @@
             <version>0.14-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>me.flungo.bukkit</groupId>
+            <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-AbstractGenerator</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>

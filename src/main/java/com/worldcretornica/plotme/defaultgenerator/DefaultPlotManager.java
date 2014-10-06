@@ -7,10 +7,9 @@ import org.bukkit.block.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.InventoryHolder;
 
-import com.worldcretornica.plotme_abstractgenerator.AbstractGenManager;
-import com.worldcretornica.plotme_abstractgenerator.BlockRepresentation;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
-import com.worldcretornica.plotme_core.api.ILocation;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +17,14 @@ import java.util.List;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
-public class DefaultPlotManager extends AbstractGenManager {
+public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     public DefaultPlotManager(DefaultGenerator instance) {
         super(instance);
     }
 
     @Override
-    public String getPlotId(ILocation loc) {
+    public String getPlotId(Location loc) {
         WorldGenConfig wgc = getWGC(loc.getWorld());
 
         if (wgc != null) {
@@ -106,7 +105,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         }
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void fillroad(String id1, String id2, World w) {
         Location bottomPlot1 = getPlotBottomLoc(w, id1);
         Location topPlot1 = getPlotTopLoc(w, id1);
@@ -169,7 +169,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         }
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void fillmiddleroad(String id1, String id2, World w) {
         Location bottomPlot1 = getPlotBottomLoc(w, id1);
         Location topPlot1 = getPlotTopLoc(w, id1);
@@ -204,7 +205,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         }
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void setOwnerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
 
@@ -222,7 +224,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         sign.update(true);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void setSellerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
@@ -242,7 +245,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         sign.update(true);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void setAuctionDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
@@ -331,9 +335,9 @@ public class DefaultPlotManager extends AbstractGenManager {
     public void clear(Location bottom, Location top) {
         WorldGenConfig wgc = getWGC(bottom.getWorld());
         int roadHeight = wgc.getInt(GROUND_LEVEL);
-        BlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
-        BlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
-        BlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
+        BukkitBlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
+        BukkitBlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
+        BukkitBlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
 
         int bottomX = bottom.getBlockX();
         int topX = top.getBlockX();
@@ -405,9 +409,9 @@ public class DefaultPlotManager extends AbstractGenManager {
 
         WorldGenConfig wgc = getWGC(bottom.getWorld());
         int roadHeight = wgc.getInt(GROUND_LEVEL);
-        BlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
-        BlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
-        BlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
+        BukkitBlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
+        BukkitBlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
+        BukkitBlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
 
         int bottomX;
         int topX = top.getBlockX();
@@ -564,7 +568,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         }
     }
 
-    private void setWall(Block block, String currentblockid) {
+    @SuppressWarnings("deprecation")
+	private void setWall(Block block, String currentblockid) {
 
         int blockId;
         byte blockData = 0;
@@ -589,7 +594,8 @@ public class DefaultPlotManager extends AbstractGenManager {
         block.setTypeIdAndData(blockId, blockData, true);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void regen(World w, String id, CommandSender sender) {
         int bottomX = bottomX(id, w);
         int topX = topX(id, w);

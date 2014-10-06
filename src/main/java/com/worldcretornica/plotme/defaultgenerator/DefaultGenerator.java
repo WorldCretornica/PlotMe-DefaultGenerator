@@ -7,8 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.mcstats.Metrics;
 
-import com.worldcretornica.plotme_abstractgenerator.AbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 
 import java.io.File;
@@ -214,7 +214,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     @Override
-    public AbstractGenManager getGeneratorManager() {
+    public BukkitAbstractGenManager getGeneratorManager() {
         return genPlotManager;
     }
 }
