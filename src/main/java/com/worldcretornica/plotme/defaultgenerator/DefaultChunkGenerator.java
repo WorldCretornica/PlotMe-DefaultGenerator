@@ -68,7 +68,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
 
         int mod1 = 1;
         for (int x = 0; x < 16; x++) {
-        	int valx = ((cx << 4) + x);
+            int valx = ((cx << 4) + x);
 
             for (int z = 0; z < 16; z++) {
                 int height = roadheight + 2;
@@ -99,7 +99,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         } else if ((valx - n2 + mod1) % size == 0 || (valx + n2 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0
-                                    || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
+                                        || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
                                 setBlock(result, x, y, z, floorMain);
@@ -107,7 +107,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         } else if ((valx - n1 + mod1) % size == 0 || (valx + n1 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0
-                                    || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
+                                        || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorMain);
                             } else {
                                 setBlock(result, x, y, z, floorAlt);
