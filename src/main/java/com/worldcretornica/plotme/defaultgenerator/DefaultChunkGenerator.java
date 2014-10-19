@@ -1,11 +1,10 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
-
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,6 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
         double n2;
         double n3;
         int mod2 = 0;
-        int mod1 = 1;
 
         if (pathsize % 2 == 1) {
             n1 = Math.ceil(((double) pathsize) / 2) - 2;
@@ -68,6 +66,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
             n3 = Math.floor(((double) pathsize) / 2);
         }
 
+        int mod1 = 1;
         for (int x = 0; x < 16; x++) {
         	int valx = ((cx << 4) + x);
 

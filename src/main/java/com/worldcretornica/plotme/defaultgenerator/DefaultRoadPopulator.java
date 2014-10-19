@@ -1,10 +1,9 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
-
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 
 import java.util.Random;
 
@@ -40,7 +39,6 @@ public class DefaultRoadPopulator extends BlockPopulator {
         double n2;
         double n3;
         int mod2 = 0;
-        int mod1 = 1;
 
         if (pathsize % 2 == 1) {
             n1 = Math.ceil(((double) pathsize) / 2) - 2;
@@ -53,6 +51,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
             n3 = Math.floor(((double) pathsize) / 2);
         }
 
+        int mod1 = 1;
         for (int x = xx; x < xx + 16; x++) {
             for (int z = zz; z < zz + 16; z++) {
 

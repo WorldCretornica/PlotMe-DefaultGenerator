@@ -1,15 +1,13 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import org.bukkit.ChatColor;
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.mcstats.Metrics;
-
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,14 +23,11 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     public static final String CORE_OLD_CONFIG = "config.yml";
     public static final String DEFAULT_WORLD = "plotworld";
 
-    private Boolean advancedlogging;
-
     private DefaultPlotManager genPlotManager;
 
     @Override
     public void takedown() {
         genPlotManager = null;
-        setAdvancedLogging(null);
     }
 
     @Override
@@ -67,7 +62,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         ConfigurationSection worldsCS = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
 
         if (worldsCS == null) {
-        	worldsCS = getConfig().createSection(WORLDS_CONFIG_SECTION);
+            worldsCS = getConfig().createSection(WORLDS_CONFIG_SECTION);
         }
 
         // Create a mapping from oldConfig to config
@@ -111,8 +106,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                             // Can't migrate the path
                             String fullPathBase = oldWorldCS.getCurrentPath();
                             getLogger().log(Level.WARNING,
-                                    "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + DEFAULT_CONFIG_NAME,
-                                    new Object[]{fullPathBase, path, oldConfigFile, newPath, getConfigFolder(), File.separator});
+                                                   "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + DEFAULT_CONFIG_NAME,
+                                                   new Object[]{fullPathBase, path, oldConfigFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {
                         // Migrate!
@@ -155,9 +150,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     private void setupConfigs() {
-    	// Import old configs
-    	importOldConfigs();
-    	
+        // Import old configs
+        importOldConfigs();
+
         // Set defaults for WorldGenConfig
         for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
             WorldGenConfig.putDefault(wcp);
@@ -199,18 +194,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         } catch (IOException ex) {
             Logger.getLogger(DefaultGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public String addColor(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
-    }
-
-    public Boolean getAdvancedLogging() {
-        return advancedlogging;
-    }
-
-    private void setAdvancedLogging(Boolean advancedlogging) {
-        this.advancedlogging = advancedlogging;
     }
 
     @Override

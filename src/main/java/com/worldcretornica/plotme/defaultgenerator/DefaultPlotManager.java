@@ -1,15 +1,14 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.InventoryHolder;
-
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +32,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
             int pathsize = wgc.getInt(PATH_WIDTH);
             int size = wgc.getInt(PLOT_SIZE) + pathsize;
-            boolean road = false;
 
             double n3;
             int mod2 = 0;
-            int mod1 = 1;
 
             int x = (int) Math.ceil((double) valx / size);
             int z = (int) Math.ceil((double) valz / size);
@@ -51,16 +48,16 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 n3 = Math.floor(((double) pathsize) / 2); //3 7
             }
 
+            boolean road = false;
+            int mod1 = 1;
             for (double i = n3; i >= 0; i--) {
-                if ((valx - i + mod1) % size == 0
-                        || (valx + i + mod2) % size == 0) {
+                if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                     road = true;
 
                     x = (int) Math.ceil((valx - n3) / size);
                     //x2 = (int) Math.ceil((double)(valx + n3) / size);
                 }
-                if ((valz - i + mod1) % size == 0
-                        || (valz + i + mod2) % size == 0) {
+                if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                     road = true;
 
                     z = (int) Math.ceil((valz - n3) / size);
@@ -106,7 +103,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void fillroad(String id1, String id2, World w) {
         Location bottomPlot1 = getPlotBottomLoc(w, id1);
         Location topPlot1 = getPlotTopLoc(w, id1);
@@ -170,27 +167,22 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void fillmiddleroad(String id1, String id2, World w) {
         Location bottomPlot1 = getPlotBottomLoc(w, id1);
         Location topPlot1 = getPlotTopLoc(w, id1);
         Location bottomPlot2 = getPlotBottomLoc(w, id2);
         Location topPlot2 = getPlotTopLoc(w, id2);
 
-        int minX;
-        int maxX;
-        int minZ;
-        int maxZ;
-
         WorldGenConfig wgc = getWGC(w);
         int h = wgc.getInt(GROUND_LEVEL);
         int fillId = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
 
-        minX = Math.min(topPlot1.getBlockX(), topPlot2.getBlockX());
-        maxX = Math.max(bottomPlot1.getBlockX(), bottomPlot2.getBlockX());
+        int minX = Math.min(topPlot1.getBlockX(), topPlot2.getBlockX());
+        int maxX = Math.max(bottomPlot1.getBlockX(), bottomPlot2.getBlockX());
 
-        minZ = Math.min(topPlot1.getBlockZ(), topPlot2.getBlockZ());
-        maxZ = Math.max(bottomPlot1.getBlockZ(), bottomPlot2.getBlockZ());
+        int minZ = Math.min(topPlot1.getBlockZ(), topPlot2.getBlockZ());
+        int maxZ = Math.max(bottomPlot1.getBlockZ(), bottomPlot2.getBlockZ());
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
@@ -206,7 +198,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void setOwnerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
 
@@ -225,7 +217,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void setSellerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
@@ -246,7 +238,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void setAuctionDisplay(World world, String id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
@@ -360,12 +352,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     block = w.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
-                            || block.getType() == Material.CHEST
-                            || block.getType() == Material.BREWING_STAND
-                            || block.getType() == Material.DISPENSER
-                            || block.getType() == Material.FURNACE
-                            || block.getType() == Material.DROPPER
-                            || block.getType() == Material.HOPPER) {
+                                || block.getType() == Material.CHEST
+                                || block.getType() == Material.BREWING_STAND
+                                || block.getType() == Material.DISPENSER
+                                || block.getType() == Material.FURNACE
+                                || block.getType() == Material.DROPPER
+                                || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -387,10 +379,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         floorBlock.setBlock(block);
                     } else {
                         if (y == (roadHeight + 1)
-                                && (x == bottomX - 1
-                                || x == topX + 1
-                                || z == bottomZ - 1
-                                || z == topZ + 1)) {
+                                    && (x == bottomX - 1
+                                                || x == topX + 1
+                                                || z == bottomZ - 1
+                                                || z == topZ + 1)) {
                             //block.setTypeId(pmi.WallBlockId);
                         } else {
                             block.setType(Material.AIR);
@@ -419,7 +411,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int topZ = top.getBlockZ();
         int maxY;
 
-        long nbBlockCleared = 0;
         long nbBlockClearedBefore = 0;
 
         World w = bottom.getWorld();
@@ -435,6 +426,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             nbBlockClearedBefore = start[3];
         }
 
+        long nbBlockCleared = 0;
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
                 Block block = w.getBlockAt(x, 0, z);
@@ -445,12 +437,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     block = w.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
-                            || block.getType() == Material.CHEST
-                            || block.getType() == Material.BREWING_STAND
-                            || block.getType() == Material.DISPENSER
-                            || block.getType() == Material.FURNACE
-                            || block.getType() == Material.DROPPER
-                            || block.getType() == Material.HOPPER) {
+                                || block.getType() == Material.CHEST
+                                || block.getType() == Material.BREWING_STAND
+                                || block.getType() == Material.DISPENSER
+                                || block.getType() == Material.FURNACE
+                                || block.getType() == Material.DROPPER
+                                || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -472,10 +464,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         floorBlock.setBlock(block);
                     } else {
                         if (y == (roadHeight + 1)
-                                && (x == bottomX - 1
-                                || x == topX + 1
-                                || z == bottomZ - 1
-                                || z == topZ + 1)) {
+                                    && (x == bottomX - 1
+                                                || x == topX + 1
+                                                || z == bottomZ - 1
+                                                || z == topZ + 1)) {
                             //block.setTypeId(pmi.WallBlockId);
                         } else {
                             //block.setTypeIdAndData(0, (byte) 0, false); //.setType(Material.AIR);
@@ -569,7 +561,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	private void setWall(Block block, String currentblockid) {
+    private void setWall(Block block, String currentblockid) {
 
         int blockId;
         byte blockData = 0;
@@ -595,7 +587,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void regen(World w, String id, CommandSender sender) {
         int bottomX = bottomX(id, w);
         int topX = topX(id, w);
