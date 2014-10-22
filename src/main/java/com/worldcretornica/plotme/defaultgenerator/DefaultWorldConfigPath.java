@@ -27,12 +27,12 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     public final String path;
     public final Object def;
 
-    private DefaultWorldConfigPath(String path, Object def) {
+    DefaultWorldConfigPath(String path, Object def) {
         this.path = path;
         this.def = def;
     }
 
-    private DefaultWorldConfigPath(AbstractWorldConfigPath awcp) {
+    DefaultWorldConfigPath(AbstractWorldConfigPath awcp) {
         this.path = awcp.path;
         this.def = awcp.def;
     }

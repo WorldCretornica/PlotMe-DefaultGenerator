@@ -38,7 +38,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     public void importOldConfigs() {
         getLogger().info("Checking if there are any old PlotMe configs to import.");
         // Get the old config file
-        final File oldConfigFile = new File(getCoreFolder(), CORE_OLD_CONFIG);
+        File oldConfigFile = new File(getCoreFolder(), CORE_OLD_CONFIG);
 
         // If it doesn't exist there is nothing to import
         if (!oldConfigFile.exists()) {
@@ -47,8 +47,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // Load the config from the file and get the worlds config section
-        final FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
-        final ConfigurationSection oldWorldsCS = oldConfig.getConfigurationSection(WORLDS_CONFIG_SECTION);
+        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
+        ConfigurationSection oldWorldsCS = oldConfig.getConfigurationSection(WORLDS_CONFIG_SECTION);
 
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
@@ -66,7 +66,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // Create a mapping from oldConfig to config
-        final Map<String, String> mapping = new HashMap<>();
+        Map<String, String> mapping = new HashMap<>();
 
         mapping.put("PlotSize", PLOT_SIZE.path);
         mapping.put("XTranslation", X_TRANSLATION.path);

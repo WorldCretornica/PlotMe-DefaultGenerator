@@ -34,17 +34,17 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
     @Override
     public short[][] generateExtBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
         WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
-        final int maxY = world.getMaxHeight();
+        int maxY = world.getMaxHeight();
 
-        final int plotsize = wgc.getInt(PLOT_SIZE);
-        final int pathsize = wgc.getInt(PATH_WIDTH);
-        final int roadheight = wgc.getInt(GROUND_LEVEL);
-        final short bottom = wgc.getBlockRepresentation(BASE_BLOCK).getId();
-        final short wall = wgc.getBlockRepresentation(WALL_BLOCK).getId();
-        final short floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getId();
-        final short floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getId();
-        final short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
-        final short filling = wgc.getBlockRepresentation(FILL_BLOCK).getId();
+        int plotsize = wgc.getInt(PLOT_SIZE);
+        int pathsize = wgc.getInt(PATH_WIDTH);
+        int roadheight = wgc.getInt(GROUND_LEVEL);
+        short bottom = wgc.getBlockRepresentation(BASE_BLOCK).getId();
+        short wall = wgc.getBlockRepresentation(WALL_BLOCK).getId();
+        short floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getId();
+        short floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getId();
+        short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
+        short filling = wgc.getBlockRepresentation(FILL_BLOCK).getId();
 
         short[][] result = new short[maxY / 16][];
 

@@ -23,15 +23,15 @@ public class DefaultRoadPopulator extends BlockPopulator {
     public void populate(World w, Random rand, Chunk chunk) {
         WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
 
-        final int plotsize = wgc.getInt(PLOT_SIZE);
-        final int pathsize = wgc.getInt(PATH_WIDTH);
-        final int roadheight = wgc.getInt(GROUND_LEVEL);
-        final byte wall = wgc.getBlockRepresentation(WALL_BLOCK).getData();
-        final byte floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getData();
-        final byte floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getData();
+        int plotsize = wgc.getInt(PLOT_SIZE);
+        int pathsize = wgc.getInt(PATH_WIDTH);
+        int roadheight = wgc.getInt(GROUND_LEVEL);
+        byte wall = wgc.getBlockRepresentation(WALL_BLOCK).getData();
+        byte floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getData();
+        byte floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getData();
 
-        final int xx = chunk.getX() << 4;
-        final int zz = chunk.getZ() << 4;
+        int xx = chunk.getX() << 4;
+        int zz = chunk.getZ() << 4;
 
         double size = plotsize + pathsize;
 
