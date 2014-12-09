@@ -13,7 +13,6 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     X_TRANSLATION(AbstractWorldConfigPath.X_TRANSLATION),
     Z_TRANSLATION(AbstractWorldConfigPath.Z_TRANSLATION),
     GROUND_LEVEL(AbstractWorldConfigPath.GROUND_LEVEL),
-    BASE_BLOCK(AbstractWorldConfigPath.BASE_BLOCK),
     FILL_BLOCK(AbstractWorldConfigPath.FILL_BLOCK),
     PATH_WIDTH("PathWidth", 7),
     PLOT_FLOOR_BLOCK("PlotFloorBlock", "2"),

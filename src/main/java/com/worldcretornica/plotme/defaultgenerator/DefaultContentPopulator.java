@@ -1,10 +1,9 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
-
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 
 import java.util.Random;
 
@@ -24,22 +23,22 @@ public class DefaultContentPopulator extends BlockPopulator {
     public void populate(World w, Random rand, Chunk chunk) {
         WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
 
-        final int plotsize = wgc.getInt(PLOT_SIZE);
-        final int pathsize = wgc.getInt(PATH_WIDTH);
-        final int roadheight = wgc.getInt(GROUND_LEVEL);
-        final byte plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
-        final byte filling = wgc.getBlockRepresentation(FILL_BLOCK).getData();
+        int plotsize = wgc.getInt(PLOT_SIZE);
+        int pathsize = wgc.getInt(PATH_WIDTH);
+        int roadheight = wgc.getInt(GROUND_LEVEL);
+        byte plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
+        byte filling = wgc.getBlockRepresentation(FILL_BLOCK).getData();
 
-        final int xx = chunk.getX() << 4;
-        final int zz = chunk.getZ() << 4;
+        int xx = chunk.getX() << 4;
+        int zz = chunk.getZ() << 4;
 
-        double size = plotsize + pathsize;
+        int size = plotsize + pathsize;
 
         for (int x = xx; x < xx + 16; x++) {
             int valx = x;
 
-            valx -= Math.ceil(((double) pathsize) / 2);
-            valx = (valx % (int) size);
+            valx -= Math.ceil(pathsize / 2);
+            valx = (valx % size);
             if (valx < 0) valx += size;
 
             boolean modX = valx < plotsize;
@@ -47,8 +46,8 @@ public class DefaultContentPopulator extends BlockPopulator {
             for (int z = zz; z < zz + 16; z++) {
                 int valz = z;
 
-                valz -= Math.ceil(((double) pathsize) / 2);
-                valz = (valz % (int) size);
+                valz -= Math.ceil(pathsize / 2);
+                valz = (valz % size);
                 if (valz < 0) valz += size;
 
                 boolean modZ = valz < plotsize;
@@ -65,7 +64,7 @@ public class DefaultContentPopulator extends BlockPopulator {
     }
 
     @SuppressWarnings("deprecation")
-    private void setData(World w, int x, int y, int z, byte val) {
-        w.getBlockAt(x, y, z).setData(val, false);
+    private void setData(World world, int x, int y, int z, byte val) {
+        world.getBlockAt(x, y, z).setData(val, false);
     }
 }

@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.worldcretornica</groupId>
     <artifactId>PlotMe-DefaultGenerator</artifactId>
-    <version>0.14-SNAPSHOT</version>
+    <version>0.15-SNAPSHOT</version>
     <name>PlotMe-DefaultGenerator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,17 +93,17 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.10-R0.1-SNAPSHOT</version>
+            <version>1.8-R0.1-SNAPSHOT</version>
         </dependency> 
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-Core</artifactId>
-            <version>0.14-SNAPSHOT</version>
+            <version>0.15-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-AbstractGenerator</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>0.15-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>

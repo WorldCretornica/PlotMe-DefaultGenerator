@@ -6,12 +6,12 @@ import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresenta
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.*;
-import org.bukkit.command.CommandSender;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
@@ -95,7 +95,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                  else*/
                 return "";
             } else {
-                return "" + x + ";" + z;
+                return x + ";" + z;
             }
         } else {
             return "";
@@ -149,7 +149,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = h; y < w.getMaxHeight(); y++) {
+                for (int y = h; y < 256; y++) {
                     if (y >= (h + 2)) {
                         w.getBlockAt(x, y, z).setType(Material.AIR);
                     } else if (y == (h + 1)) {
@@ -186,7 +186,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = h; y < w.getMaxHeight(); y++) {
+                for (int y = h; y < 256; y++) {
                     if (y >= (h + 1)) {
                         w.getBlockAt(x, y, z).setType(Material.AIR);
                     } else {
@@ -327,7 +327,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void clear(Location bottom, Location top) {
         WorldGenConfig wgc = getWGC(bottom.getWorld());
         int roadHeight = wgc.getInt(GROUND_LEVEL);
-        BukkitBlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
         BukkitBlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
         BukkitBlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
 
@@ -340,15 +339,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         clearEntities(bottom, top);
 
-        int maxY = w.getMaxHeight();
-
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
                 Block block = w.getBlockAt(x, 0, z);
 
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = maxY; y >= 0; y--) {
+                for (int y = 256; y >= 0; y--) {
                     block = w.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -362,17 +359,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         holder.getInventory().clear();
                     }
 
-                    if (block.getType() == Material.JUKEBOX) {
-                        Jukebox jukebox = (Jukebox) block.getState();
-                        //Remove once they fix the NullPointerException
-                        try {
-                            jukebox.setPlaying(Material.AIR);
-                        } catch (Exception e) {
-                        }
-                    }
-
                     if (y == 0) {
-                        bottomBlock.setBlock(block);
+                        block.setType(Material.BEDROCK);
                     } else if (y < roadHeight) {
                         fillBlock.setBlock(block);
                     } else if (y == roadHeight) {
@@ -394,14 +382,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Long[] clear(Location bottom, Location top, long maxBlocks, boolean clearEntities, Long[] start) {
-        if (clearEntities) {
-            clearEntities(bottom, top);
-        }
+    public Long[] clear(Location bottom, Location top, long maxBlocks, Long[] start) {
+        clearEntities(bottom, top);
 
         WorldGenConfig wgc = getWGC(bottom.getWorld());
         int roadHeight = wgc.getInt(GROUND_LEVEL);
-        BukkitBlockRepresentation bottomBlock = wgc.getBlockRepresentation(BASE_BLOCK);
         BukkitBlockRepresentation fillBlock = wgc.getBlockRepresentation(FILL_BLOCK);
         BukkitBlockRepresentation floorBlock = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK);
 
@@ -409,7 +394,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int topX = top.getBlockX();
         int bottomZ;
         int topZ = top.getBlockZ();
-        int maxY;
 
         long nbBlockClearedBefore = 0;
 
@@ -417,16 +401,15 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         if (start == null) {
             bottomX = bottom.getBlockX();
-            maxY = w.getMaxHeight();
             bottomZ = bottom.getBlockZ();
         } else {
             bottomX = start[0].intValue();
-            maxY = start[1].intValue() - 1;
             bottomZ = start[2].intValue();
             nbBlockClearedBefore = start[3];
         }
 
         long nbBlockCleared = 0;
+        int maxY = 256;
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
                 Block block = w.getBlockAt(x, 0, z);
@@ -447,17 +430,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         holder.getInventory().clear();
                     }
 
-                    if (block.getType() == Material.JUKEBOX) {
-                        Jukebox jukebox = (Jukebox) block.getState();
-                        //Remove once they fix the NullPointerException
-                        try {
-                            jukebox.setPlaying(Material.AIR);
-                        } catch (Exception e) {
-                        }
-                    }
-
                     if (y == 0) {
-                        bottomBlock.setBlock(block);
+                        block.setType(Material.BEDROCK);
                     } else if (y < roadHeight) {
                         fillBlock.setBlock(block);
                     } else if (y == roadHeight) {
@@ -481,7 +455,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         return new Long[]{(long) x, (long) y, (long) z, nbBlockClearedBefore + nbBlockCleared};
                     }
                 }
-                maxY = w.getMaxHeight();
+                maxY = 256;
             }
             bottomZ = bottom.getBlockZ();
         }
@@ -584,66 +558,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         }
 
         block.setTypeIdAndData(blockId, blockData, true);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void regen(World w, String id, CommandSender sender) {
-        int bottomX = bottomX(id, w);
-        int topX = topX(id, w);
-        int bottomZ = bottomZ(id, w);
-        int topZ = topZ(id, w);
-
-        int minChunkX = (int) Math.floor((double) bottomX / 16);
-        int maxChunkX = (int) Math.floor((double) topX / 16);
-        int minChunkZ = (int) Math.floor((double) bottomZ / 16);
-        int maxChunkZ = (int) Math.floor((double) topZ / 16);
-
-        HashMap<Location, Biome> biomes = new HashMap<>();
-
-        for (int cx = minChunkX; cx <= maxChunkX; cx++) {
-            int xx = cx << 4;
-
-            for (int cz = minChunkZ; cz <= maxChunkZ; cz++) {
-                int zz = cz << 4;
-
-                BlockState[][][] blocks = new BlockState[16][16][w.getMaxHeight()];
-
-                for (int x = 0; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        biomes.put(new Location(w, x + xx, 0, z + zz), w.getBiome(x + xx, z + zz));
-
-                        for (int y = 0; y < w.getMaxHeight(); y++) {
-                            Block block = w.getBlockAt(x + xx, y, z + zz);
-                            blocks[x][z][y] = block.getState();
-                        }
-                    }
-                }
-
-                w.regenerateChunk(cx, cz);
-
-                for (int x = 0; x < 16; x++) {
-                    for (int z = 0; z < 16; z++) {
-                        for (int y = 0; y < w.getMaxHeight(); y++) {
-                            if ((x + xx) < bottomX || (x + xx) > topX || (z + zz) < bottomZ || (z + zz) > topZ) {
-                                Block newblock = w.getBlockAt(x + xx, y, z + zz);
-                                BlockState oldblock = blocks[x][z][y];
-
-                                newblock.setTypeIdAndData(oldblock.getTypeId(), oldblock.getRawData(), false);
-                                oldblock.update();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Location loc : biomes.keySet()) {
-            int x = loc.getBlockX();
-            int z = loc.getBlockX();
-
-            w.setBiome(x, z, biomes.get(loc));
-        }
     }
 
     @Override

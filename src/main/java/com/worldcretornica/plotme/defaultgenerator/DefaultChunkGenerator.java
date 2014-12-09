@@ -34,39 +34,36 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
     @Override
     public short[][] generateExtBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
         WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
-        int maxY = world.getMaxHeight();
 
         int plotsize = wgc.getInt(PLOT_SIZE);
         int pathsize = wgc.getInt(PATH_WIDTH);
         int roadheight = wgc.getInt(GROUND_LEVEL);
-        short bottom = wgc.getBlockRepresentation(BASE_BLOCK).getId();
         short wall = wgc.getBlockRepresentation(WALL_BLOCK).getId();
         short floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getId();
         short floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getId();
         short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
         short filling = wgc.getBlockRepresentation(FILL_BLOCK).getId();
 
-        short[][] result = new short[maxY / 16][];
+        int size = plotsize + pathsize;
 
-        double size = plotsize + pathsize;
-
-        double n1;
-        double n2;
-        double n3;
+        int n1;
+        int n2;
+        int n3;
         int mod2 = 0;
 
         if (pathsize % 2 == 1) {
-            n1 = Math.ceil(((double) pathsize) / 2) - 2;
-            n2 = Math.ceil(((double) pathsize) / 2) - 1;
-            n3 = Math.ceil(((double) pathsize) / 2);
+            n1 = (int) (Math.ceil((pathsize) / 2) - 2);
+            n2 = (int) (Math.ceil((pathsize) / 2) - 1);
+            n3 = (int) Math.ceil((pathsize) / 2);
             mod2 = -1;
         } else {
-            n1 = Math.floor(((double) pathsize) / 2) - 2;
-            n2 = Math.floor(((double) pathsize) / 2) - 1;
-            n3 = Math.floor(((double) pathsize) / 2);
+            n1 = (int) (Math.floor((pathsize) / 2) - 2);
+            n2 = (int) (Math.floor((pathsize) / 2) - 1);
+            n3 = (int) Math.floor((pathsize) / 2);
         }
 
         int mod1 = 1;
+        short[][] result = new short[16][];
         for (int x = 0; x < 16; x++) {
             int valx = ((cx << 4) + x);
 
@@ -74,17 +71,15 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                 int height = roadheight + 2;
                 int valz = ((cz << 4) + z);
 
+                setBlock(result, x, 0, z, (short) 7);
                 biomes.setBiome(x, z, Biome.PLAINS);
 
                 for (int y = 0; y < height; y++) {
-                    if (y == 0) {
-                        setBlock(result, x, y, z, bottom);
-
-                    } else if (y == roadheight) {
+                    if (y == roadheight) {
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) //middle+3
                         {
                             boolean found = false;
-                            for (double i = n2; i >= 0; i--) {
+                            for (int i = n2; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
@@ -114,7 +109,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
                         } else {
                             boolean found = false;
-                            for (double i = n1; i >= 0; i--) {
+                            for (int i = n1; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
@@ -127,7 +122,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                 setBlock(result, x, y, z, floorMain);
                             } else {
                                 boolean found2 = false;
-                                for (double i = n1; i >= 0; i--) {
+                                for (int i = n1; i >= 0; i--) {
                                     if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                         found2 = true;
                                         break;
@@ -138,7 +133,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                     setBlock(result, x, y, z, floorAlt);
                                 } else {
                                     boolean found3 = false;
-                                    for (double i = n3; i >= 0; i--) {
+                                    for (int i = n3; i >= 0; i--) {
                                         if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                                             found3 = true;
                                             break;
@@ -158,7 +153,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) //middle+3
                         {
                             boolean found = false;
-                            for (double i = n2; i >= 0; i--) {
+                            for (int i = n2; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
@@ -170,7 +165,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
                         } else {
                             boolean found = false;
-                            for (double i = n2; i >= 0; i--) {
+                            for (int i = n2; i >= 0; i--) {
                                 if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                                     found = true;
                                     break;

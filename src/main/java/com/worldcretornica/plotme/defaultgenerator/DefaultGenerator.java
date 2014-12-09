@@ -20,7 +20,6 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 
 public class DefaultGenerator extends BukkitAbstractGenerator {
 
-    public static final String CORE_OLD_CONFIG = "config.yml";
     public static final String DEFAULT_WORLD = "plotworld";
 
     private DefaultPlotManager genPlotManager;
@@ -38,7 +37,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     public void importOldConfigs() {
         getLogger().info("Checking if there are any old PlotMe configs to import.");
         // Get the old config file
-        File oldConfigFile = new File(getCoreFolder(), CORE_OLD_CONFIG);
+        File oldConfigFile = new File(getCoreFolder(), DEFAULT_CONFIG_NAME);
 
         // If it doesn't exist there is nothing to import
         if (!oldConfigFile.exists()) {
@@ -72,7 +71,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         mapping.put("XTranslation", X_TRANSLATION.path);
         mapping.put("ZTranslation", Z_TRANSLATION.path);
         mapping.put("RoadHeight", GROUND_LEVEL.path);
-        mapping.put("BottomBlockId", BASE_BLOCK.path);
         mapping.put("PlotFillingBlockId", FILL_BLOCK.path);
         mapping.put("PathWidth", PATH_WIDTH.path);
         mapping.put("PlotFloorBlockId", PLOT_FLOOR_BLOCK.path);
@@ -138,7 +136,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         try {
             oldConfig.save(oldConfigFile);
         } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save " + CORE_OLD_CONFIG + " to " + oldConfigFile, ex);
+            getLogger().log(Level.SEVERE, "Could not save " + DEFAULT_CONFIG_NAME + " to " + oldConfigFile, ex);
         }
     }
 
@@ -157,9 +155,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
             WorldGenConfig.putDefault(wcp);
         }
-
-        // Override defaults from AbstarctWorldConfigPath
-        WorldGenConfig.putDefault(PLOT_SIZE, 32);
 
         // If no world are defined in our config, define a sample world for the user to be able to copy.
         if (!getConfig().contains(WORLDS_CONFIG_SECTION)) {
