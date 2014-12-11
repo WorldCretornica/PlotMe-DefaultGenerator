@@ -33,7 +33,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             int pathsize = wgc.getInt(PATH_WIDTH);
             int size = wgc.getInt(PLOT_SIZE) + pathsize;
 
-            double n3;
+            int n3;
             int mod2 = 0;
 
             int x = (int) Math.ceil((double) valx / size);
@@ -42,15 +42,15 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             //int x2 = (int) Math.ceil((double)valx / size);
             //int z2 = (int) Math.ceil((double)valz / size);
             if (pathsize % 2 == 1) {
-                n3 = Math.ceil(((double) pathsize) / 2); //3 7
+                n3 = (int) Math.ceil((pathsize) / 2); //3 7
                 mod2 = -1;
             } else {
-                n3 = Math.floor(((double) pathsize) / 2); //3 7
+                n3 = (int) Math.floor((pathsize) / 2); //3 7
             }
 
             boolean road = false;
             int mod1 = 1;
-            for (double i = n3; i >= 0; i--) {
+            for (int i = n3; i >= 0; i--) {
                 if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                     road = true;
 
@@ -104,18 +104,18 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillroad(String id1, String id2, World w) {
-        Location bottomPlot1 = getPlotBottomLoc(w, id1);
-        Location topPlot1 = getPlotTopLoc(w, id1);
-        Location bottomPlot2 = getPlotBottomLoc(w, id2);
-        Location topPlot2 = getPlotTopLoc(w, id2);
+    public void fillroad(String id1, String id2, World world) {
+        Location bottomPlot1 = getPlotBottomLoc(world, id1);
+        Location topPlot1 = getPlotTopLoc(world, id1);
+        Location bottomPlot2 = getPlotBottomLoc(world, id2);
+        Location topPlot2 = getPlotTopLoc(world, id2);
 
         int minX;
         int maxX;
         int minZ;
         int maxZ;
 
-        WorldGenConfig wgc = getWGC(w);
+        WorldGenConfig wgc = getWGC(world);
         int h = wgc.getInt(GROUND_LEVEL);
         int wallId = wgc.getBlockRepresentation(WALL_BLOCK).getId();
         byte wallValue = wgc.getBlockRepresentation(WALL_BLOCK).getData();
@@ -151,15 +151,15 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int y = h; y < 256; y++) {
                     if (y >= (h + 2)) {
-                        w.getBlockAt(x, y, z).setType(Material.AIR);
+                        world.getBlockAt(x, y, z).setType(Material.AIR);
                     } else if (y == (h + 1)) {
                         if (isWallX && (x == minX || x == maxX) || !isWallX && (z == minZ || z == maxZ)) {
-                            w.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, true);
+                            world.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, true);
                         } else {
-                            w.getBlockAt(x, y, z).setType(Material.AIR);
+                            world.getBlockAt(x, y, z).setType(Material.AIR);
                         }
                     } else {
-                        w.getBlockAt(x, y, z).setTypeIdAndData(fillId, fillValue, true);
+                        world.getBlockAt(x, y, z).setTypeIdAndData(fillId, fillValue, true);
                     }
                 }
             }
@@ -335,18 +335,20 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int bottomZ = bottom.getBlockZ();
         int topZ = top.getBlockZ();
 
-        World w = bottom.getWorld();
+        World world = bottom.getWorld();
 
         clearEntities(bottom, top);
 
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
-                Block block = w.getBlockAt(x, 0, z);
-
+                Block block = world.getBlockAt(x, 0, z);
+                if (!block.getType().equals(Material.BEDROCK)) {
+                    block.setType(Material.BEDROCK);
+                }
                 block.setBiome(Biome.PLAINS);
 
                 for (int y = 256; y >= 0; y--) {
-                    block = w.getBlockAt(x, y, z);
+                    block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
                                 || block.getType() == Material.CHEST
@@ -359,22 +361,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         holder.getInventory().clear();
                     }
 
-                    if (y == 0) {
-                        block.setType(Material.BEDROCK);
-                    } else if (y < roadHeight) {
+                    if (y < roadHeight) {
                         fillBlock.setBlock(block);
                     } else if (y == roadHeight) {
                         floorBlock.setBlock(block);
-                    } else {
-                        if (y == (roadHeight + 1)
-                                    && (x == bottomX - 1
-                                                || x == topX + 1
-                                                || z == bottomZ - 1
-                                                || z == topZ + 1)) {
-                            //block.setTypeId(pmi.WallBlockId);
-                        } else {
-                            block.setType(Material.AIR);
-                        }
+                    } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
+                        block.setType(Material.AIR);
                     }
                 }
             }
@@ -397,7 +389,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         long nbBlockClearedBefore = 0;
 
-        World w = bottom.getWorld();
+        World world = bottom.getWorld();
 
         if (start == null) {
             bottomX = bottom.getBlockX();
@@ -409,15 +401,16 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         }
 
         long nbBlockCleared = 0;
-        int maxY = 256;
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
-                Block block = w.getBlockAt(x, 0, z);
-
+                Block block = world.getBlockAt(x, 0, z);
+                if (!block.getType().equals(Material.BEDROCK)) {
+                    block.setType(Material.BEDROCK);
+                }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = maxY; y >= 0; y--) {
-                    block = w.getBlockAt(x, y, z);
+                for (int y = 0; y < 256 + 1; y++) {
+                    block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
                                 || block.getType() == Material.CHEST
@@ -430,23 +423,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         holder.getInventory().clear();
                     }
 
-                    if (y == 0) {
-                        block.setType(Material.BEDROCK);
-                    } else if (y < roadHeight) {
+                    if (y < roadHeight) {
                         fillBlock.setBlock(block);
                     } else if (y == roadHeight) {
                         floorBlock.setBlock(block);
-                    } else {
-                        if (y == (roadHeight + 1)
-                                    && (x == bottomX - 1
-                                                || x == topX + 1
-                                                || z == bottomZ - 1
-                                                || z == topZ + 1)) {
-                            //block.setTypeId(pmi.WallBlockId);
-                        } else {
-                            //block.setTypeIdAndData(0, (byte) 0, false); //.setType(Material.AIR);
-                            block.setType(Material.AIR);
-                        }
+                    } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
+                        block.setType(Material.AIR);
                     }
 
                     nbBlockCleared++;
@@ -455,7 +437,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         return new Long[]{(long) x, (long) y, (long) z, nbBlockClearedBefore + nbBlockCleared};
                     }
                 }
-                maxY = 256;
             }
             bottomZ = bottom.getBlockZ();
         }
@@ -464,8 +445,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void adjustPlotFor(World w, String id, boolean Claimed, boolean Protected, boolean Auctionned, boolean ForSale) {
-        WorldGenConfig wgc = getWGC(w);
+    public void adjustPlotFor(World world, String id, boolean claimed, boolean protect, boolean auctioned, boolean forSale) {
+        WorldGenConfig wgc = getWGC(world);
 
         List<String> wallids = new ArrayList<>();
 
@@ -476,13 +457,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         String auctionwallid = wgc.getString(AUCTION_WALL_BLOCK);
         String forsalewallid = wgc.getString(FOR_SALE_WALL_BLOCK);
 
-        if (Protected) {
+        if (protect) {
             wallids.add(protectedwallid);
         }
-        if (Auctionned && !wallids.contains(auctionwallid)) {
+        if (auctioned && !wallids.contains(auctionwallid)) {
             wallids.add(auctionwallid);
         }
-        if (ForSale && !wallids.contains(forsalewallid)) {
+        if (forSale && !wallids.contains(forsalewallid)) {
             wallids.add(forsalewallid);
         }
 
@@ -492,8 +473,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int ctr = 0;
 
-        Location bottom = getPlotBottomLoc(w, id);
-        Location top = getPlotTopLoc(w, id);
+        Location bottom = getPlotBottomLoc(world, id);
+        Location top = getPlotTopLoc(world, id);
 
         int x;
         int z;
@@ -505,7 +486,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             z = bottom.getBlockZ() - 1;
             currentblockid = wallids.get(ctr);
             ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
-            block = w.getBlockAt(x, roadHeight + 1, z);
+            block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
 
@@ -513,7 +494,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             x = top.getBlockX() + 1;
             currentblockid = wallids.get(ctr);
             ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
-            block = w.getBlockAt(x, roadHeight + 1, z);
+            block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
 
@@ -521,7 +502,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             z = top.getBlockZ() + 1;
             currentblockid = wallids.get(ctr);
             ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
-            block = w.getBlockAt(x, roadHeight + 1, z);
+            block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
 
@@ -529,7 +510,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             x = bottom.getBlockX() - 1;
             currentblockid = wallids.get(ctr);
             ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
-            block = w.getBlockAt(x, roadHeight + 1, z);
+            block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
     }
@@ -561,13 +542,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Location getPlotHome(World w, String id) {
-        WorldGenConfig wgc = getWGC(w);
+    public Location getPlotHome(World world, String id) {
+        WorldGenConfig wgc = getWGC(world);
 
         if (wgc != null) {
-            return new Location(w, bottomX(id, w) + (topX(id, w) - bottomX(id, w)) / 2, wgc.getInt(GROUND_LEVEL) + 2, bottomZ(id, w) - 2);
+            return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2, bottomZ(id, world) - 2);
         } else {
-            return w.getSpawnLocation();
+            return world.getSpawnLocation();
         }
     }
 }
