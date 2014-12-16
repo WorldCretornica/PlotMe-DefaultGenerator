@@ -38,7 +38,7 @@ public class DefaultContentPopulator extends BlockPopulator {
             int valx = x;
 
             valx -= Math.ceil(pathsize / 2);
-            valx = (valx % size);
+            valx %= size;
             if (valx < 0) valx += size;
 
             boolean modX = valx < plotsize;
@@ -47,7 +47,7 @@ public class DefaultContentPopulator extends BlockPopulator {
                 int valz = z;
 
                 valz -= Math.ceil(pathsize / 2);
-                valz = (valz % size);
+                valz %= size;
                 if (valz < 0) valz += size;
 
                 boolean modZ = valz < plotsize;

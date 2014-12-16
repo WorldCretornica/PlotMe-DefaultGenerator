@@ -35,27 +35,18 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     public void importOldConfigs() {
-        getLogger().info("Checking if there are any old PlotMe configs to import.");
         // Get the old config file
-        File oldConfigFile = new File(getCoreFolder(), DEFAULT_CONFIG_NAME);
-
-        // If it doesn't exist there is nothing to import
-        if (!oldConfigFile.exists()) {
-            getLogger().info("No old PlotMe configs to import.");
-            return;
-        }
+        File configFile = new File(getCoreFolder(), CONFIG_NAME);
 
         // Load the config from the file and get the worlds config section
-        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
-        ConfigurationSection oldWorldsCS = oldConfig.getConfigurationSection(WORLDS_CONFIG_SECTION);
+        FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
+        ConfigurationSection oldWorldsCS = configuration.getConfigurationSection(WORLDS_CONFIG_SECTION);
 
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
             getLogger().info("No old PlotMe configs to import.");
             return;
         }
-
-        getLogger().info("Importing old PlotMe data");
 
         // Get the local worlds config section
         ConfigurationSection worldsCS = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
@@ -64,7 +55,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             worldsCS = getConfig().createSection(WORLDS_CONFIG_SECTION);
         }
 
-        // Create a mapping from oldConfig to config
+        // Create a mapping from configuration to config
         Map<String, String> mapping = new HashMap<>();
 
         mapping.put("PlotSize", PLOT_SIZE.path);
@@ -104,8 +95,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                             // Can't migrate the path
                             String fullPathBase = oldWorldCS.getCurrentPath();
                             getLogger().log(Level.WARNING,
-                                                   "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + DEFAULT_CONFIG_NAME,
-                                                   new Object[]{fullPathBase, path, oldConfigFile, newPath, getConfigFolder(), File.separator});
+                                                   "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + CONFIG_NAME,
+                                                   new Object[]{fullPathBase, path, configFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {
                         // Migrate!
@@ -126,7 +117,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If all worlds are imported, delete worlds CS from config-old.yml
         if (oldWorldsCS.getKeys(false).isEmpty()) {
-            oldConfig.set(WORLDS_CONFIG_SECTION, null);
+            configuration.set(WORLDS_CONFIG_SECTION, null);
         }
 
         // Save the configs
@@ -134,9 +125,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If there is anything left then save, otherwise delete config-old.yml
         try {
-            oldConfig.save(oldConfigFile);
+            configuration.save(configFile);
         } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save " + DEFAULT_CONFIG_NAME + " to " + oldConfigFile, ex);
+            getLogger().log(Level.SEVERE, "Could not save " + CONFIG_NAME + " to " + configFile, ex);
         }
     }
 

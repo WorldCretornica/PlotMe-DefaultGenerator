@@ -36,8 +36,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             int n3;
             int mod2 = 0;
 
-            int x = (int) Math.ceil((double) valx / size);
-            int z = (int) Math.ceil((double) valz / size);
+            int x = (int) Math.ceil(valx / size);
+            int z = (int) Math.ceil(valz / size);
 
             //int x2 = (int) Math.ceil((double)valx / size);
             //int z2 = (int) Math.ceil((double)valz / size);
@@ -168,14 +168,14 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillmiddleroad(String id1, String id2, World w) {
-        Location bottomPlot1 = getPlotBottomLoc(w, id1);
-        Location topPlot1 = getPlotTopLoc(w, id1);
-        Location bottomPlot2 = getPlotBottomLoc(w, id2);
-        Location topPlot2 = getPlotTopLoc(w, id2);
+    public void fillmiddleroad(String id1, String id2, World world) {
+        Location bottomPlot1 = getPlotBottomLoc(world, id1);
+        Location topPlot1 = getPlotTopLoc(world, id1);
+        Location bottomPlot2 = getPlotBottomLoc(world, id2);
+        Location topPlot2 = getPlotTopLoc(world, id2);
 
-        WorldGenConfig wgc = getWGC(w);
-        int h = wgc.getInt(GROUND_LEVEL);
+        WorldGenConfig wgc = getWGC(world);
+        int height = wgc.getInt(GROUND_LEVEL);
         int fillId = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
 
         int minX = Math.min(topPlot1.getBlockX(), topPlot2.getBlockX());
@@ -186,11 +186,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = h; y < 256; y++) {
-                    if (y >= (h + 1)) {
-                        w.getBlockAt(x, y, z).setType(Material.AIR);
+                for (int y = height; y < 256; y++) {
+                    if (y >= (height + 1)) {
+                        world.getBlockAt(x, y, z).setType(Material.AIR);
                     } else {
-                        w.getBlockAt(x, y, z).setTypeId(fillId);
+                        world.getBlockAt(x, y, z).setTypeId(fillId);
                     }
                 }
             }
