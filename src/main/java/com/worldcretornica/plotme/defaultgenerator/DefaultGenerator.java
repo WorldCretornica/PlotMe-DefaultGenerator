@@ -3,6 +3,7 @@ package com.worldcretornica.plotme.defaultgenerator;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
+import com.worldcretornica.plotme_core.PlotMe_Core;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -40,7 +41,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // Load the config from the file and get the worlds config section
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
-        ConfigurationSection oldWorldsCS = configuration.getConfigurationSection(WORLDS_CONFIG_SECTION);
+        ConfigurationSection oldWorldsCS = configuration.getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
 
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
@@ -49,10 +50,10 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // Get the local worlds config section
-        ConfigurationSection worldsCS = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
+        ConfigurationSection worldsCS = getConfig().getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
 
         if (worldsCS == null) {
-            worldsCS = getConfig().createSection(WORLDS_CONFIG_SECTION);
+            worldsCS = getConfig().createSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
         }
 
         // Create a mapping from configuration to config
@@ -117,7 +118,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If all worlds are imported, delete worlds CS from config-old.yml
         if (oldWorldsCS.getKeys(false).isEmpty()) {
-            configuration.set(WORLDS_CONFIG_SECTION, null);
+            configuration.set(PlotMe_Core.WORLDS_CONFIG_SECTION, null);
         }
 
         // Save the configs
@@ -148,20 +149,20 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // If no world are defined in our config, define a sample world for the user to be able to copy.
-        if (!getConfig().contains(WORLDS_CONFIG_SECTION)) {
+        if (!getConfig().contains(PlotMe_Core.WORLDS_CONFIG_SECTION)) {
             // Get the config for an imaginary gridplots so that the config is generated.
             getWorldGenConfig(DEFAULT_WORLD);
             saveConfig();
         }
 
-        ConfigurationSection worlds = getConfig().getConfigurationSection(WORLDS_CONFIG_SECTION);
+        ConfigurationSection worlds = getConfig().getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
 
         for (String worldname : worlds.getKeys(false)) {
             // Get config for world
             WorldGenConfig wgc = getWorldGenConfig(worldname);
 
             // Validate config
-            if (wgc.getInt(GROUND_LEVEL) > 250) {
+            if (wgc.getInt(GROUND_LEVEL) > 250 || wgc.getInt(GROUND_LEVEL) <= 0) {
                 getLogger().severe("RoadHeight above 250 is unsafe. This is the height at which your road is located. Setting it to 250.");
                 wgc.set(GROUND_LEVEL, 250);
             }
