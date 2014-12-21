@@ -1,5 +1,6 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
@@ -60,8 +61,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         Map<String, String> mapping = new HashMap<>();
 
         mapping.put("PlotSize", PLOT_SIZE.path);
-        mapping.put("XTranslation", X_TRANSLATION.path);
-        mapping.put("ZTranslation", Z_TRANSLATION.path);
+        mapping.put("XTranslation", AbstractWorldConfigPath.X_TRANSLATION.path);
+        mapping.put("ZTranslation", AbstractWorldConfigPath.Z_TRANSLATION.path);
         mapping.put("RoadHeight", GROUND_LEVEL.path);
         mapping.put("PlotFillingBlockId", FILL_BLOCK.path);
         mapping.put("PathWidth", PATH_WIDTH.path);
@@ -95,8 +96,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                         } else {
                             // Can't migrate the path
                             String fullPathBase = oldWorldCS.getCurrentPath();
-                            getLogger().log(Level.WARNING,
-                                                   "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + CONFIG_NAME,
+                            getLogger().log(Level.WARNING, "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + CONFIG_NAME,
                                                    new Object[]{fullPathBase, path, configFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {

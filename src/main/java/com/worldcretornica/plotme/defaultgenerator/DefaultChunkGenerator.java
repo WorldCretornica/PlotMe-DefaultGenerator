@@ -44,22 +44,22 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
         short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
         short filling = wgc.getBlockRepresentation(FILL_BLOCK).getId();
 
-        int size = plotsize + pathsize;
+        double size = plotsize + pathsize;
 
-        int n1;
-        int n2;
-        int n3;
+        double n1;
+        double n2;
+        double n3;
         int mod2 = 0;
 
         if (pathsize % 2 == 1) {
-            n1 = (int) (Math.ceil((pathsize) / 2) - 2);
-            n2 = (int) (Math.ceil((pathsize) / 2) - 1);
-            n3 = (int) Math.ceil((pathsize) / 2);
+            n1 = Math.ceil(((double) pathsize) / 2) - 2;
+            n2 = Math.ceil(((double) pathsize) / 2) - 1;
+            n3 = Math.ceil(((double) pathsize) / 2);
             mod2 = -1;
         } else {
-            n1 = (int) (Math.floor((pathsize) / 2) - 2);
-            n2 = (int) (Math.floor((pathsize) / 2) - 1);
-            n3 = (int) Math.floor((pathsize) / 2);
+            n1 = Math.floor(((double) pathsize) / 2) - 2;
+            n2 = Math.floor(((double) pathsize) / 2) - 1;
+            n3 = Math.floor(((double) pathsize) / 2);
         }
 
         int mod1 = 1;
@@ -76,10 +76,9 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
 
                 for (int y = 0; y < height; y++) {
                     if (y == roadheight) {
-                        if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) //middle+3
-                        {
+                        if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) {//middle+3
                             boolean found = false;
-                            for (int i = n2; i >= 0; i--) {
+                            for (double i = n2; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
@@ -109,7 +108,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
                         } else {
                             boolean found = false;
-                            for (int i = n1; i >= 0; i--) {
+                            for (double i = n1; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
@@ -122,7 +121,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                 setBlock(result, x, y, z, floorMain);
                             } else {
                                 boolean found2 = false;
-                                for (int i = n1; i >= 0; i--) {
+                                for (double i = n1; i >= 0; i--) {
                                     if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                         found2 = true;
                                         break;
@@ -133,7 +132,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                     setBlock(result, x, y, z, floorAlt);
                                 } else {
                                     boolean found3 = false;
-                                    for (int i = n3; i >= 0; i--) {
+                                    for (double i = n3; i >= 0; i--) {
                                         if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                                             found3 = true;
                                             break;
@@ -149,23 +148,21 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
                         }
                     } else if (y == (roadheight + 1)) {
-
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) //middle+3
                         {
                             boolean found = false;
-                            for (int i = n2; i >= 0; i--) {
+                            for (double i = n2; i >= 0; i--) {
                                 if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
                                     found = true;
                                     break;
                                 }
                             }
-
                             if (!found) {
                                 setBlock(result, x, y, z, wall);
                             }
                         } else {
                             boolean found = false;
-                            for (int i = n2; i >= 0; i--) {
+                            for (double i = n2; i >= 0; i--) {
                                 if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
                                     found = true;
                                     break;

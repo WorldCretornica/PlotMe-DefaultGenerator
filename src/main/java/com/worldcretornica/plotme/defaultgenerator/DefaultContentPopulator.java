@@ -20,7 +20,7 @@ public class DefaultContentPopulator extends BlockPopulator {
     }
 
     @Override
-    public void populate(World w, Random rand, Chunk chunk) {
+    public void populate(World world, Random rand, Chunk chunk) {
         WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
 
         int plotsize = wgc.getInt(PLOT_SIZE);
@@ -32,13 +32,13 @@ public class DefaultContentPopulator extends BlockPopulator {
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;
 
-        int size = plotsize + pathsize;
+        double size = plotsize + pathsize;
 
         for (int x = xx; x < xx + 16; x++) {
             int valx = x;
 
-            valx -= Math.ceil(pathsize / 2);
-            valx %= size;
+            valx -= Math.ceil(((double) pathsize) / 2);
+            valx = (valx % (int) size);
             if (valx < 0) valx += size;
 
             boolean modX = valx < plotsize;
@@ -46,17 +46,17 @@ public class DefaultContentPopulator extends BlockPopulator {
             for (int z = zz; z < zz + 16; z++) {
                 int valz = z;
 
-                valz -= Math.ceil(pathsize / 2);
-                valz %= size;
+                valz -= Math.ceil(((double) pathsize) / 2);
+                valz = (valz % (int) size);
                 if (valz < 0) valz += size;
 
                 boolean modZ = valz < plotsize;
 
                 for (int y = 0; y <= roadheight; y++) {
                     if (y < roadheight) {
-                        setData(w, x, y, z, filling);
+                        setData(world, x, y, z, filling);
                     } else if (modX && modZ) {
-                        setData(w, x, y, z, plotfloor);
+                        setData(world, x, y, z, plotfloor);
                     }
                 }
             }

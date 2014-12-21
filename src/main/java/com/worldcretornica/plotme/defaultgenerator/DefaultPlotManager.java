@@ -362,11 +362,17 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     }
 
                     if (y < roadHeight) {
-                        fillBlock.setBlock(block);
+                        if (block.getTypeId() != (int) fillBlock.getId()) {
+                            block.setTypeIdAndData(fillBlock.getId(), fillBlock.getData(), true);
+                        }
                     } else if (y == roadHeight) {
-                        floorBlock.setBlock(block);
+                        if (block.getTypeId() != (int) floorBlock.getId()) {
+                            block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
+                        }
                     } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        block.setType(Material.AIR);
+                        if (block.getType() != Material.AIR) {
+                            block.setType(Material.AIR);
+                        }
                     }
                 }
             }
@@ -424,11 +430,17 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     }
 
                     if (y < roadHeight) {
-                        fillBlock.setBlock(block);
+                        if (block.getTypeId() != (int) fillBlock.getId()) {
+                            block.setTypeIdAndData(fillBlock.getId(), fillBlock.getData(), true);
+                        }
                     } else if (y == roadHeight) {
-                        floorBlock.setBlock(block);
+                        if (block.getTypeId() != (int) floorBlock.getId()) {
+                            block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
+                        }
                     } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        block.setType(Material.AIR);
+                        if (block.getType() != Material.AIR) {
+                            block.setType(Material.AIR);
+                        }
                     }
 
                     nbBlockCleared++;
