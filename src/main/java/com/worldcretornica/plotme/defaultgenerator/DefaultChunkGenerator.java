@@ -86,7 +86,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
 
                             if (found) {
-                                setBlock(result, x, y, z, floorAlt);
+                                setBlock(result, x, y, z, floorMain);
                             } else {
                                 setBlock(result, x, y, z, filling);
                             }
@@ -94,17 +94,17 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         {
                             if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0
                                         || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
-                                setBlock(result, x, y, z, floorAlt);
-                            } else {
                                 setBlock(result, x, y, z, floorMain);
+                            } else {
+                                setBlock(result, x, y, z, floorAlt);
                             }
                         } else if ((valx - n1 + mod1) % size == 0 || (valx + n1 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0
                                         || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
-                                setBlock(result, x, y, z, floorMain);
-                            } else {
                                 setBlock(result, x, y, z, floorAlt);
+                            } else {
+                                setBlock(result, x, y, z, floorMain);
                             }
                         } else {
                             boolean found = false;
@@ -116,9 +116,9 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                             }
 
                             if (found) {
-                                setBlock(result, x, y, z, floorAlt);
-                            } else if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorMain);
+                            } else if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
+                                setBlock(result, x, y, z, floorAlt);
                             } else {
                                 boolean found2 = false;
                                 for (double i = n1; i >= 0; i--) {
@@ -129,7 +129,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                 }
 
                                 if (found2) {
-                                    setBlock(result, x, y, z, floorAlt);
+                                    setBlock(result, x, y, z, floorMain);
                                 } else {
                                     boolean found3 = false;
                                     for (double i = n3; i >= 0; i--) {
@@ -140,7 +140,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                                     }
 
                                     if (found3) {
-                                        setBlock(result, x, y, z, floorAlt);
+                                        setBlock(result, x, y, z, floorMain);
                                     } else {
                                         setBlock(result, x, y, z, plotfloor);
                                     }
