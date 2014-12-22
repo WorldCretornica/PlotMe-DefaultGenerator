@@ -10,8 +10,6 @@ import com.worldcretornica.plotme_abstractgenerator.WorldConfigPath;
 public enum DefaultWorldConfigPath implements WorldConfigPath {
 
     PLOT_SIZE(AbstractWorldConfigPath.PLOT_SIZE),
-    X_TRANSLATION(AbstractWorldConfigPath.X_TRANSLATION),
-    Z_TRANSLATION(AbstractWorldConfigPath.Z_TRANSLATION),
     GROUND_LEVEL(AbstractWorldConfigPath.GROUND_LEVEL),
     FILL_BLOCK(AbstractWorldConfigPath.FILL_BLOCK),
     PATH_WIDTH("PathWidth", 7),

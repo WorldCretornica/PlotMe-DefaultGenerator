@@ -33,22 +33,21 @@ public class DefaultRoadPopulator extends BlockPopulator {
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;
 
-        int size = plotsize + pathsize;
+        double size = plotsize + pathsize;
 
-        int n1;
-        int n2;
-        int n3;
+        double n1;
+        double n2;
+        double n3;
         int mod2 = 0;
 
         if (pathsize % 2 == 1) {
-            n1 = (int) (Math.ceil((pathsize) / 2) - 2);
-            n2 = (int) (Math.ceil((pathsize) / 2) - 1);
-            n3 = (int) Math.ceil((pathsize) / 2);
-            mod2 = -1;
+            n1 = Math.ceil(((double) pathsize) / 2) - 2;
+            n2 = Math.ceil(((double) pathsize) / 2) - 1;
+            n3 = Math.ceil(((double) pathsize) / 2);
         } else {
-            n1 = (int) (Math.floor((pathsize) / 2) - 2);
-            n2 = (int) (Math.floor((pathsize) / 2) - 1);
-            n3 = (int) Math.floor((pathsize) / 2);
+            n1 = Math.floor(((double) pathsize) / 2) - 2;
+            n2 = Math.floor(((double) pathsize) / 2) - 1;
+            n3 = Math.floor(((double) pathsize) / 2);
         }
 
         int mod1 = 1;
@@ -58,7 +57,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                 if ((x - n3 + mod1) % size == 0 || (x + n3 + mod2) % size == 0) // middle+3
                 {
                     boolean found = false;
-                    for (int i = n2; i >= 0; i--) {
+                    for (double i = n2; i >= 0; i--) {
                         if ((z - i + mod1) % size == 0 || (z + i + mod2) % size == 0) {
                             found = true;
                             break;
@@ -73,7 +72,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                     }
                 } else {
                     boolean found5 = false;
-                    for (int i = n2; i >= 0; i--) {
+                    for (double i = n2; i >= 0; i--) {
                         if ((x - i + mod1) % size == 0 || (x + i + mod2) % size == 0) {
                             found5 = true;
                             break;
@@ -103,7 +102,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                         }
                     } else {
                         boolean found = false;
-                        for (int i = n1; i >= 0; i--) {
+                        for (double i = n1; i >= 0; i--) {
                             if ((z - i + mod1) % size == 0 || (z + i + mod2) % size == 0) {
                                 found = true;
                                 break;
@@ -116,7 +115,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                             setData(world, x, roadheight, z, floorAlt);
                         } else {
                             boolean found2 = false;
-                            for (int i = n1; i >= 0; i--) {
+                            for (double i = n1; i >= 0; i--) {
                                 if ((z - i + mod1) % size == 0 || (z + i + mod2) % size == 0) {
                                     found2 = true;
                                     break;
@@ -127,7 +126,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                                 setData(world, x, roadheight, z, floorMain);
                             } else {
                                 boolean found3 = false;
-                                for (int i = n3; i >= 0; i--) {
+                                for (double i = n3; i >= 0; i--) {
                                     if ((x - i + mod1) % size == 0 || (x + i + mod2) % size == 0) {
                                         found3 = true;
                                         break;

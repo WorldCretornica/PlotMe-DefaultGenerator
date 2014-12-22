@@ -26,78 +26,39 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public String getPlotId(Location loc) {
         WorldGenConfig wgc = getWGC(loc.getWorld());
 
-        if (wgc != null) {
-            int valx = loc.getBlockX();
-            int valz = loc.getBlockZ();
+        if (wgc == null) {
+            return "";
+        }
 
-            int pathsize = wgc.getInt(PATH_WIDTH);
-            int size = wgc.getInt(PLOT_SIZE) + pathsize;
+        int posx = loc.getBlockX();
+        int posz = loc.getBlockZ();
+        int pathsize = wgc.getInt(PATH_WIDTH);
+        int size = wgc.getInt(PLOT_SIZE) + pathsize;
 
-            int n3;
-            int mod2 = 0;
+        int xmod = posx % size;
+        int zmod = posz % size;
 
-            int x = (int) Math.ceil(valx / size);
-            int z = (int) Math.ceil(valz / size);
+        // negative location
+        if (xmod < 0) xmod += size;
+        if (zmod < 0) zmod += size;
 
-            //int x2 = (int) Math.ceil((double)valx / size);
-            //int z2 = (int) Math.ceil((double)valz / size);
-            if (pathsize % 2 == 1) {
-                n3 = (int) Math.ceil((pathsize) / 2); //3 7
-                mod2 = -1;
-            } else {
-                n3 = (int) Math.floor((pathsize) / 2); //3 7
-            }
+        // SouthEast plot corner
+        int secorner = size - (int) Math.floor(pathsize / 2) - 1;
+        // NorthWest plot corner
+        int nwcorner = (int) Math.ceil(pathsize / 2) + 1;
 
-            boolean road = false;
-            int mod1 = 1;
-            for (int i = n3; i >= 0; i--) {
-                if ((valx - i + mod1) % size == 0 || (valx + i + mod2) % size == 0) {
-                    road = true;
+        // are we inside or outside the plot?
+        if (nwcorner <= xmod && xmod <= secorner &&
+            nwcorner <= zmod && zmod <= secorner) {
 
-                    x = (int) Math.ceil((valx - n3) / size);
-                    //x2 = (int) Math.ceil((double)(valx + n3) / size);
-                }
-                if ((valz - i + mod1) % size == 0 || (valz + i + mod2) % size == 0) {
-                    road = true;
-
-                    z = (int) Math.ceil((valz - n3) / size);
-                    //z2 = (int) Math.ceil((double)(valz + n3) / size);
-                }
-            }
-
-            if (road) {
-                /*if(pmi.AutoLinkPlots)
-                 {
-                 String id1 = x + ";" + z;
-                 String id2 = x2 + ";" + z2;
-                 String id3 = x + ";" + z2;
-                 String id4 = x2 + ";" + z;
-
-                 HashMap<String, Plot> plots = pmi.plots;
-
-                 Plot p1 = plots.get(id1);
-                 Plot p2 = plots.get(id2);
-                 Plot p3 = plots.get(id3);
-                 Plot p4 = plots.get(id4);
-
-                 if(p1 == null || p2 == null || p3 == null || p4 == null ||
-                 !p1.owner.equalsIgnoreCase(p2.owner) ||
-                 !p2.owner.equalsIgnoreCase(p3.owner) ||
-                 !p3.owner.equalsIgnoreCase(p4.owner))
-                 {
-                 return "";
-                 }
-                 else
-                 {
-                 return id1;
-                 }
-                 }
-                 else*/
-                return "";
-            } else {
-                return x + ";" + z;
-            }
+            // Division needs to use floats.
+            // Otherwise it converts the quotient to int, rendering Math.floor useless
+            // If we use ints, we will end up with 4x 0;0 plots
+            double idx = Math.floor((float)posx / (float)size);
+            double idz = Math.floor((float)posz / (float)size);
+            return  (int) idx + ";" + (int) idz;
         } else {
+            // We hit the road, Jack!
             return "";
         }
     }
@@ -362,11 +323,17 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     }
 
                     if (y < roadHeight) {
-                        fillBlock.setBlock(block);
+                        if (block.getTypeId() != (int) fillBlock.getId()) {
+                            block.setTypeIdAndData(fillBlock.getId(), fillBlock.getData(), true);
+                        }
                     } else if (y == roadHeight) {
-                        floorBlock.setBlock(block);
+                        if (block.getTypeId() != (int) floorBlock.getId()) {
+                            block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
+                        }
                     } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        block.setType(Material.AIR);
+                        if (block.getType() != Material.AIR) {
+                            block.setType(Material.AIR);
+                        }
                     }
                 }
             }
@@ -424,11 +391,17 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     }
 
                     if (y < roadHeight) {
-                        fillBlock.setBlock(block);
+                        if (block.getTypeId() != (int) fillBlock.getId()) {
+                            block.setTypeIdAndData(fillBlock.getId(), fillBlock.getData(), true);
+                        }
                     } else if (y == roadHeight) {
-                        floorBlock.setBlock(block);
+                        if (block.getTypeId() != (int) floorBlock.getId()) {
+                            block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
+                        }
                     } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        block.setType(Material.AIR);
+                        if (block.getType() != Material.AIR) {
+                            block.setType(Material.AIR);
+                        }
                     }
 
                     nbBlockCleared++;
