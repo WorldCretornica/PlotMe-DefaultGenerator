@@ -54,8 +54,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             // Division needs to use floats.
             // Otherwise it converts the quotient to int, rendering Math.floor useless
             // If we use ints, we will end up with 4x 0;0 plots
-            double idx = Math.floor((float)posx / (float)size);
-            double idz = Math.floor((float)posz / (float)size);
+            // adding 1 for backwards compatibility with old PlotMe versions
+            double idx = 1 + Math.floor((float)posx / (float)size);
+            double idz = 1 + Math.floor((float)posz / (float)size);
             return  (int) idx + ";" + (int) idz;
         } else {
             // We hit the road, Jack!
