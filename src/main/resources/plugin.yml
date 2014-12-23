@@ -1,9 +1,11 @@
 name: ${project.name}
 main: ${main.class}
 version: ${project.version}
-author: ZachBora
+authors: [ZachBora, MattBDev]
 load: startup
-website: http://dev.bukkit.org/server-mods/plotme/
 loadbefore: [Multiverse-Core, MultiWorld, PlotMe]
 description: >
              Handles plot creation
+commands:
+  plotGenVersion:
+    description: Get PlotMeGenerator Version

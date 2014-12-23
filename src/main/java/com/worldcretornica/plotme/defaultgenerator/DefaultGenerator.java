@@ -5,6 +5,8 @@ import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.PlotMe_Core;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -171,6 +173,15 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         saveConfig();
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("plotGenVersion")) {
+            sender.sendMessage("PlotMe Generator Version: 0.15 (122314)");
+            return true;
+        }
+        return false;
     }
 
     private void setupMetrics() {
