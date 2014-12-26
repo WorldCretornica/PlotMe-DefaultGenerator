@@ -264,10 +264,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int plotSize = wgc.getInt(PLOT_SIZE);
         int pathWidth = wgc.getInt(PATH_WIDTH);
 
-        int x = px * (plotSize + pathWidth) - (plotSize) - ((int) Math.floor(pathWidth / 2));
+        int x = (px * (plotSize + pathWidth)) - (plotSize) - ((int) Math.floor(pathWidth / 2));
         int z = pz * (plotSize + pathWidth) - (plotSize) - ((int) Math.floor(pathWidth / 2));
 
-        return new Location(world, x, 1, z);
+        return new Location(world, x, 0, z);
     }
 
     @Override
@@ -282,7 +282,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int x = px * (plotSize + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
         int z = pz * (plotSize + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
 
-        return new Location(world, x, 255, z);
+        return new Location(world, x, 256, z);
     }
 
     @Override
@@ -309,7 +309,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 256; y >= 0; y--) {
+                for (int y = 256; y >= 1; y--) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -377,7 +377,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 0; y < 256 + 1; y++) {
+                for (int y = 1; y < 256 + 1; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -386,6 +386,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                                 || block.getType() == Material.DISPENSER
                                 || block.getType() == Material.FURNACE
                                 || block.getType() == Material.DROPPER
+                                || block.getType() == Material.TRAPPED_CHEST
                                 || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
