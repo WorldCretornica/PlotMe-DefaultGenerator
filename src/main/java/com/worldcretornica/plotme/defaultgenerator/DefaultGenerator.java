@@ -4,7 +4,6 @@ import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
-import com.worldcretornica.plotme_core.PlotMe_Core;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,7 +42,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // Load the config from the file and get the worlds config section
         FileConfiguration coreConfig = YamlConfiguration.loadConfiguration(coreConfigFile);
-        ConfigurationSection oldWorldsCS = coreConfig.getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
+        ConfigurationSection oldWorldsCS = coreConfig.getConfigurationSection("worlds");
 
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
@@ -52,10 +51,10 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // Get the local worlds config section
-        ConfigurationSection worldsCS = getConfig().getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
+        ConfigurationSection worldsCS = getConfig().getConfigurationSection("worlds");
 
         if (worldsCS == null) {
-            worldsCS = getConfig().createSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
+            worldsCS = getConfig().createSection("worlds");
         }
 
         // Create a mapping from coreConfig to config
@@ -119,7 +118,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If all worlds are imported, delete worlds CS from config-old.yml
         if (oldWorldsCS.getKeys(false).isEmpty()) {
-            coreConfig.set(PlotMe_Core.WORLDS_CONFIG_SECTION, null);
+            coreConfig.set("worlds", null);
         }
 
         // Save the configs
@@ -150,13 +149,13 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         // If no world are defined in our config, define a sample world for the user to be able to copy.
-        if (!getConfig().contains(PlotMe_Core.WORLDS_CONFIG_SECTION)) {
+        if (!getConfig().contains("worlds")) {
             // Get the config for an imaginary gridplots so that the config is generated.
             getWorldGenConfig(DEFAULT_WORLD);
             saveConfig();
         }
 
-        ConfigurationSection worlds = getConfig().getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
+        ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
 
         for (String worldname : worlds.getKeys(false)) {
             // Get config for world
