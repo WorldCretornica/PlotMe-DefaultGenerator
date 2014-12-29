@@ -74,7 +74,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                 setBlock(result, x, 0, z, (short) 7);
                 biomes.setBiome(x, z, Biome.PLAINS);
 
-                for (int y = 0; y < height; y++) {
+                for (int y = 1; y < height; y++) {
                     if (y == roadheight) {
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) {//middle+3
                             boolean found = false;

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
@@ -40,11 +39,11 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
     public void importOldConfigs() {
         // Get the old config file
-        File configFile = new File(getCoreFolder(), CONFIG_NAME);
+        File coreConfigFile = new File(getCoreFolder(), CONFIG_NAME);
 
         // Load the config from the file and get the worlds config section
-        FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
-        ConfigurationSection oldWorldsCS = configuration.getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
+        FileConfiguration coreConfig = YamlConfiguration.loadConfiguration(coreConfigFile);
+        ConfigurationSection oldWorldsCS = coreConfig.getConfigurationSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
 
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
@@ -59,7 +58,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             worldsCS = getConfig().createSection(PlotMe_Core.WORLDS_CONFIG_SECTION);
         }
 
-        // Create a mapping from configuration to config
+        // Create a mapping from coreConfig to config
         Map<String, String> mapping = new HashMap<>();
 
         mapping.put("PlotSize", PLOT_SIZE.path);
@@ -99,7 +98,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                             // Can't migrate the path
                             String fullPathBase = oldWorldCS.getCurrentPath();
                             getLogger().log(Level.WARNING, "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + CONFIG_NAME,
-                                                   new Object[]{fullPathBase, path, configFile, newPath, getConfigFolder(), File.separator});
+                                                   new Object[]{fullPathBase, path, coreConfigFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {
                         // Migrate!
@@ -120,7 +119,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If all worlds are imported, delete worlds CS from config-old.yml
         if (oldWorldsCS.getKeys(false).isEmpty()) {
-            configuration.set(PlotMe_Core.WORLDS_CONFIG_SECTION, null);
+            coreConfig.set(PlotMe_Core.WORLDS_CONFIG_SECTION, null);
         }
 
         // Save the configs
@@ -128,9 +127,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If there is anything left then save, otherwise delete config-old.yml
         try {
-            configuration.save(configFile);
+            coreConfig.save(coreConfigFile);
         } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save " + CONFIG_NAME + " to " + configFile, ex);
+            getLogger().log(Level.SEVERE, "Could not save " + CONFIG_NAME + " to " + coreConfigFile, ex);
         }
     }
 
@@ -190,7 +189,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
             metrics.start();
         } catch (IOException ex) {
-            Logger.getLogger(DefaultGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

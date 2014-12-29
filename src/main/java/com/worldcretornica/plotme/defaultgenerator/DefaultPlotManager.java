@@ -48,8 +48,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int nwcorner = (int) Math.ceil(pathsize / 2) + 1;
 
         // are we inside or outside the plot?
-        if (nwcorner <= xmod && xmod <= secorner &&
-            nwcorner <= zmod && zmod <= secorner) {
+        if (nwcorner <= xmod && xmod <= secorner && nwcorner <= zmod && zmod <= secorner) {
 
             // Division needs to use floats.
             // Otherwise it converts the quotient to int, rendering Math.floor useless
@@ -239,8 +238,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR);
 
-        //bsign = pillar.clone().add(-1, 0, 1).getBlock();
-        //bsign.setType(Material.AIR);
     }
 
     @Override
@@ -249,8 +246,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         Location pillar = new Location(world, bottom.getX() - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottom.getZ() - 1);
 
-        //Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
-        //bsign.setType(Material.AIR);
         Block bsign = pillar.clone().add(-1, 0, 1).getBlock();
         bsign.setType(Material.AIR);
     }
@@ -377,7 +372,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 1; y < 256 + 1; y++) {
+                for (int y = 1; y < 256; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -460,7 +455,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         for (x = bottom.getBlockX() - 1; x < top.getBlockX() + 1; x++) {
             z = bottom.getBlockZ() - 1;
             currentblockid = wallids.get(ctr);
-            ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
+            if (ctr == wallids.size() - 1) {
+                ctr = 0;
+            } else {
+                ctr += 1;
+            }
             block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
@@ -468,7 +467,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         for (z = bottom.getBlockZ() - 1; z < top.getBlockZ() + 1; z++) {
             x = top.getBlockX() + 1;
             currentblockid = wallids.get(ctr);
-            ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
+            if (ctr == wallids.size() - 1) {
+                ctr = 0;
+            } else {
+                ctr += 1;
+            }
             block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
@@ -476,7 +479,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         for (x = top.getBlockX() + 1; x > bottom.getBlockX() - 1; x--) {
             z = top.getBlockZ() + 1;
             currentblockid = wallids.get(ctr);
-            ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
+            if (ctr == wallids.size() - 1) {
+                ctr = 0;
+            } else {
+                ctr += 1;
+            }
             block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
@@ -484,7 +491,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         for (z = top.getBlockZ() + 1; z > bottom.getBlockZ() - 1; z--) {
             x = bottom.getBlockX() - 1;
             currentblockid = wallids.get(ctr);
-            ctr = (ctr == wallids.size() - 1) ? 0 : ctr + 1;
+            if (ctr == wallids.size() - 1) {
+                ctr = 0;
+            } else {
+                ctr += 1;
+            }
             block = world.getBlockAt(x, roadHeight + 1, z);
             setWall(block, currentblockid);
         }
