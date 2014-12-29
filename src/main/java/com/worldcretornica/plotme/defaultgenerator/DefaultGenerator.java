@@ -97,7 +97,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                         } else {
                             // Can't migrate the path
                             String fullPathBase = oldWorldCS.getCurrentPath();
-                            getLogger().log(Level.WARNING, "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in desitnation. Please merge manually." + CONFIG_NAME,
+                            getLogger().log(Level.WARNING, "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in destination. Please merge manually." + CONFIG_NAME,
                                                    new Object[]{fullPathBase, path, coreConfigFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {
@@ -177,7 +177,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if ("plotGenVersion".equalsIgnoreCase(command.getName())) {
-            sender.sendMessage("PlotMe Generator Version: 0.15.1 (122514)");
+            sender.sendMessage("PlotMe Generator Version: 0.15.2 (122814)");
             return true;
         }
         return false;

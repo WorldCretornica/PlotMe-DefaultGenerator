@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.worldcretornica</groupId>
     <artifactId>PlotMe-DefaultGenerator</artifactId>
-    <version>0.15.1-SNAPSHOT</version>
+    <version>0.15.2-SNAPSHOT</version>
     <name>PlotMe-DefaultGenerator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
