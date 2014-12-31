@@ -1,8 +1,8 @@
-name: ${project.name}
-main: ${main.class}
+name: PlotMe-DefaultGenerator
+main: com.worldcretornica.plotme.defaultgenerator.DefaultGenerator
 version: ${project.version}
 authors: [ZachBora, MattBDev]
-load: startup
+load: STARTUP
 loadbefore: [Multiverse-Core, MultiWorld, PlotMe]
 description: >
              Handles plot creation

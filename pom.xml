@@ -11,7 +11,7 @@
     </properties>
     <build>
         <defaultGoal>clean package install</defaultGoal>
-        <finalName>${project.name}</finalName>
+        <finalName>PlotMe-DefaultGenerator</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -94,11 +94,17 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.8-R0.1-SNAPSHOT</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-Core</artifactId>
             <version>0.15.2-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>metrics</artifactId>
+                    <groupId>metrics</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.worldcretornica</groupId>
