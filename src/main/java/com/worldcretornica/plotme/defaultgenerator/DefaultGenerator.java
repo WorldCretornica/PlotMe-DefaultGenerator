@@ -176,7 +176,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if ("plotGenVersion".equalsIgnoreCase(command.getName())) {
-            sender.sendMessage("PlotMe Generator Version: 0.15.2 (122814)");
+            sender.sendMessage("PlotMe Generator Version: 0.15.2 (010115)");
             return true;
         }
         return false;
