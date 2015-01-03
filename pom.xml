@@ -96,6 +96,11 @@
             <version>1.8-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0-beta5</version>
+        </dependency>
+        <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-Core</artifactId>
             <version>0.16-SNAPSHOT</version>
