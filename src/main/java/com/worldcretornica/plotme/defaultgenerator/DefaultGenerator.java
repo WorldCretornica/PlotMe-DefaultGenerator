@@ -36,6 +36,10 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         return new DefaultChunkGenerator(this, worldname);
     }
 
+    /**
+     * To be removed in 0.16
+     */
+    @Deprecated
     public void importOldConfigs() {
         // Get the old config file
         File coreConfigFile = new File(getCoreFolder(), CONFIG_NAME);
@@ -140,9 +144,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     private void setupConfigs() {
-        // Import old configs
-        importOldConfigs();
-
         // Set defaults for WorldGenConfig
         for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
             WorldGenConfig.putDefault(wcp);
@@ -187,7 +188,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             Metrics metrics = new Metrics(this);
 
             metrics.start();
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
         }
     }
 
