@@ -1,5 +1,14 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
 import org.bukkit.World;
@@ -9,8 +18,6 @@ import org.bukkit.generator.BlockPopulator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
 
@@ -93,7 +100,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         } else if ((valx - n2 + mod1) % size == 0 || (valx + n2 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0
-                                        || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
+                                || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorMain);
                             } else {
                                 setBlock(result, x, y, z, floorAlt);
@@ -101,7 +108,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
                         } else if ((valx - n1 + mod1) % size == 0 || (valx + n1 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0
-                                        || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
+                                || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
                                 setBlock(result, x, y, z, floorMain);

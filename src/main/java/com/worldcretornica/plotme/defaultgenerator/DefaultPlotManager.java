@@ -1,5 +1,15 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
@@ -13,8 +23,6 @@ import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
@@ -39,8 +47,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int zmod = posz % size;
 
         // negative location
-        if (xmod < 0) xmod += size;
-        if (zmod < 0) zmod += size;
+        if (xmod < 0) {
+            xmod += size;
+        }
+        if (zmod < 0) {
+            zmod += size;
+        }
 
         // SouthEast plot corner
         int secorner = size - (int) Math.floor(pathsize / 2) - 1;
@@ -54,9 +66,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             // Otherwise it converts the quotient to int, rendering Math.floor useless
             // If we use ints, we will end up with 4x 0;0 plots
             // adding 1 for backwards compatibility with old PlotMe versions
-            double idx = 1 + Math.floor((float)posx / (float)size);
-            double idz = 1 + Math.floor((float)posz / (float)size);
-            return  (int) idx + ";" + (int) idz;
+            double idx = 1 + Math.floor((float) posx / (float) size);
+            double idz = 1 + Math.floor((float) posz / (float) size);
+            return (int) idx + ";" + (int) idz;
         } else {
             // We hit the road, Jack!
             return "";
@@ -308,12 +320,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
-                                || block.getType() == Material.CHEST
-                                || block.getType() == Material.BREWING_STAND
-                                || block.getType() == Material.DISPENSER
-                                || block.getType() == Material.FURNACE
-                                || block.getType() == Material.DROPPER
-                                || block.getType() == Material.HOPPER) {
+                        || block.getType() == Material.CHEST
+                        || block.getType() == Material.BREWING_STAND
+                        || block.getType() == Material.DISPENSER
+                        || block.getType() == Material.FURNACE
+                        || block.getType() == Material.DROPPER
+                        || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -376,13 +388,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
-                                || block.getType() == Material.CHEST
-                                || block.getType() == Material.BREWING_STAND
-                                || block.getType() == Material.DISPENSER
-                                || block.getType() == Material.FURNACE
-                                || block.getType() == Material.DROPPER
-                                || block.getType() == Material.TRAPPED_CHEST
-                                || block.getType() == Material.HOPPER) {
+                        || block.getType() == Material.CHEST
+                        || block.getType() == Material.BREWING_STAND
+                        || block.getType() == Material.DISPENSER
+                        || block.getType() == Material.FURNACE
+                        || block.getType() == Material.DROPPER
+                        || block.getType() == Material.TRAPPED_CHEST
+                        || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -532,7 +544,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         WorldGenConfig wgc = getWGC(world);
 
         if (wgc != null) {
-            return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2, bottomZ(id, world) - 2);
+            return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2,
+                                bottomZ(id, world) - 2);
         } else {
             return world.getSpawnLocation();
         }

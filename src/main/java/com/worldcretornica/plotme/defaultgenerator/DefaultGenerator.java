@@ -1,5 +1,17 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
@@ -17,8 +29,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultGenerator extends BukkitAbstractGenerator {
 
@@ -64,19 +74,19 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         // Create a mapping from coreConfig to config
         Map<String, String> mapping = new HashMap<>();
 
-        mapping.put("PlotSize", PLOT_SIZE.path);
+        mapping.put("PlotSize", PLOT_SIZE.key);
         mapping.put("XTranslation", AbstractWorldConfigPath.X_TRANSLATION.path);
         mapping.put("ZTranslation", AbstractWorldConfigPath.Z_TRANSLATION.path);
-        mapping.put("RoadHeight", GROUND_LEVEL.path);
-        mapping.put("PlotFillingBlockId", FILL_BLOCK.path);
-        mapping.put("PathWidth", PATH_WIDTH.path);
-        mapping.put("PlotFloorBlockId", PLOT_FLOOR_BLOCK.path);
-        mapping.put("RoadMainBlockId", ROAD_MAIN_BLOCK.path);
-        mapping.put("RoadStripeBlockId", ROAD_ALT_BLOCK.path);
-        mapping.put("WallBlockId", WALL_BLOCK.path);
-        mapping.put("ProtectedWallBlockId", PROTECTED_WALL_BLOCK.path);
-        mapping.put("AuctionWallBlockId", AUCTION_WALL_BLOCK.path);
-        mapping.put("ForSaleWallBlockId", FOR_SALE_WALL_BLOCK.path);
+        mapping.put("RoadHeight", GROUND_LEVEL.key);
+        mapping.put("PlotFillingBlockId", FILL_BLOCK.key);
+        mapping.put("PathWidth", PATH_WIDTH.key);
+        mapping.put("PlotFloorBlockId", PLOT_FLOOR_BLOCK.key);
+        mapping.put("RoadMainBlockId", ROAD_MAIN_BLOCK.key);
+        mapping.put("RoadStripeBlockId", ROAD_ALT_BLOCK.key);
+        mapping.put("WallBlockId", WALL_BLOCK.key);
+        mapping.put("ProtectedWallBlockId", PROTECTED_WALL_BLOCK.key);
+        mapping.put("AuctionWallBlockId", AUCTION_WALL_BLOCK.key);
+        mapping.put("ForSaleWallBlockId", FOR_SALE_WALL_BLOCK.key);
 
         // Import each world
         for (String worldname : oldWorldsCS.getKeys(false)) {
@@ -89,7 +99,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                 worldCS = worldsCS.createSection(worldname);
             }
 
-            // For each path import config and rename where required.
+            // For each key import config and rename where required.
             for (String path : oldWorldCS.getKeys(true)) {
                 if (mapping.containsKey(path)) {
                     String newPath = mapping.get(path);
@@ -98,10 +108,12 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                             // Great no work to do except deleting from the old config
                             oldWorldCS.set(path, null);
                         } else {
-                            // Can't migrate the path
+                            // Can't migrate the key
                             String fullPathBase = oldWorldCS.getCurrentPath();
-                            getLogger().log(Level.WARNING, "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in destination. Please merge manually." + CONFIG_NAME,
-                                                   new Object[]{fullPathBase, path, coreConfigFile, newPath, getConfigFolder(), File.separator});
+                            getLogger().log(Level.WARNING,
+                                            "Could not migrate {0}.{1} from {2} to {0}.{3} in {4}{5}: Path exists in destination. Please merge manually."
+                                            + CONFIG_NAME,
+                                            new Object[]{fullPathBase, path, coreConfigFile, newPath, getConfigFolder(), File.separator});
                         }
                     } else {
                         // Migrate!

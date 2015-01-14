@@ -1,13 +1,18 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
-
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultRoadPopulator extends BlockPopulator {
 
@@ -89,14 +94,16 @@ public class DefaultRoadPopulator extends BlockPopulator {
 
                     if ((x - n2 + mod1) % size == 0 || (x + n2 + mod2) % size == 0) // middle+2
                     {
-                        if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0 || (z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0) {
+                        if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0 || (z - n2 + mod1) % size == 0
+                            || (z + n2 + mod2) % size == 0) {
                             setData(world, x, roadheight, z, floorMain);
                         } else {
                             setData(world, x, roadheight, z, floorAlt);
                         }
                     } else if ((x - n1 + mod1) % size == 0 || (x + n1 + mod2) % size == 0) // middle+2
                     {
-                        if ((z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0 || (z - n1 + mod1) % size == 0 || (z + n1 + mod2) % size == 0) {
+                        if ((z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0 || (z - n1 + mod1) % size == 0
+                            || (z + n1 + mod2) % size == 0) {
                             setData(world, x, roadheight, z, floorAlt);
                         } else {
                             setData(world, x, roadheight, z, floorMain);

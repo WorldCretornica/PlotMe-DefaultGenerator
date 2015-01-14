@@ -3,10 +3,6 @@ package com.worldcretornica.plotme.defaultgenerator;
 import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.WorldConfigPath;
 
-/**
- *
- * @author Fabrizio Lungo <fab@lungo.co.uk>
- */
 public enum DefaultWorldConfigPath implements WorldConfigPath {
 
     PLOT_SIZE(AbstractWorldConfigPath.PLOT_SIZE),
@@ -21,27 +17,22 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     AUCTION_WALL_BLOCK("AuctionWallBlock", "44:1"),
     FOR_SALE_WALL_BLOCK("ForSaleWallBlock", "44:1");
 
-    public final String path;
+    public final String key;
     public final Object def;
 
-    DefaultWorldConfigPath(String path, Object def) {
-        this.path = path;
+    DefaultWorldConfigPath(String key, Object def) {
+        this.key = key;
         this.def = def;
     }
 
     DefaultWorldConfigPath(AbstractWorldConfigPath awcp) {
-        this.path = awcp.path;
+        this.key = awcp.path;
         this.def = awcp.def;
     }
 
     @Override
-    public String toString() {
-        return path;
-    }
-
-    @Override
-    public String path() {
-        return path;
+    public String key() {
+        return key;
     }
 
     @Override
