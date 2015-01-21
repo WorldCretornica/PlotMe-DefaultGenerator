@@ -8,6 +8,7 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
 
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
@@ -90,8 +91,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         WorldGenConfig wgc = getWGC(world);
         int h = wgc.getInt(GROUND_LEVEL);
-        int wallId = wgc.getBlockRepresentation(WALL_BLOCK).getId();
-        byte wallValue = wgc.getBlockRepresentation(WALL_BLOCK).getData();
+        int wallId = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
+        byte wallValue = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
         int fillId = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
         byte fillValue = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
         int plotSize = wgc.getInt(PLOT_SIZE);
@@ -434,7 +435,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int roadHeight = wgc.getInt(GROUND_LEVEL);
 
-        String wallid = wgc.getString(WALL_BLOCK);
+        String claimedID = wgc.getString(UNCLAIMED_WALL);
+        String wallID = wgc.getString(WALL_BLOCK);
         String protectedwallid = wgc.getString(PROTECTED_WALL_BLOCK);
         String auctionwallid = wgc.getString(AUCTION_WALL_BLOCK);
         String forsalewallid = wgc.getString(FOR_SALE_WALL_BLOCK);
@@ -448,9 +450,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         if (forSale && !wallids.contains(forsalewallid)) {
             wallids.add(forsalewallid);
         }
-
+        if (claimed && !wallids.contains(claimedID)) {
+            wallids.add(claimedID);
+        }
         if (wallids.isEmpty()) {
-            wallids.add(wallid);
+            wallids.add(wallID);
         }
 
         int ctr = 0;
@@ -525,14 +529,14 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 blockId = Integer.parseInt(currentblockid.substring(0, currentblockid.indexOf(":")));
                 blockData = Byte.parseByte(currentblockid.substring(currentblockid.indexOf(":") + 1));
             } catch (NumberFormatException e) {
-                blockId = wgc.getBlockRepresentation(WALL_BLOCK).getId();
-                blockData = wgc.getBlockRepresentation(WALL_BLOCK).getData();
+                blockId = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
+                blockData = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
             }
         } else {
             try {
                 blockId = Integer.parseInt(currentblockid);
             } catch (NumberFormatException e) {
-                blockId = wgc.getBlockRepresentation(WALL_BLOCK).getId();
+                blockId = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
             }
         }
 

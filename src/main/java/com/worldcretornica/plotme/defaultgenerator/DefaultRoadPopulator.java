@@ -5,7 +5,7 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import org.bukkit.Chunk;
@@ -31,7 +31,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
         int plotsize = wgc.getInt(PLOT_SIZE);
         int pathsize = wgc.getInt(PATH_WIDTH);
         int roadheight = wgc.getInt(GROUND_LEVEL);
-        byte wall = wgc.getBlockRepresentation(WALL_BLOCK).getData();
+        byte wall = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
         byte floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getData();
         byte floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getData();
 

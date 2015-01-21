@@ -7,7 +7,7 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
@@ -45,7 +45,7 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
         int plotsize = wgc.getInt(PLOT_SIZE);
         int pathsize = wgc.getInt(PATH_WIDTH);
         int roadheight = wgc.getInt(GROUND_LEVEL);
-        short wall = wgc.getBlockRepresentation(WALL_BLOCK).getId();
+        short wall = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
         short floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getId();
         short floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getId();
         short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();

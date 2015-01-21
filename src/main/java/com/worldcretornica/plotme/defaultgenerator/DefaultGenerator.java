@@ -179,7 +179,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                 getLogger().severe("RoadHeight above 250 is unsafe. This is the height at which your road is located. Setting it to 250.");
                 wgc.set(GROUND_LEVEL, 250);
             }
-            wgc.set("UnclaimedBorder", "44");
+            wgc.set("UnclaimedBorder", "44:7");
             genPlotManager.putWGC(worldname, wgc);
         }
         saveConfig();
