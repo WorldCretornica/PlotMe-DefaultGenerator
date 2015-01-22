@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.worldcretornica</groupId>
     <artifactId>PlotMe-DefaultGenerator</artifactId>
-    <version>0.15.2</version>
+    <version>0.16-SNAPSHOT</version>
     <name>PlotMe-DefaultGenerator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -125,7 +125,7 @@
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-AbstractGenerator</artifactId>
-            <version>0.15.2</version>
+            <version>0.16-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
