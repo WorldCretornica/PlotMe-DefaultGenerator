@@ -8,25 +8,27 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
+import static com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath.X_TRANSLATION;
+import static com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath.Z_TRANSLATION;
 
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractChunkGenerator;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.generator.ChunkGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
+public class DefaultChunkGenerator extends ChunkGenerator {
 
     private final String worldname;
     private final DefaultGenerator plugin;
     private final List<BlockPopulator> blockPopulators = new ArrayList<>();
-
+    
     public DefaultChunkGenerator(DefaultGenerator instance, String worldname) {
-        super(instance, worldname);
         this.plugin = instance;
         this.worldname = worldname;
         blockPopulators.add(new DefaultRoadPopulator(plugin, worldname));
@@ -189,5 +191,18 @@ public class DefaultChunkGenerator extends BukkitAbstractChunkGenerator {
             }
         }
         return result;
+    }
+    
+    @Override
+    public Location getFixedSpawnLocation(World world, Random random) {
+        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
+        return new Location(world, wgc.getInt(X_TRANSLATION), wgc.getInt(GROUND_LEVEL) + 2, wgc.getInt(Z_TRANSLATION));
+    }
+
+    protected void setBlock(short[][] result, int x, int y, int z, short blockkid) {
+        if (result[y >> 4] == null) {
+            result[y >> 4] = new short[4096];
+        }
+        result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blockkid;
     }
 }

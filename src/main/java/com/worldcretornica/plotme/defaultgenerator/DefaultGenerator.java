@@ -16,12 +16,16 @@ import com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
+import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
+import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.PluginManager;
 import org.mcstats.Metrics;
 
 import java.io.File;
@@ -37,7 +41,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     private DefaultPlotManager genPlotManager;
 
     @Override
-    public void takedown() {
+    public void takedown() {    	
         genPlotManager = null;
     }
 
@@ -153,6 +157,20 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         genPlotManager = new DefaultPlotManager(this);
         setupConfigs();
         setupMetrics();
+        
+        PluginManager pm = Bukkit.getPluginManager();
+        if (pm.getPlugin("PlotMe") != null) {
+        	ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
+
+        	try {
+	            for (String worldname : worlds.getKeys(false)) {
+	            	((PlotMe_CorePlugin) pm.getPlugin("PlotMe")).getAPI().addManager(worldname, new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
+	            }
+        	} catch(Exception e) {
+        		getLogger().severe("Unable to hook to PlotMe Core");
+        		e.printStackTrace();
+        	}
+        }
     }
 
     private void setupConfigs() {

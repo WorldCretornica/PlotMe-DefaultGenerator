@@ -3,7 +3,8 @@ main: com.worldcretornica.plotme.defaultgenerator.DefaultGenerator
 version: ${project.version}
 authors: [ZachBora, MattBDev]
 load: STARTUP
-loadbefore: [Multiverse-Core, MultiWorld, PlotMe]
+loadbefore: [Multiverse-Core, MultiWorld]
+softdepend: [PlotMe]
 description: >
              Handles plot creation
 commands:

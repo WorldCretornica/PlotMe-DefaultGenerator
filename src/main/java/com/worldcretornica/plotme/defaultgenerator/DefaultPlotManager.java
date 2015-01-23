@@ -435,8 +435,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int roadHeight = wgc.getInt(GROUND_LEVEL);
 
-        String claimedID = wgc.getString(UNCLAIMED_WALL);
-        String wallID = wgc.getString(WALL_BLOCK);
+        String claimedID = wgc.getString(WALL_BLOCK);
+        String wallID = wgc.getString(UNCLAIMED_WALL);
         String protectedwallid = wgc.getString(PROTECTED_WALL_BLOCK);
         String auctionwallid = wgc.getString(AUCTION_WALL_BLOCK);
         String forsalewallid = wgc.getString(FOR_SALE_WALL_BLOCK);
