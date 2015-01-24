@@ -159,13 +159,14 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         setupMetrics();
         
         PluginManager pm = Bukkit.getPluginManager();
-        if (pm.getPlugin("PlotMe") != null) {
-        	ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
+        PlotMe_CorePlugin plotMe = (PlotMe_CorePlugin) pm.getPlugin("PlotMe");
+        if (plotMe != null) {
+            ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
 
         	try {
 	            for (String worldname : worlds.getKeys(false)) {
-	            	((PlotMe_CorePlugin) pm.getPlugin("PlotMe")).getAPI().addManager(worldname, new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
-	            }
+                    plotMe.getAPI().addManager(worldname.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
+                }
         	} catch(Exception e) {
         		getLogger().severe("Unable to hook to PlotMe Core");
         		e.printStackTrace();
@@ -188,9 +189,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
 
-        for (String worldname : worlds.getKeys(false)) {
+        for (String worldName : worlds.getKeys(false)) {
             // Get config for world
-            WorldGenConfig wgc = getWorldGenConfig(worldname);
+            WorldGenConfig wgc = getWorldGenConfig(worldName.toLowerCase());
 
             // Validate config
             if (wgc.getInt(GROUND_LEVEL) > 250 || wgc.getInt(GROUND_LEVEL) <= 0) {
@@ -198,7 +199,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                 wgc.set(GROUND_LEVEL, 250);
             }
             wgc.set("UnclaimedBorder", "44:7");
-            genPlotManager.putWGC(worldname, wgc);
+            genPlotManager.putWGC(worldName.toLowerCase(), wgc);
         }
         saveConfig();
     }

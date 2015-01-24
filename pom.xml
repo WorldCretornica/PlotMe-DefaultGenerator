@@ -115,17 +115,14 @@
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-Core</artifactId>
             <version>0.16-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>metrics</artifactId>
-                    <groupId>metrics</groupId>
-                </exclusion>
-            </exclusions>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-AbstractGenerator</artifactId>
             <version>0.16-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
