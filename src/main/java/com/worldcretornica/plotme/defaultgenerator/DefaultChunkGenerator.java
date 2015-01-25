@@ -24,15 +24,15 @@ import java.util.Random;
 
 public class DefaultChunkGenerator extends ChunkGenerator {
 
-    private final String worldname;
+    private final String worldName;
     private final DefaultGenerator plugin;
     private final List<BlockPopulator> blockPopulators = new ArrayList<>();
-    
-    public DefaultChunkGenerator(DefaultGenerator instance, String worldname) {
+
+    public DefaultChunkGenerator(DefaultGenerator instance, String worldName) {
         this.plugin = instance;
-        this.worldname = worldname;
-        blockPopulators.add(new DefaultRoadPopulator(plugin, worldname));
-        blockPopulators.add(new DefaultContentPopulator(plugin, worldname));
+        this.worldName = worldName;
+        blockPopulators.add(new DefaultRoadPopulator(plugin, worldName));
+        blockPopulators.add(new DefaultContentPopulator(plugin, worldName));
     }
 
     @Override
@@ -42,33 +42,33 @@ public class DefaultChunkGenerator extends ChunkGenerator {
 
     @Override
     public short[][] generateExtBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
+        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
 
-        int plotsize = wgc.getInt(PLOT_SIZE);
-        int pathsize = wgc.getInt(PATH_WIDTH);
-        int roadheight = wgc.getInt(GROUND_LEVEL);
+        int plotSize = wgc.getInt(PLOT_SIZE);
+        int pathSize = wgc.getInt(PATH_WIDTH);
+        int roadHeight = wgc.getInt(GROUND_LEVEL);
         short wall = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
         short floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getId();
         short floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getId();
-        short plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
+        short plotFloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getId();
         short filling = wgc.getBlockRepresentation(FILL_BLOCK).getId();
 
-        double size = plotsize + pathsize;
+        double size = plotSize + pathSize;
 
         double n1;
         double n2;
         double n3;
         int mod2 = 0;
 
-        if (pathsize % 2 == 1) {
-            n1 = Math.ceil(((double) pathsize) / 2) - 2;
-            n2 = Math.ceil(((double) pathsize) / 2) - 1;
-            n3 = Math.ceil(((double) pathsize) / 2);
+        if (pathSize % 2 == 1) {
+            n1 = Math.ceil(((double) pathSize) / 2) - 2;
+            n2 = Math.ceil(((double) pathSize) / 2) - 1;
+            n3 = Math.ceil(((double) pathSize) / 2);
             mod2 = -1;
         } else {
-            n1 = Math.floor(((double) pathsize) / 2) - 2;
-            n2 = Math.floor(((double) pathsize) / 2) - 1;
-            n3 = Math.floor(((double) pathsize) / 2);
+            n1 = Math.floor(((double) pathSize) / 2) - 2;
+            n2 = Math.floor(((double) pathSize) / 2) - 1;
+            n3 = Math.floor(((double) pathSize) / 2);
         }
 
         int mod1 = 1;
@@ -77,14 +77,14 @@ public class DefaultChunkGenerator extends ChunkGenerator {
             int valx = ((cx << 4) + x);
 
             for (int z = 0; z < 16; z++) {
-                int height = roadheight + 2;
+                int height = roadHeight + 2;
                 int valz = ((cz << 4) + z);
 
                 setBlock(result, x, 0, z, (short) 7);
                 biomes.setBiome(x, z, Biome.PLAINS);
 
                 for (int y = 1; y < height; y++) {
-                    if (y == roadheight) {
+                    if (y == roadHeight) {
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) {//middle+3
                             boolean found = false;
                             for (double i = n2; i >= 0; i--) {
@@ -151,12 +151,12 @@ public class DefaultChunkGenerator extends ChunkGenerator {
                                     if (found3) {
                                         setBlock(result, x, y, z, floorMain);
                                     } else {
-                                        setBlock(result, x, y, z, plotfloor);
+                                        setBlock(result, x, y, z, plotFloor);
                                     }
                                 }
                             }
                         }
-                    } else if (y == (roadheight + 1)) {
+                    } else if (y == (roadHeight + 1)) {
                         if ((valx - n3 + mod1) % size == 0 || (valx + n3 + mod2) % size == 0) //middle+3
                         {
                             boolean found = false;
@@ -195,14 +195,14 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
+        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
         return new Location(world, wgc.getInt(X_TRANSLATION), wgc.getInt(GROUND_LEVEL) + 2, wgc.getInt(Z_TRANSLATION));
     }
 
-    protected void setBlock(short[][] result, int x, int y, int z, short blockkid) {
+    protected void setBlock(short[][] result, int x, int y, int z, short blockId) {
         if (result[y >> 4] == null) {
             result[y >> 4] = new short[4096];
         }
-        result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blockkid;
+        result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blockId;
     }
 }

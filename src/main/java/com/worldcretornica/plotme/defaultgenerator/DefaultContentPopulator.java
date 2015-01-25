@@ -16,55 +16,55 @@ import java.util.Random;
 public class DefaultContentPopulator extends BlockPopulator {
 
     private final DefaultGenerator plugin;
-    private final String worldname;
+    private final String worldName;
 
-    public DefaultContentPopulator(DefaultGenerator plugin, String worldname) {
+    public DefaultContentPopulator(DefaultGenerator plugin, String worldName) {
         this.plugin = plugin;
-        this.worldname = worldname;
+        this.worldName = worldName;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
+        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
 
-        int plotsize = wgc.getInt(PLOT_SIZE);
-        int pathsize = wgc.getInt(PATH_WIDTH);
-        int roadheight = wgc.getInt(GROUND_LEVEL);
-        byte plotfloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
+        int plotSize = wgc.getInt(PLOT_SIZE);
+        int pathSize = wgc.getInt(PATH_WIDTH);
+        int roadHeight = wgc.getInt(GROUND_LEVEL);
+        byte plotFloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
         byte filling = wgc.getBlockRepresentation(FILL_BLOCK).getData();
 
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;
 
-        double size = plotsize + pathsize;
+        double size = plotSize + pathSize;
 
         for (int x = xx; x < xx + 16; x++) {
             int valx = x;
 
-            valx -= Math.ceil(((double) pathsize) / 2);
+            valx -= Math.ceil(((double) pathSize) / 2);
             valx = (valx % (int) size);
             if (valx < 0) {
                 valx += size;
             }
 
-            boolean modX = valx < plotsize;
+            boolean modX = valx < plotSize;
 
             for (int z = zz; z < zz + 16; z++) {
                 int valz = z;
 
-                valz -= Math.ceil(((double) pathsize) / 2);
+                valz -= Math.ceil(((double) pathSize) / 2);
                 valz = (valz % (int) size);
                 if (valz < 0) {
                     valz += size;
                 }
 
-                boolean modZ = valz < plotsize;
+                boolean modZ = valz < plotSize;
 
-                for (int y = 0; y <= roadheight; y++) {
-                    if (y < roadheight) {
+                for (int y = 0; y <= roadHeight; y++) {
+                    if (y < roadHeight) {
                         setData(world, x, y, z, filling);
                     } else if (modX && modZ) {
-                        setData(world, x, y, z, plotfloor);
+                        setData(world, x, y, z, plotFloor);
                     }
                 }
             }

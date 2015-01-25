@@ -46,8 +46,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     @Override
-    public ChunkGenerator getDefaultWorldGenerator(String worldname, String id) {
-        return new DefaultChunkGenerator(this, worldname);
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        return new DefaultChunkGenerator(this, worldName);
     }
 
     /**
@@ -93,14 +93,14 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         mapping.put("ForSaleWallBlockId", FOR_SALE_WALL_BLOCK.key);
 
         // Import each world
-        for (String worldname : oldWorldsCS.getKeys(false)) {
-            getLogger().log(Level.INFO, "Importing world {0} from PlotMe", worldname);
-            ConfigurationSection oldWorldCS = oldWorldsCS.getConfigurationSection(worldname);
+        for (String worldName : oldWorldsCS.getKeys(false)) {
+            getLogger().log(Level.INFO, "Importing world {0} from PlotMe", worldName);
+            ConfigurationSection oldWorldCS = oldWorldsCS.getConfigurationSection(worldName);
 
             // Get the local config world section and create it if it doesn't exist
-            ConfigurationSection worldCS = worldsCS.getConfigurationSection(worldname);
+            ConfigurationSection worldCS = worldsCS.getConfigurationSection(worldName);
             if (worldCS == null) {
-                worldCS = worldsCS.createSection(worldname);
+                worldCS = worldsCS.createSection(worldName);
             }
 
             // For each key import config and rename where required.
@@ -129,11 +129,11 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
             // If full imported delete from config-old.yml
             if (oldWorldCS.getKeys(false).isEmpty()) {
-                oldWorldsCS.set(worldname, null);
+                oldWorldsCS.set(worldName, null);
             }
 
             // Add world to Manager
-            genPlotManager.putWGC(worldname, getWorldGenConfig(worldname));
+            genPlotManager.putWGC(worldName, getWorldGenConfig(worldName));
         }
 
         // If all worlds are imported, delete worlds CS from config-old.yml
@@ -164,8 +164,8 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             ConfigurationSection worlds = getConfig().getConfigurationSection("worlds");
 
         	try {
-	            for (String worldname : worlds.getKeys(false)) {
-                    plotMe.getAPI().addManager(worldname.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
+                for (String worldName : worlds.getKeys(false)) {
+                    plotMe.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
                 }
         	} catch(Exception e) {
         		getLogger().severe("Unable to hook to PlotMe Core");
@@ -182,7 +182,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         // If no world are defined in our config, define a sample world for the user to be able to copy.
         if (!getConfig().contains("worlds")) {
-            // Get the config for an imaginary gridplots so that the config is generated.
+            // Get the config for an imaginary grid plots so that the config is generated.
             getWorldGenConfig(DEFAULT_WORLD);
             saveConfig();
         }

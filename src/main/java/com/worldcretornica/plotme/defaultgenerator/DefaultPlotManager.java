@@ -41,8 +41,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int posx = loc.getBlockX();
         int posz = loc.getBlockZ();
-        int pathsize = wgc.getInt(PATH_WIDTH);
-        int size = wgc.getInt(PLOT_SIZE) + pathsize;
+        int pathSize = wgc.getInt(PATH_WIDTH);
+        int size = wgc.getInt(PLOT_SIZE) + pathSize;
 
         int xmod = posx % size;
         int zmod = posz % size;
@@ -56,9 +56,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         }
 
         // SouthEast plot corner
-        int secorner = size - (int) Math.floor(pathsize / 2) - 1;
+        int secorner = size - (int) Math.floor(pathSize / 2) - 1;
         // NorthWest plot corner
-        int nwcorner = (int) Math.ceil(pathsize / 2) + 1;
+        int nwcorner = (int) Math.ceil(pathSize / 2) + 1;
 
         // are we inside or outside the plot?
         if (nwcorner <= xmod && xmod <= secorner && nwcorner <= zmod && zmod <= secorner) {
@@ -78,7 +78,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillroad(String id1, String id2, World world) {
+    public void fillRoad(String id1, String id2, World world) {
         Location bottomPlot1 = getPlotBottomLoc(world, id1);
         Location topPlot1 = getPlotTopLoc(world, id1);
         Location bottomPlot2 = getPlotBottomLoc(world, id2);
@@ -142,7 +142,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillmiddleroad(String id1, String id2, World world) {
+    public void fillMiddleRoad(String id1, String id2, World world) {
         Location bottomPlot1 = getPlotBottomLoc(world, id1);
         Location topPlot1 = getPlotTopLoc(world, id1);
         Location bottomPlot2 = getPlotBottomLoc(world, id2);
@@ -431,30 +431,30 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void adjustPlotFor(World world, String id, boolean claimed, boolean protect, boolean auctioned, boolean forSale) {
         WorldGenConfig wgc = getWGC(world);
 
-        List<String> wallids = new ArrayList<>();
+        List<String> wallIds = new ArrayList<>();
 
         int roadHeight = wgc.getInt(GROUND_LEVEL);
 
-        String claimedID = wgc.getString(WALL_BLOCK);
-        String wallID = wgc.getString(UNCLAIMED_WALL);
-        String protectedwallid = wgc.getString(PROTECTED_WALL_BLOCK);
-        String auctionwallid = wgc.getString(AUCTION_WALL_BLOCK);
-        String forsalewallid = wgc.getString(FOR_SALE_WALL_BLOCK);
+        String claimedId = wgc.getString(WALL_BLOCK);
+        String wallId = wgc.getString(UNCLAIMED_WALL);
+        String protectedWallId = wgc.getString(PROTECTED_WALL_BLOCK);
+        String auctionWallId = wgc.getString(AUCTION_WALL_BLOCK);
+        String forsaleWallId = wgc.getString(FOR_SALE_WALL_BLOCK);
 
         if (protect) {
-            wallids.add(protectedwallid);
+            wallIds.add(protectedWallId);
         }
-        if (auctioned && !wallids.contains(auctionwallid)) {
-            wallids.add(auctionwallid);
+        if (auctioned && !wallIds.contains(auctionWallId)) {
+            wallIds.add(auctionWallId);
         }
-        if (forSale && !wallids.contains(forsalewallid)) {
-            wallids.add(forsalewallid);
+        if (forSale && !wallIds.contains(forsaleWallId)) {
+            wallIds.add(forsaleWallId);
         }
-        if (claimed && !wallids.contains(claimedID)) {
-            wallids.add(claimedID);
+        if (claimed && !wallIds.contains(claimedId)) {
+            wallIds.add(claimedId);
         }
-        if (wallids.isEmpty()) {
-            wallids.add(wallID);
+        if (wallIds.isEmpty()) {
+            wallIds.add(wallId);
         }
 
         int ctr = 0;
@@ -465,76 +465,76 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int x;
         int z;
 
-        String currentblockid;
+        String currentBlockId;
         Block block;
 
         for (x = bottom.getBlockX() - 1; x < top.getBlockX() + 1; x++) {
             z = bottom.getBlockZ() - 1;
-            currentblockid = wallids.get(ctr);
-            if (ctr == wallids.size() - 1) {
+            currentBlockId = wallIds.get(ctr);
+            if (ctr == wallIds.size() - 1) {
                 ctr = 0;
             } else {
                 ctr += 1;
             }
             block = world.getBlockAt(x, roadHeight + 1, z);
-            setWall(block, currentblockid);
+            setWall(block, currentBlockId);
         }
 
         for (z = bottom.getBlockZ() - 1; z < top.getBlockZ() + 1; z++) {
             x = top.getBlockX() + 1;
-            currentblockid = wallids.get(ctr);
-            if (ctr == wallids.size() - 1) {
+            currentBlockId = wallIds.get(ctr);
+            if (ctr == wallIds.size() - 1) {
                 ctr = 0;
             } else {
                 ctr += 1;
             }
             block = world.getBlockAt(x, roadHeight + 1, z);
-            setWall(block, currentblockid);
+            setWall(block, currentBlockId);
         }
 
         for (x = top.getBlockX() + 1; x > bottom.getBlockX() - 1; x--) {
             z = top.getBlockZ() + 1;
-            currentblockid = wallids.get(ctr);
-            if (ctr == wallids.size() - 1) {
+            currentBlockId = wallIds.get(ctr);
+            if (ctr == wallIds.size() - 1) {
                 ctr = 0;
             } else {
                 ctr += 1;
             }
             block = world.getBlockAt(x, roadHeight + 1, z);
-            setWall(block, currentblockid);
+            setWall(block, currentBlockId);
         }
 
         for (z = top.getBlockZ() + 1; z > bottom.getBlockZ() - 1; z--) {
             x = bottom.getBlockX() - 1;
-            currentblockid = wallids.get(ctr);
-            if (ctr == wallids.size() - 1) {
+            currentBlockId = wallIds.get(ctr);
+            if (ctr == wallIds.size() - 1) {
                 ctr = 0;
             } else {
                 ctr += 1;
             }
             block = world.getBlockAt(x, roadHeight + 1, z);
-            setWall(block, currentblockid);
+            setWall(block, currentBlockId);
         }
     }
 
     @SuppressWarnings("deprecation")
-    private void setWall(Block block, String currentblockid) {
+    private void setWall(Block block, String currentBlockId) {
 
         int blockId;
         byte blockData = 0;
         WorldGenConfig wgc = getWGC(block.getWorld());
 
-        if (currentblockid.contains(":")) {
+        if (currentBlockId.contains(":")) {
             try {
-                blockId = Integer.parseInt(currentblockid.substring(0, currentblockid.indexOf(":")));
-                blockData = Byte.parseByte(currentblockid.substring(currentblockid.indexOf(":") + 1));
+                blockId = Integer.parseInt(currentBlockId.substring(0, currentBlockId.indexOf(":")));
+                blockData = Byte.parseByte(currentBlockId.substring(currentBlockId.indexOf(":") + 1));
             } catch (NumberFormatException e) {
                 blockId = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
                 blockData = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
             }
         } else {
             try {
-                blockId = Integer.parseInt(currentblockid);
+                blockId = Integer.parseInt(currentBlockId);
             } catch (NumberFormatException e) {
                 blockId = wgc.getBlockRepresentation(UNCLAIMED_WALL).getId();
             }

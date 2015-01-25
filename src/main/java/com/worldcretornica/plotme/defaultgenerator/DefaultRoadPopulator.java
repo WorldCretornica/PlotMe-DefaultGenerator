@@ -17,20 +17,20 @@ import java.util.Random;
 public class DefaultRoadPopulator extends BlockPopulator {
 
     private final DefaultGenerator plugin;
-    private final String worldname;
+    private final String worldName;
 
-    public DefaultRoadPopulator(DefaultGenerator plugin, String worldname) {
+    public DefaultRoadPopulator(DefaultGenerator plugin, String worldName) {
         this.plugin = plugin;
-        this.worldname = worldname;
+        this.worldName = worldName;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldname);
+        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
 
-        int plotsize = wgc.getInt(PLOT_SIZE);
-        int pathsize = wgc.getInt(PATH_WIDTH);
-        int roadheight = wgc.getInt(GROUND_LEVEL);
+        int plotSize = wgc.getInt(PLOT_SIZE);
+        int pathSize = wgc.getInt(PATH_WIDTH);
+        int roadHeight = wgc.getInt(GROUND_LEVEL);
         byte wall = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
         byte floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getData();
         byte floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getData();
@@ -38,7 +38,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;
 
-        double size = plotsize + pathsize;
+        double size = plotSize + pathSize;
 
         double n1;
         double n2;
@@ -46,15 +46,15 @@ public class DefaultRoadPopulator extends BlockPopulator {
         int mod2 = 0;
         int mod1 = 1;
 
-        if (pathsize % 2 == 1) {
-            n1 = Math.ceil(((double) pathsize) / 2) - 2;
-            n2 = Math.ceil(((double) pathsize) / 2) - 1;
-            n3 = Math.ceil(((double) pathsize) / 2);
+        if (pathSize % 2 == 1) {
+            n1 = Math.ceil(((double) pathSize) / 2) - 2;
+            n2 = Math.ceil(((double) pathSize) / 2) - 1;
+            n3 = Math.ceil(((double) pathSize) / 2);
             mod2 = -1;
         } else {
-            n1 = Math.floor(((double) pathsize) / 2) - 2;
-            n2 = Math.floor(((double) pathsize) / 2) - 1;
-            n3 = Math.floor(((double) pathsize) / 2);
+            n1 = Math.floor(((double) pathSize) / 2) - 2;
+            n2 = Math.floor(((double) pathSize) / 2) - 1;
+            n3 = Math.floor(((double) pathSize) / 2);
         }
 
         for (int x = xx; x < xx + 16; x++) {
@@ -71,10 +71,10 @@ public class DefaultRoadPopulator extends BlockPopulator {
                     }
 
                     if (found) {
-                        setData(world, x, roadheight, z, floorMain);
+                        setData(world, x, roadHeight, z, floorMain);
                     } else {
-                        setData(world, x, roadheight, z, floorMain);
-                        setData(world, x, roadheight + 1, z, wall);
+                        setData(world, x, roadHeight, z, floorMain);
+                        setData(world, x, roadHeight + 1, z, wall);
                     }
                 } else {
                     boolean found5 = false;
@@ -87,8 +87,8 @@ public class DefaultRoadPopulator extends BlockPopulator {
 
                     if (!found5) {
                         if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0) {
-                            setData(world, x, roadheight, z, floorMain);
-                            setData(world, x, roadheight + 1, z, wall);
+                            setData(world, x, roadHeight, z, floorMain);
+                            setData(world, x, roadHeight + 1, z, wall);
                         }
                     }
 
@@ -96,17 +96,17 @@ public class DefaultRoadPopulator extends BlockPopulator {
                     {
                         if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0 || (z - n2 + mod1) % size == 0
                             || (z + n2 + mod2) % size == 0) {
-                            setData(world, x, roadheight, z, floorMain);
+                            setData(world, x, roadHeight, z, floorMain);
                         } else {
-                            setData(world, x, roadheight, z, floorAlt);
+                            setData(world, x, roadHeight, z, floorAlt);
                         }
                     } else if ((x - n1 + mod1) % size == 0 || (x + n1 + mod2) % size == 0) // middle+2
                     {
                         if ((z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0 || (z - n1 + mod1) % size == 0
                             || (z + n1 + mod2) % size == 0) {
-                            setData(world, x, roadheight, z, floorAlt);
+                            setData(world, x, roadHeight, z, floorAlt);
                         } else {
-                            setData(world, x, roadheight, z, floorMain);
+                            setData(world, x, roadHeight, z, floorMain);
                         }
                     } else {
                         boolean found = false;
@@ -118,9 +118,9 @@ public class DefaultRoadPopulator extends BlockPopulator {
                         }
 
                         if (found) {
-                            setData(world, x, roadheight, z, floorMain);
+                            setData(world, x, roadHeight, z, floorMain);
                         } else if ((z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0) {
-                            setData(world, x, roadheight, z, floorAlt);
+                            setData(world, x, roadHeight, z, floorAlt);
                         } else {
                             boolean found2 = false;
                             for (double i = n1; i >= 0; i--) {
@@ -131,7 +131,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                             }
 
                             if (found2) {
-                                setData(world, x, roadheight, z, floorMain);
+                                setData(world, x, roadHeight, z, floorMain);
                             } else {
                                 boolean found3 = false;
                                 for (double i = n3; i >= 0; i--) {
@@ -142,7 +142,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                                 }
 
                                 if (found3) {
-                                    setData(world, x, roadheight, z, floorMain);
+                                    setData(world, x, roadHeight, z, floorMain);
                                 }
                             }
                         }
