@@ -347,6 +347,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
             }
         }
+        
+        refreshPlotChunks(world, getPlotId(bottom));
     }
 
     @Override
@@ -424,6 +426,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             bottomZ = bottom.getBlockZ();
         }
 
+        refreshPlotChunks(world, getPlotId(bottom));
         return null;
     }
 
