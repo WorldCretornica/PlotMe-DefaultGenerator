@@ -557,4 +557,16 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             return world.getSpawnLocation();
         }
     }
+    
+    @Override
+    public Location getPlotMiddle(World world, String id) {
+    	Location bottom = getPlotBottomLoc(world, id);
+        Location top = getPlotTopLoc(world, id);
+        
+        double x = (top.getX() + bottom.getX() + 1) / 2;
+        double y = getRoadHeight(world.getName()) + 1;
+        double z = (top.getZ() + bottom.getZ() + 1) / 2;
+        
+        return new Location(world, x, y, z);
+    }
 }
