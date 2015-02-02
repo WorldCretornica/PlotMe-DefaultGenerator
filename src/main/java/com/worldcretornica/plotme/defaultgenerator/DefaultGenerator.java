@@ -18,17 +18,12 @@ import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenMana
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
-import com.worldcretornica.schematic.Schematic;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.mcstats.Metrics;
@@ -214,40 +209,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         if ("plotGenVersion".equalsIgnoreCase(command.getName())) {
             sender.sendMessage("PlotMe Generator Version: 0.15.2 (010115)");
             return true;
-        } else if ("test1".equalsIgnoreCase(command.getName())) {
-        	
-        	if (args.length > 0 && sender instanceof Player) {
-        		Player player = (Player) sender;
-        		World world = player.getWorld();
-        		String id = genPlotManager.getPlotId(player);
-        		Location loc1 = genPlotManager.getPlotBottomLoc(world, id);
-        		Location loc2 = genPlotManager.getPlotTopLoc(world, id);
-        		
-        		Schematic schem = getSchematicUtil().createCompiledSchematic(loc1, loc2);
-        		getSchematicUtil().saveCompiledSchematic(schem, args[0]);
-        		player.sendMessage("Plot saved");
-        	}
-        	
-        	return true;
-        } else if ("test2".equalsIgnoreCase(command.getName())) {
-        	
-        	if (args.length > 0 && sender instanceof Player) {
-        		Player player = (Player) sender;
-        		World world = player.getWorld();
-        		String id = genPlotManager.getPlotId(player);
-        		Location loc1 = genPlotManager.getPlotBottomLoc(world, id);
-        		//Location loc2 = genPlotManager.getPlotTopLoc(world, id);
-        		
-        		Schematic schem = getSchematicUtil().loadCompiledSchematic(args[0]);
-        		if (schem != null) {
-        			getSchematicUtil().pasteSchematic(loc1, schem);
-        			player.sendMessage("Plot loaded");
-        		} else {
-        			player.sendMessage("Error");
-        		}
-        	}
-        	
-        	return true;
         }
         return false;
     }
