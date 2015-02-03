@@ -80,9 +80,15 @@
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
-            <id>hawkfalcon-repo</id>
-            <url>http://ci.hawkfalcon.com/plugin/repository/everything/</url>
-        </repository>
+			<id>WorldCretornica-repo</id>
+			<url>http://ci.worldcretornica.com:8080/plugin/repository/everything/</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
         <repository>
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
