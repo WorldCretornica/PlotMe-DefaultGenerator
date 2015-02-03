@@ -81,7 +81,7 @@
         </repository>
         <repository>
 			<id>WorldCretornica-repo</id>
-			<url>http://ci.worldcretornica.com:8080/plugin/repository/everything/</url>
+			<url>http://ci.worldcretornica.com/plugin/repository/everything/</url>
 			<releases>
 				<updatePolicy>always</updatePolicy>
 			</releases>
