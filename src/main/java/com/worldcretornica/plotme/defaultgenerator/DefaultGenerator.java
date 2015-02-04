@@ -165,8 +165,10 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
 
         	try {
                 for (String worldName : worlds.getKeys(false)) {
-                	schematicutil = plotMe.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
+                	plotMe.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(getGeneratorManager()));
                 }
+                
+                setSchematicUtil(plotMe.getAPI().getSchematicUtil());
         	} catch(Exception e) {
         		getLogger().severe("Unable to hook to PlotMe Core");
         		e.printStackTrace();
