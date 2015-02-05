@@ -44,6 +44,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int pathSize = wgc.getInt(PATH_WIDTH);
         int size = wgc.getInt(PLOT_SIZE) + pathSize;
 
+        return internalgetPlotId(pathSize, size, posx, posz);
+    }
+    
+    public static String internalgetPlotId(int pathSize, int size, int posx, int posz) {
+
         int xmod = posx % size;
         int zmod = posz % size;
 
