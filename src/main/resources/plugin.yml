@@ -1,6 +1,6 @@
 name: PlotMe-DefaultGenerator
 main: com.worldcretornica.plotme.defaultgenerator.DefaultGenerator
-version: ${project.version}
+version: 0.16.1
 authors: [ZachBora, MattBDev]
 load: STARTUP
 loadbefore: [Multiverse-Core, MultiWorld]
