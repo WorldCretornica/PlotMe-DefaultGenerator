@@ -50,10 +50,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         return new DefaultChunkGenerator(this, worldName);
     }
 
-    /**
-     * To be removed in 0.16
-     */
-    @Deprecated
     public void importOldConfigs() {
         // Get the old config file
         File coreConfigFile = new File(getCoreFolder(), CONFIG_NAME);
@@ -65,6 +61,19 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         // If there are no worlds then there is nothing to import
         if (oldWorldsCS == null || oldWorldsCS.getKeys(false).isEmpty()) {
             getLogger().info("No old PlotMe configs to import.");
+            return;
+        }
+        
+        boolean found = false;
+        
+        for (String keys : oldWorldsCS.getKeys(true)) {
+        	if (keys.endsWith("PlotSize")) {
+        		found = true;
+        	}
+        }
+        
+        if (!found) {
+        	getLogger().info("No old PlotMe configs to import.");
             return;
         }
 
@@ -127,29 +136,22 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
                 }
             }
 
-            // If full imported delete from config-old.yml
-            if (oldWorldCS.getKeys(false).isEmpty()) {
-                oldWorldsCS.set(worldName, null);
-            }
-
+            oldWorldsCS.set(worldName, oldWorldCS);
+            
             // Add world to Manager
             genPlotManager.putWGC(worldName, getWorldGenConfig(worldName));
         }
-
-        // If all worlds are imported, delete worlds CS from config-old.yml
-        if (oldWorldsCS.getKeys(false).isEmpty()) {
-            coreConfig.set("worlds", null);
-        }
+        
+        coreConfig.set("worlds", oldWorldsCS);
 
         // Save the configs
         saveConfig();
-
-        // If there is anything left then save, otherwise delete config-old.yml
-        try {
+        
+        /*try {
             coreConfig.save(coreConfigFile);
         } catch (IOException ex) {
             getLogger().log(Level.SEVERE, "Could not save " + CONFIG_NAME + " to " + coreConfigFile, ex);
-        }
+        }*/
     }
 
     @Override
@@ -177,6 +179,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     private void setupConfigs() {
+    	// Get old config
+    	importOldConfigs();
+    	
         // Set defaults for WorldGenConfig
         for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
             WorldGenConfig.putDefault(wcp);
