@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>com.worldcretornica</groupId>
 			<artifactId>PlotMe-AbstractGenerator</artifactId>
-			<version>0.16-SNAPSHOT</version>
+			<version>0.16.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mcstats.bukkit</groupId>
@@ -140,7 +140,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13-SNAPSHOT</version>
+			<version>4.12</version>
 		</dependency>
 	</dependencies>
 </project>

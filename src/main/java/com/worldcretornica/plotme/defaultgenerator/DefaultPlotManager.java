@@ -1,16 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
-
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
@@ -25,28 +14,14 @@ import org.bukkit.inventory.InventoryHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
+
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     public DefaultPlotManager(DefaultGenerator instance) {
         super(instance);
     }
 
-    @Override
-    public String getPlotId(Location loc) {
-        WorldGenConfig wgc = getWGC(loc.getWorld());
-
-        if (wgc == null) {
-            return "";
-        }
-
-        int posx = loc.getBlockX();
-        int posz = loc.getBlockZ();
-        int pathSize = wgc.getInt(PATH_WIDTH);
-        int size = wgc.getInt(PLOT_SIZE) + pathSize;
-
-        return internalgetPlotId(pathSize, size, posx, posz);
-    }
-    
     public static String internalgetPlotId(int pathSize, int size, int posx, int posz) {
 
         int xmod = posx % size;
@@ -79,6 +54,22 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             // We hit the road, Jack!
             return "";
         }
+    }
+    
+    @Override
+    public String getPlotId(Location loc) {
+        WorldGenConfig wgc = getWGC(loc.getWorld());
+
+        if (wgc == null) {
+            return "";
+        }
+
+        int posx = loc.getBlockX();
+        int posz = loc.getBlockZ();
+        int pathSize = wgc.getInt(PATH_WIDTH);
+        int size = wgc.getInt(PLOT_SIZE) + pathSize;
+
+        return internalgetPlotId(pathSize, size, posx, posz);
     }
 
     @SuppressWarnings("deprecation")
@@ -554,7 +545,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @Override
     public Location getPlotHome(World world, String id) {
         WorldGenConfig wgc = getWGC(world);
-
         if (wgc != null) {
             return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2,
                                 bottomZ(id, world) - 2);
