@@ -3,6 +3,7 @@ package com.worldcretornica.plotme.defaultgenerator;
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
+import com.worldcretornica.plotme_core.PlotId;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,7 +23,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         super(instance);
     }
 
-    public static String internalgetPlotId(int pathSize, int size, int posx, int posz) {
+    public static PlotId internalgetPlotId(int pathSize, int size, int posx, int posz) {
 
         int xmod = posx % size;
         int zmod = posz % size;
@@ -49,19 +50,20 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             // adding 1 for backwards compatibility with old PlotMe versions
             double idx = 1 + Math.floor((float) posx / (float) size);
             double idz = 1 + Math.floor((float) posz / (float) size);
-            return (int) idx + ";" + (int) idz;
+            //noinspection NumericCastThatLosesPrecision
+            return new PlotId((int) idx, (int) idz);
         } else {
             // We hit the road, Jack!
-            return "";
+            return null;
         }
     }
     
     @Override
-    public String getPlotId(Location loc) {
+    public PlotId getPlotId(Location loc) {
         WorldGenConfig wgc = getWGC(loc.getWorld());
 
         if (wgc == null) {
-            return "";
+            return null;
         }
 
         int posx = loc.getBlockX();
@@ -74,7 +76,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillRoad(String id1, String id2, World world) {
+    public void fillRoad(PlotId id1, PlotId id2, World world) {
         Location bottomPlot1 = getPlotBottomLoc(world, id1);
         Location topPlot1 = getPlotTopLoc(world, id1);
         Location bottomPlot2 = getPlotBottomLoc(world, id2);
@@ -138,7 +140,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillMiddleRoad(String id1, String id2, World world) {
+    public void fillMiddleRoad(PlotId id1, PlotId id2, World world) {
         Location bottomPlot1 = getPlotBottomLoc(world, id1);
         Location topPlot1 = getPlotTopLoc(world, id1);
         Location bottomPlot2 = getPlotBottomLoc(world, id2);
@@ -169,7 +171,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setOwnerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
+    public void setOwnerDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
 
         Block bsign = pillar.clone().add(0, 0, -1).getBlock();
@@ -188,7 +190,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setSellerDisplay(World world, String id, String line1, String line2, String line3, String line4) {
+    public void setSellerDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
@@ -209,7 +211,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setAuctionDisplay(World world, String id, String line1, String line2, String line3, String line4) {
+    public void setAuctionDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(world, id);
 
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
@@ -229,7 +231,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeOwnerDisplay(World world, String id) {
+    public void removeOwnerDisplay(World world, PlotId id) {
         Location bottom = getPlotBottomLoc(world, id);
 
         Location pillar = new Location(world, bottom.getX() - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottom.getZ() - 1);
@@ -239,7 +241,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeSellerDisplay(World world, String id) {
+    public void removeSellerDisplay(World world, PlotId id) {
         Location bottom = getPlotBottomLoc(world, id);
 
         Location pillar = new Location(world, bottom.getX() - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottom.getZ() - 1);
@@ -250,7 +252,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeAuctionDisplay(World world, String id) {
+    public void removeAuctionDisplay(World world, PlotId id) {
         Location bottom = getPlotBottomLoc(world, id);
 
         Location pillar = new Location(world, bottom.getX() - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottom.getZ() - 1);
@@ -260,9 +262,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Location getPlotBottomLoc(World world, String id) {
-        int px = getIdX(id);
-        int pz = getIdZ(id);
+    public Location getPlotBottomLoc(World world, PlotId id) {
+        int px = id.getX();
+        int pz = id.getZ();
 
         WorldGenConfig wgc = getWGC(world);
         int plotSize = wgc.getInt(PLOT_SIZE);
@@ -275,9 +277,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Location getPlotTopLoc(World world, String id) {
-        int px = getIdX(id);
-        int pz = getIdZ(id);
+    public Location getPlotTopLoc(World world, PlotId id) {
+        int px = id.getX();
+        int pz = id.getZ();
 
         WorldGenConfig wgc = getWGC(world);
         int plotSize = wgc.getInt(PLOT_SIZE);
@@ -427,7 +429,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void adjustPlotFor(World world, String id, boolean claimed, boolean protect, boolean auctioned, boolean forSale) {
+    public void adjustPlotFor(World world, PlotId id, boolean claimed, boolean protect, boolean auctioned, boolean forSale) {
         WorldGenConfig wgc = getWGC(world);
 
         List<String> wallIds = new ArrayList<>();
@@ -543,7 +545,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Location getPlotHome(World world, String id) {
+    public Location getPlotHome(World world, PlotId id) {
         WorldGenConfig wgc = getWGC(world);
         if (wgc != null) {
             return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2,
@@ -554,8 +556,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
     
     @Override
-    public Location getPlotMiddle(World world, String id) {
-    	Location bottom = getPlotBottomLoc(world, id);
+    public Location getPlotMiddle(World world, PlotId id) {
+        Location bottom = getPlotBottomLoc(world, id);
         Location top = getPlotTopLoc(world, id);
         
         double x = (top.getX() + bottom.getX() + 1) / 2;
