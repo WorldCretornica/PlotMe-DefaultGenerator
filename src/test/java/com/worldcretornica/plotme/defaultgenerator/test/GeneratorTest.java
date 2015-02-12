@@ -1,6 +1,7 @@
 package com.worldcretornica.plotme.defaultgenerator.test;
 
 import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
+import com.worldcretornica.plotme_core.PlotId;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class GeneratorTest {
 		}
 	}
 
-	private String oldPlotId(int pathsize, int size, int posx, int posz) {
+	private PlotId oldPlotId(int pathsize, int size, int posx, int posz) {
 
 		double n3;
 		int mod2 = 0;
@@ -49,8 +50,8 @@ public class GeneratorTest {
 		}
 
 		if (road) {
-			return "";
+			return null;
 		} else
-			return x + ";" + z;
+			return new PlotId(x, z);
 	}
 }
