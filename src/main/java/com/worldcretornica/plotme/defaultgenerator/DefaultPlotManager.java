@@ -1,5 +1,15 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
+import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
+
 import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
@@ -14,8 +24,6 @@ import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.*;
 
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
@@ -439,14 +447,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         String claimedId = wgc.getString(WALL_BLOCK);
         String wallId = wgc.getString(UNCLAIMED_WALL);
         String protectedWallId = wgc.getString(PROTECTED_WALL_BLOCK);
-        String auctionWallId = wgc.getString(AUCTION_WALL_BLOCK);
         String forsaleWallId = wgc.getString(FOR_SALE_WALL_BLOCK);
 
         if (protect) {
             wallIds.add(protectedWallId);
-        }
-        if (auctioned && !wallIds.contains(auctionWallId)) {
-            wallIds.add(auctionWallId);
         }
         if (forSale && !wallIds.contains(forsaleWallId)) {
             wallIds.add(forsaleWallId);
