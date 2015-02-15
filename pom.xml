@@ -145,9 +145,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.15-SNAPSHOT</version>
+			<groupId>ninja.leaping.configurate</groupId>
+			<artifactId>configurate-yaml</artifactId>
+			<version>0.1</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
