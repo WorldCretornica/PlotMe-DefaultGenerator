@@ -437,7 +437,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void adjustPlotFor(World world, PlotId id, boolean claimed, boolean protect, boolean auctioned, boolean forSale) {
+    public void adjustPlotFor(World world, PlotId id, boolean claimed, boolean protect, boolean forSale) {
         WorldGenConfig wgc = getWGC(world);
 
         List<String> wallIds = new ArrayList<>();
