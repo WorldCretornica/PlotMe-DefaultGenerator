@@ -14,7 +14,6 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     ROAD_ALT_BLOCK("RoadAltBlock", "5:2"),
     WALL_BLOCK("WallBlock", "44"),
     PROTECTED_WALL_BLOCK("ProtectedWallBlock", "44:4"),
-    AUCTION_WALL_BLOCK("AuctionWallBlock", "44:1"),
     FOR_SALE_WALL_BLOCK("ForSaleWallBlock", "44:1"),
     UNCLAIMED_WALL("UnclaimedBorder", "44:7");
 

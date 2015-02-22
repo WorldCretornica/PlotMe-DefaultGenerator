@@ -177,7 +177,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void setOwnerDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
@@ -204,27 +203,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
 
         Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
-        bsign.setType(Material.AIR);
-        bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 4, false);
-
-        Sign sign = (Sign) bsign.getState();
-
-        sign.setLine(0, line1);
-        sign.setLine(1, line2);
-        sign.setLine(2, line3);
-        sign.setLine(3, line4);
-
-        sign.update(true);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void setAuctionDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
-        removeSellerDisplay(world, id);
-
-        Location pillar = new Location(world, bottomX(id, world) - 1, getWGC(world).getInt(GROUND_LEVEL) + 1, bottomZ(id, world) - 1);
-
-        Block bsign = pillar.clone().add(-1, 0, 1).getBlock();
         bsign.setType(Material.AIR);
         bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 4, false);
 
@@ -323,7 +301,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 256; y >= 1; y--) {
+                for (int y = 1; y < 256; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -552,8 +530,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public Location getPlotHome(World world, PlotId id) {
         WorldGenConfig wgc = getWGC(world);
         if (wgc != null) {
-            return new Location(world, bottomX(id, world) + (topX(id, world) - bottomX(id, world)) / 2, wgc.getInt(GROUND_LEVEL) + 2,
-                                bottomZ(id, world) - 2);
+            Location bottom = getPlotBottomLoc(world, id);
+            Location top = getPlotTopLoc(world, id);
+            return new Location(world, (top.getX() + bottom.getX() + 1) / 2, wgc.getInt(GROUND_LEVEL) + 2, (top.getZ() + bottom.getZ() + 1) / 2);
         } else {
             return world.getSpawnLocation();
         }

@@ -1,6 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.AUCTION_WALL_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
@@ -98,7 +97,6 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         mapping.put("RoadStripeBlockId", ROAD_ALT_BLOCK.key);
         mapping.put("WallBlockId", WALL_BLOCK.key);
         mapping.put("ProtectedWallBlockId", PROTECTED_WALL_BLOCK.key);
-        mapping.put("AuctionWallBlockId", AUCTION_WALL_BLOCK.key);
         mapping.put("ForSaleWallBlockId", FOR_SALE_WALL_BLOCK.key);
 
         // Import each world
