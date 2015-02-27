@@ -7,6 +7,3 @@ loadbefore: [Multiverse-Core, MultiWorld]
 softdepend: [PlotMe]
 description: >
              Handles plot creation
-commands:
-  plotGenVersion:
-    description: Get PlotMeGenerator Version
