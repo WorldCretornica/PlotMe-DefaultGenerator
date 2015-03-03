@@ -109,8 +109,8 @@ public class DefaultChunkGenerator extends ChunkGenerator {
                             }
                         } else if ((valx - n1 + mod1) % size == 0 || (valx + n1 + mod2) % size == 0) //middle+2
                         {
-                            if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0
-                                || (valz - n1 + mod1) % size == 0 || (valz + n1 + mod2) % size == 0) {
+                            if ((valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0 || (valz - n1 + mod1) % size == 0
+                                    || (valz + n1 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorAlt);
                             } else {
                                 setBlock(result, x, y, z, floorMain);
@@ -178,10 +178,8 @@ public class DefaultChunkGenerator extends ChunkGenerator {
                                 }
                             }
 
-                            if (!found) {
-                                if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0) {
-                                    setBlock(result, x, y, z, wall);
-                                }
+                            if (!found && ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0)) {
+                                setBlock(result, x, y, z, wall);
                             }
                         }
                     } else {
@@ -203,6 +201,6 @@ public class DefaultChunkGenerator extends ChunkGenerator {
         if (result[y >> 4] == null) {
             result[y >> 4] = new short[4096];
         }
-        result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blockId;
+        result[y >> 4][(y & 0xF) * 256 | (z << 4) | x] = blockId;
     }
 }

@@ -47,14 +47,14 @@ public class DefaultRoadPopulator extends BlockPopulator {
         int mod1 = 1;
 
         if (pathSize % 2 == 1) {
-            n1 = Math.ceil(((double) pathSize) / 2) - 2;
-            n2 = Math.ceil(((double) pathSize) / 2) - 1;
-            n3 = Math.ceil(((double) pathSize) / 2);
+            n1 = Math.ceil((double) pathSize / 2) - 2;
+            n2 = Math.ceil((double) pathSize / 2) - 1;
+            n3 = Math.ceil((double) pathSize / 2);
             mod2 = -1;
         } else {
-            n1 = Math.floor(((double) pathSize) / 2) - 2;
-            n2 = Math.floor(((double) pathSize) / 2) - 1;
-            n3 = Math.floor(((double) pathSize) / 2);
+            n1 = Math.floor((double) pathSize / 2) - 2;
+            n2 = Math.floor((double) pathSize / 2) - 1;
+            n3 = Math.floor((double) pathSize / 2);
         }
 
         for (int x = xx; x < xx + 16; x++) {
@@ -85,11 +85,9 @@ public class DefaultRoadPopulator extends BlockPopulator {
                         }
                     }
 
-                    if (!found5) {
-                        if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0) {
-                            setData(world, x, roadHeight, z, floorMain);
-                            setData(world, x, roadHeight + 1, z, wall);
-                        }
+                    if (!found5 && ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0)) {
+                        setData(world, x, roadHeight, z, floorMain);
+                        setData(world, x, roadHeight + 1, z, wall);
                     }
 
                     if ((x - n2 + mod1) % size == 0 || (x + n2 + mod2) % size == 0) // middle+2

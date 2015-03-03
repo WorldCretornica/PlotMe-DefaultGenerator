@@ -304,13 +304,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 for (int y = 1; y < 255; y++) {
                     block = world.getBlockAt(x, y, z);
 
-                    if (block.getType() == Material.BEACON
-                        || block.getType() == Material.CHEST
-                        || block.getType() == Material.BREWING_STAND
-                        || block.getType() == Material.DISPENSER
-                        || block.getType() == Material.FURNACE
-                        || block.getType() == Material.DROPPER
-                        || block.getType() == Material.HOPPER) {
+                    if (block.getType() == Material.BEACON || block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST
+                            || block.getType() == Material.BREWING_STAND || block.getType() == Material.DISPENSER
+                            || block.getType() == Material.FURNACE || block.getType() == Material.DROPPER || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -323,10 +319,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         if (block.getTypeId() != (int) floorBlock.getId()) {
                             block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
                         }
-                    } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        if (block.getType() != Material.AIR) {
-                            block.setType(Material.AIR);
-                        }
+                    } else if ((y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1))
+                            && block.getType() != Material.AIR) {
+                        block.setType(Material.AIR);
                     }
                 }
             }
@@ -394,10 +389,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         if (block.getTypeId() != (int) floorBlock.getId()) {
                             block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), true);
                         }
-                    } else if (y != (roadHeight + 1) || (x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)) {
-                        if (block.getType() != Material.AIR) {
-                            block.setType(Material.AIR);
-                        }
+                    } else if ((y != roadHeight + 1 || x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)
+                            && block.getType() != Material.AIR) {
+                        block.setType(Material.AIR);
                     }
 
                     nbBlockCleared++;
