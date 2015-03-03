@@ -51,6 +51,9 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             WorldGenConfig.putDefault(wcp);
         }
 
+        if (mainWorldsSection.getKeys(false).isEmpty()) {
+            mainWorldsSection.createSection("plotworld", WorldGenConfig.cloneDefaults());
+        }
         for (String worldName : mainWorldsSection.getKeys(false)) {
             // Get config for world
             WorldGenConfig wgc = getWorldGenConfig(worldName.toLowerCase());
