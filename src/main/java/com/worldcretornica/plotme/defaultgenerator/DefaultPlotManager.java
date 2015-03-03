@@ -129,7 +129,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = h; y < 256; y++) {
+                for (int y = h; y < 255; y++) {
                     if (y >= (h + 2)) {
                         world.getBlockAt(x, y, z).setType(Material.AIR);
                     } else if (y == (h + 1)) {
@@ -166,7 +166,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = height; y < 256; y++) {
+                for (int y = height; y < 255; y++) {
                     if (y >= (height + 1)) {
                         world.getBlockAt(x, y, z).setType(Material.AIR);
                     } else {
@@ -301,7 +301,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 1; y < 256; y++) {
+                for (int y = 1; y < 255; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -371,7 +371,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 1; y < 256; y++) {
+                for (int y = 1; y < 255; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON

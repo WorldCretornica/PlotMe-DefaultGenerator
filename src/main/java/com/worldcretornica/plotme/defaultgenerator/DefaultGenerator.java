@@ -62,7 +62,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
             }
             genPlotManager.putWGC(worldName.toLowerCase(), wgc);
         }
-        saveConfig();
+        saveConfigFile();
     }
 
     private void setupMetrics() {
