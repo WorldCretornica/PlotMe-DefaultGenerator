@@ -17,7 +17,7 @@ public class DefaultContentPopulator extends BlockPopulator {
 
     private final WorldGenConfig worldGenConfig;
 
-    public DefaultContentPopulator(DefaultGenerator plugin, WorldGenConfig worldGenConfig) {
+    public DefaultContentPopulator(WorldGenConfig worldGenConfig) {
         this.worldGenConfig = worldGenConfig;
     }
 

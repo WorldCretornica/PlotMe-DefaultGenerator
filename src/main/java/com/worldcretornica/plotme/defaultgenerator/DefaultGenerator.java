@@ -56,7 +56,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
         for (String worldName : mainWorldsSection.getKeys(false)) {
             // Get config for world
-            WorldGenConfig wgc = getWorldGenConfig(worldName.toLowerCase(), WorldGenConfig.defaults());
+            WorldGenConfig wgc = (WorldGenConfig) mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
 
             // Validate config
             if (wgc.getInt(GROUND_LEVEL) > 250 || wgc.getInt(GROUND_LEVEL) <= 0) {

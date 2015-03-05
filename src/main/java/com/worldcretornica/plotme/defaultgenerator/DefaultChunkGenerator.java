@@ -30,7 +30,7 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     public DefaultChunkGenerator(DefaultGenerator instance, String worldName) {
         wgc = instance.getGeneratorManager().getWGC(worldName);
         blockPopulators.add(new DefaultRoadPopulator(wgc));
-        blockPopulators.add(new DefaultContentPopulator(instance, wgc));
+        blockPopulators.add(new DefaultContentPopulator(wgc));
     }
 
     @Override

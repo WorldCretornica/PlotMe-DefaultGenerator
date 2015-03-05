@@ -36,7 +36,7 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     }
 
     @Override
-    public Object def() {
+    public Object value() {
         return def;
     }
 }
