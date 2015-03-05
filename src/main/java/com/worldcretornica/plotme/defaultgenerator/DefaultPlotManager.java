@@ -47,7 +47,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         // SouthEast plot corner
         int secorner = size - (int) Math.floor(pathSize / 2) - 1;
         // NorthWest plot corner
-        int nwcorner = (int) Math.ceil(pathSize / 2) + (pathSize % 2 == 1 ? 1 : 0);
+        int nwcorner;
+        if (pathSize % 2 == 1) {
+            nwcorner = (int) Math.ceil(pathSize / 2) + 1;
+        } else {
+            nwcorner = (int) Math.ceil(pathSize / 2) + 0;
+        }
 
         // are we inside or outside the plot?
         if (nwcorner <= xmod && xmod <= secorner && nwcorner <= zmod && zmod <= secorner) {

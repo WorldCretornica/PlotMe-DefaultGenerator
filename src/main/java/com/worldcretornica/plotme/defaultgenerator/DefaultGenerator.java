@@ -52,11 +52,11 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         }
 
         if (mainWorldsSection.getKeys(false).isEmpty()) {
-            mainWorldsSection.createSection("plotworld", WorldGenConfig.cloneDefaults());
+            mainWorldsSection.createSection("plotworld", WorldGenConfig.defaults());
         }
         for (String worldName : mainWorldsSection.getKeys(false)) {
             // Get config for world
-            WorldGenConfig wgc = getWorldGenConfig(worldName.toLowerCase());
+            WorldGenConfig wgc = getWorldGenConfig(worldName.toLowerCase(), WorldGenConfig.defaults());
 
             // Validate config
             if (wgc.getInt(GROUND_LEVEL) > 250 || wgc.getInt(GROUND_LEVEL) <= 0) {

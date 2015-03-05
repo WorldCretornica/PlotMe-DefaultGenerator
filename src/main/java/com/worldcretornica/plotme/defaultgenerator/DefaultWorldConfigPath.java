@@ -17,8 +17,8 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     FOR_SALE_WALL_BLOCK("ForSaleWallBlock", "44:1"),
     UNCLAIMED_WALL("UnclaimedBorder", "44:7");
 
-    public final String key;
-    public final Object def;
+    private final String key;
+    private final Object def;
 
     DefaultWorldConfigPath(String key, Object def) {
         this.key = key;
