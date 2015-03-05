@@ -15,23 +15,19 @@ import java.util.Random;
 
 public class DefaultContentPopulator extends BlockPopulator {
 
-    private final DefaultGenerator plugin;
-    private final String worldName;
+    private final WorldGenConfig worldGenConfig;
 
-    public DefaultContentPopulator(DefaultGenerator plugin, String worldName) {
-        this.plugin = plugin;
-        this.worldName = worldName;
+    public DefaultContentPopulator(DefaultGenerator plugin, WorldGenConfig worldGenConfig) {
+        this.worldGenConfig = worldGenConfig;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
-
-        int plotSize = wgc.getInt(PLOT_SIZE);
-        int pathSize = wgc.getInt(PATH_WIDTH);
-        int roadHeight = wgc.getInt(GROUND_LEVEL);
-        byte plotFloor = wgc.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
-        byte filling = wgc.getBlockRepresentation(FILL_BLOCK).getData();
+        int plotSize = worldGenConfig.getInt(PLOT_SIZE);
+        int pathSize = worldGenConfig.getInt(PATH_WIDTH);
+        int roadHeight = worldGenConfig.getInt(GROUND_LEVEL);
+        byte plotFloor = worldGenConfig.getBlockRepresentation(PLOT_FLOOR_BLOCK).getData();
+        byte filling = worldGenConfig.getBlockRepresentation(FILL_BLOCK).getData();
 
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;

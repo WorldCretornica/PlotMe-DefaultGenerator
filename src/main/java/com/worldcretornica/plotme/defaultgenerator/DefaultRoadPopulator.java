@@ -16,18 +16,14 @@ import java.util.Random;
 
 public class DefaultRoadPopulator extends BlockPopulator {
 
-    private final DefaultGenerator plugin;
-    private final String worldName;
+    private WorldGenConfig wgc;
 
-    public DefaultRoadPopulator(DefaultGenerator plugin, String worldName) {
-        this.plugin = plugin;
-        this.worldName = worldName;
+    public DefaultRoadPopulator(WorldGenConfig wgc) {
+        this.wgc = wgc;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
-
         int plotSize = wgc.getInt(PLOT_SIZE);
         int pathSize = wgc.getInt(PATH_WIDTH);
         int roadHeight = wgc.getInt(GROUND_LEVEL);

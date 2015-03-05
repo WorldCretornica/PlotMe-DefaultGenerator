@@ -1,6 +1,6 @@
 package com.worldcretornica.plotme.defaultgenerator.test;
 
-import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_core.PlotId;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class GeneratorTest {
 			for (int size = 1; size < 30; size++) {
 				for (int x = -50; x < 50; x++) {
 					for (int z = -50; z < 50; z++) {
-						Assert.assertEquals(oldPlotId(road, size, x, z), DefaultPlotManager.internalgetPlotId(road, size, x, z));
+						Assert.assertEquals(oldPlotId(road, size, x, z), BukkitAbstractGenManager.internalgetPlotId(road, size, x, z));
 					}
 				}
 			}

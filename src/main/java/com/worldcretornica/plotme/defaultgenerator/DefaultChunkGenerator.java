@@ -24,15 +24,13 @@ import java.util.Random;
 
 public class DefaultChunkGenerator extends ChunkGenerator {
 
-    private final String worldName;
-    private final DefaultGenerator plugin;
     private final List<BlockPopulator> blockPopulators = new ArrayList<>();
+    private final WorldGenConfig wgc;
 
     public DefaultChunkGenerator(DefaultGenerator instance, String worldName) {
-        this.plugin = instance;
-        this.worldName = worldName;
-        blockPopulators.add(new DefaultRoadPopulator(plugin, worldName));
-        blockPopulators.add(new DefaultContentPopulator(plugin, worldName));
+        wgc = instance.getGeneratorManager().getWGC(worldName);
+        blockPopulators.add(new DefaultRoadPopulator(wgc));
+        blockPopulators.add(new DefaultContentPopulator(instance, wgc));
     }
 
     @Override
@@ -42,8 +40,6 @@ public class DefaultChunkGenerator extends ChunkGenerator {
 
     @Override
     public short[][] generateExtBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
-
         int plotSize = wgc.getInt(PLOT_SIZE);
         int pathSize = wgc.getInt(PATH_WIDTH);
         int roadHeight = wgc.getInt(GROUND_LEVEL);
@@ -61,24 +57,24 @@ public class DefaultChunkGenerator extends ChunkGenerator {
         int mod2 = 0;
 
         if (pathSize % 2 == 1) {
-            n1 = Math.ceil(((double) pathSize) / 2) - 2;
-            n2 = Math.ceil(((double) pathSize) / 2) - 1;
-            n3 = Math.ceil(((double) pathSize) / 2);
+            n1 = Math.ceil((double) pathSize / 2) - 2;
+            n2 = Math.ceil((double) pathSize / 2) - 1;
+            n3 = Math.ceil((double) pathSize / 2);
             mod2 = -1;
         } else {
-            n1 = Math.floor(((double) pathSize) / 2) - 2;
-            n2 = Math.floor(((double) pathSize) / 2) - 1;
-            n3 = Math.floor(((double) pathSize) / 2);
+            n1 = Math.floor((double) pathSize / 2) - 2;
+            n2 = Math.floor((double) pathSize / 2) - 1;
+            n3 = Math.floor((double) pathSize / 2);
         }
 
         int mod1 = 1;
         short[][] result = new short[16][];
         for (int x = 0; x < 16; x++) {
-            int valx = ((cx << 4) + x);
+            int valx = (cx << 4) + x;
 
             for (int z = 0; z < 16; z++) {
                 int height = roadHeight + 2;
-                int valz = ((cz << 4) + z);
+                int valz = (cz << 4) + z;
 
                 setBlock(result, x, 0, z, (short) 7);
                 biomes.setBiome(x, z, Biome.PLAINS);
@@ -193,7 +189,6 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
-        WorldGenConfig wgc = plugin.getGeneratorManager().getWGC(worldName);
         return new Location(world, wgc.getInt(X_TRANSLATION), wgc.getInt(GROUND_LEVEL) + 2, wgc.getInt(Z_TRANSLATION));
     }
 
