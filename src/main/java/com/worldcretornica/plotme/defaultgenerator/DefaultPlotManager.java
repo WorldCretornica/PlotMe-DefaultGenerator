@@ -280,7 +280,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
             }
         }
-        
+
         refreshPlotChunks(world, getPlotId(bottom));
     }
 
@@ -323,13 +323,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
-                        || block.getType() == Material.CHEST
-                        || block.getType() == Material.BREWING_STAND
-                        || block.getType() == Material.DISPENSER
-                        || block.getType() == Material.FURNACE
-                        || block.getType() == Material.DROPPER
-                        || block.getType() == Material.TRAPPED_CHEST
-                        || block.getType() == Material.HOPPER) {
+                            || block.getType() == Material.CHEST
+                            || block.getType() == Material.BREWING_STAND
+                            || block.getType() == Material.DISPENSER
+                            || block.getType() == Material.FURNACE
+                            || block.getType() == Material.DROPPER
+                            || block.getType() == Material.TRAPPED_CHEST
+                            || block.getType() == Material.HOPPER) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
@@ -476,16 +476,16 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         Location top = getPlotTopLoc(world, id);
         return new Location(world, (top.getX() + bottom.getX() + 1) / 2, wgc.getInt(GROUND_LEVEL) + 2, (top.getZ() + bottom.getZ() + 1) / 2);
     }
-    
+
     @Override
     public Location getPlotMiddle(World world, PlotId id) {
         Location bottom = getPlotBottomLoc(world, id);
         Location top = getPlotTopLoc(world, id);
-        
+
         double x = (top.getX() + bottom.getX() + 1) / 2;
         double y = getRoadHeight() + 1;
         double z = (top.getZ() + bottom.getZ() + 1) / 2;
-        
+
         return new Location(world, x, y, z);
     }
 }

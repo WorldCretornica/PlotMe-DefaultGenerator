@@ -89,7 +89,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                     if ((x - n2 + mod1) % size == 0 || (x + n2 + mod2) % size == 0) // middle+2
                     {
                         if ((z - n3 + mod1) % size == 0 || (z + n3 + mod2) % size == 0 || (z - n2 + mod1) % size == 0
-                            || (z + n2 + mod2) % size == 0) {
+                                || (z + n2 + mod2) % size == 0) {
                             setData(world, x, roadHeight, z, floorMain);
                         } else {
                             setData(world, x, roadHeight, z, floorAlt);
@@ -97,7 +97,7 @@ public class DefaultRoadPopulator extends BlockPopulator {
                     } else if ((x - n1 + mod1) % size == 0 || (x + n1 + mod2) % size == 0) // middle+2
                     {
                         if ((z - n2 + mod1) % size == 0 || (z + n2 + mod2) % size == 0 || (z - n1 + mod1) % size == 0
-                            || (z + n1 + mod2) % size == 0) {
+                                || (z + n1 + mod2) % size == 0) {
                             setData(world, x, roadHeight, z, floorAlt);
                         } else {
                             setData(world, x, roadHeight, z, floorMain);

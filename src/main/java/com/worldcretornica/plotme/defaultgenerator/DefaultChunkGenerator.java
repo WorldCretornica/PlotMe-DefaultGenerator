@@ -98,7 +98,7 @@ public class DefaultChunkGenerator extends ChunkGenerator {
                         } else if ((valx - n2 + mod1) % size == 0 || (valx + n2 + mod2) % size == 0) //middle+2
                         {
                             if ((valz - n3 + mod1) % size == 0 || (valz + n3 + mod2) % size == 0
-                                || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
+                                    || (valz - n2 + mod1) % size == 0 || (valz + n2 + mod2) % size == 0) {
                                 setBlock(result, x, y, z, floorMain);
                             } else {
                                 setBlock(result, x, y, z, floorAlt);
@@ -186,7 +186,7 @@ public class DefaultChunkGenerator extends ChunkGenerator {
         }
         return result;
     }
-    
+
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
         return new Location(world, wgc.getInt(X_TRANSLATION), wgc.getInt(GROUND_LEVEL) + 2, wgc.getInt(Z_TRANSLATION));
