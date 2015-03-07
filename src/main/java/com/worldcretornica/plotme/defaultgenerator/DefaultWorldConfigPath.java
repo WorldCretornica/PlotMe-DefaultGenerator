@@ -26,8 +26,8 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     }
 
     DefaultWorldConfigPath(AbstractWorldConfigPath awcp) {
-        this.key = awcp.path;
-        this.def = awcp.def;
+        this.key = awcp.key();
+        this.def = awcp.value();
     }
 
     @Override

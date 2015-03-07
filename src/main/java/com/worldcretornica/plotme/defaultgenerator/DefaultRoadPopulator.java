@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class DefaultRoadPopulator extends BlockPopulator {
 
-    private WorldGenConfig wgc;
+    private final WorldGenConfig wgc;
 
     public DefaultRoadPopulator(WorldGenConfig wgc) {
         this.wgc = wgc;
