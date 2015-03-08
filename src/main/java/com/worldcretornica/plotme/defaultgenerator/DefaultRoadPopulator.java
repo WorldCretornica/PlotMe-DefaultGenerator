@@ -7,7 +7,8 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.configuration.ConfigurationSection;
+import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
@@ -16,20 +17,20 @@ import java.util.Random;
 
 public class DefaultRoadPopulator extends BlockPopulator {
 
-    private final WorldGenConfig wgc;
+    private final ConfigurationSection wgc;
 
-    public DefaultRoadPopulator(WorldGenConfig wgc) {
+    public DefaultRoadPopulator(ConfigurationSection wgc) {
         this.wgc = wgc;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        int plotSize = wgc.getInt(PLOT_SIZE);
-        int pathSize = wgc.getInt(PATH_WIDTH);
-        int roadHeight = wgc.getInt(GROUND_LEVEL);
-        byte wall = wgc.getBlockRepresentation(UNCLAIMED_WALL).getData();
-        byte floorMain = wgc.getBlockRepresentation(ROAD_MAIN_BLOCK).getData();
-        byte floorAlt = wgc.getBlockRepresentation(ROAD_ALT_BLOCK).getData();
+        int plotSize = wgc.getInt(PLOT_SIZE.key());
+        int pathSize = wgc.getInt(PATH_WIDTH.key());
+        int roadHeight = wgc.getInt(GROUND_LEVEL.key());
+        byte wall = BukkitBlockRepresentation.getBlockData(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
+        byte floorMain = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_MAIN_BLOCK.key(), "5"));
+        byte floorAlt = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_ALT_BLOCK.key(), "5:2"));
 
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;

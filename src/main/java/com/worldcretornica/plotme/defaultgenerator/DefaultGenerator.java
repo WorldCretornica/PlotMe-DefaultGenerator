@@ -2,7 +2,7 @@ package com.worldcretornica.plotme.defaultgenerator;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
 
-import com.worldcretornica.plotme_abstractgenerator.WorldGenConfig;
+import com.worldcretornica.configuration.ConfigurationSection;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
@@ -25,7 +25,7 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
         PlotMe_CorePlugin plotMe = (PlotMe_CorePlugin) pm.getPlugin("PlotMe");
         if (plotMe != null) {
             for (String worldName : mainWorldsSection.getKeys(false)) {
-                WorldGenConfig wgc = (WorldGenConfig) mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
+                ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
                 plotMe.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(this, wgc)));
             }
             setSchematicUtil(plotMe.getAPI().getSchematicUtil());
@@ -37,21 +37,24 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     private void setupConfigs() {
 
         if (mainWorldsSection.getKeys(false).isEmpty()) {
-            mainWorldsSection.createSection("plotworld");
+            ConfigurationSection configurationSection = mainWorldsSection.createSection("plotworld");
+            for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
+                configurationSection.set(wcp.key(), wcp.value());
+            }
         }
         saveConfigFile();
         for (String worldName : mainWorldsSection.getKeys(false)) {
             // Get config for world
-            WorldGenConfig wgc = (WorldGenConfig) mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
+            ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
             // Set defaults for WorldGenConfig
             for (DefaultWorldConfigPath wcp : DefaultWorldConfigPath.values()) {
                 wgc.addDefault(wcp.key(), wcp.value());
             }
             saveConfigFile();
             // Validate config
-            if (wgc.getInt(GROUND_LEVEL) > 250 || wgc.getInt(GROUND_LEVEL) <= 0) {
+            if (wgc.getInt(GROUND_LEVEL.key()) > 250 || wgc.getInt(GROUND_LEVEL.key()) <= 0) {
                 getLogger().severe("RoadHeight above 250 is unsafe. This is the height at which your road is located. Setting it to 250.");
-                wgc.set(GROUND_LEVEL, 250);
+                wgc.set(GROUND_LEVEL.key(), 250);
             }
             super.putWGC(worldName.toLowerCase(), wgc);
         }
