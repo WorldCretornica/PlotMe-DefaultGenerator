@@ -469,6 +469,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         double y = getRoadHeight() + 1;
         double z = (top.getZ() + bottom.getZ() + 1) / 2;
 
+
         return new Location(world, x, y, z);
     }
 }
