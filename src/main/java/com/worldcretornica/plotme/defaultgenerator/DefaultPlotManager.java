@@ -27,8 +27,6 @@ import java.util.List;
 
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
-    World world = null;
-
     public DefaultPlotManager(DefaultGenerator instance, ConfigurationSection wgc) {
         super(instance, wgc);
     }
@@ -139,7 +137,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @Override
     public void setOwnerDisplay(World world, PlotId id, String line1, String line2, String line3, String line4) {
         Location pillar = new Location(world, bottomX(id, world) - 1, wgc.getInt(GROUND_LEVEL.key()) + 1, bottomZ(id, world) - 1);
-
         Block bsign = pillar.clone().add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR);
         bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 2, false);
