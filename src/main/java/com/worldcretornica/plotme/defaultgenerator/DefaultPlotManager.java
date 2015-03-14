@@ -194,16 +194,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeAuctionDisplay(World world, PlotId id) {
-        Location bottom = getPlotBottomLoc(world, id);
-
-        Location pillar = new Location(world, bottom.getX() - 1, wgc.getInt(GROUND_LEVEL.key()) + 1, bottom.getZ() - 1);
-
-        Block bsign = pillar.clone().add(-1, 0, 1).getBlock();
-        bsign.setType(Material.AIR);
-    }
-
-    @Override
     public Location getPlotBottomLoc(World world, PlotId id) {
         int px = id.getX();
         int pz = id.getZ();
