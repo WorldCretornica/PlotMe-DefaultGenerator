@@ -5,7 +5,6 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
@@ -36,7 +35,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int posx = loc.getBlockX();
         int posz = loc.getBlockZ();
         int pathSize = wgc.getInt(PATH_WIDTH.key());
-        int size = wgc.getInt(PLOT_SIZE.key()) + pathSize;
+        int size = plotSize + pathSize;
 
         return internalgetPlotId(pathSize, size, posx, posz);
     }
@@ -59,7 +58,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         byte wallValue = BukkitBlockRepresentation.getBlockData(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
         int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(FILL_BLOCK.key(), "3"));
         byte fillValue = BukkitBlockRepresentation.getBlockData(wgc.getString(FILL_BLOCK.key(), "3"));
-        int plotSize = wgc.getInt(PLOT_SIZE.key());
 
         if (bottomPlot1.getBlockX() == bottomPlot2.getBlockX()) {
             minX = bottomPlot1.getBlockX();
@@ -198,7 +196,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int px = id.getX();
         int pz = id.getZ();
 
-        int plotSize = wgc.getInt(PLOT_SIZE.key());
         int pathWidth = wgc.getInt(PATH_WIDTH.key());
 
         int x = (px * (plotSize + pathWidth)) - (plotSize) - ((int) Math.floor(pathWidth / 2));
@@ -212,7 +209,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int px = id.getX();
         int pz = id.getZ();
 
-        int plotSize = wgc.getInt(PLOT_SIZE.key());
         int pathWidth = wgc.getInt(PATH_WIDTH.key());
 
         int x = px * (plotSize + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
