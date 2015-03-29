@@ -6,9 +6,7 @@ import com.worldcretornica.configuration.ConfigurationSection;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.PluginManager;
 
 public class DefaultGenerator extends BukkitAbstractGenerator {
 
@@ -18,20 +16,14 @@ public class DefaultGenerator extends BukkitAbstractGenerator {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(PlotMe_CorePlugin plotMeCorePlugin) {
         setupConfigs();
-
-        PluginManager pm = Bukkit.getPluginManager();
-        PlotMe_CorePlugin plotMe = (PlotMe_CorePlugin) pm.getPlugin("PlotMe");
-        if (plotMe != null) {
-            for (String worldName : mainWorldsSection.getKeys(false)) {
-                ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
-                plotMe.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(this, wgc)));
-            }
-            setSchematicUtil(plotMe.getAPI().getSchematicUtil());
-        } else {
-            getLogger().severe("The plugin cannot load properly because PlotMe was not found.");
+        for (String worldName : mainWorldsSection.getKeys(false)) {
+            ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName.toLowerCase());
+            plotMeCorePlugin.getAPI().addManager(worldName.toLowerCase(), new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(this, wgc)));
         }
+        setSchematicUtil(plotMeCorePlugin.getAPI().getSchematicUtil());
+
     }
 
     private void setupConfigs() {
