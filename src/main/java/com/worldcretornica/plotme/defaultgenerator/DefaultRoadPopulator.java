@@ -1,16 +1,13 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 
-import com.worldcretornica.configuration.ConfigurationSection;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
@@ -18,16 +15,19 @@ import java.util.Random;
 public class DefaultRoadPopulator extends BlockPopulator {
 
     private final ConfigurationSection wgc;
+    private final int plotSize;
+    private final int pathSize;
+    private final int roadHeight;
 
-    public DefaultRoadPopulator(ConfigurationSection wgc) {
+    public DefaultRoadPopulator(ConfigurationSection wgc, int plotSize, int pathSize, int roadHeight) {
         this.wgc = wgc;
+        this.plotSize = plotSize;
+        this.pathSize = pathSize;
+        this.roadHeight = roadHeight;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        int plotSize = wgc.getInt(PLOT_SIZE.key());
-        int pathSize = wgc.getInt(PATH_WIDTH.key());
-        int roadHeight = wgc.getInt(GROUND_LEVEL.key());
         byte wall = BukkitBlockRepresentation.getBlockData(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
         byte floorMain = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_MAIN_BLOCK.key(), "5"));
         byte floorAlt = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_ALT_BLOCK.key(), "5:2"));

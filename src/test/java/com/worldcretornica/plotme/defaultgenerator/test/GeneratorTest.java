@@ -14,7 +14,8 @@ public class GeneratorTest {
             for (int size = 1; size < 30; size++) {
                 for (int x = -50; x < 50; x++) {
                     for (int z = -50; z < 50; z++) {
-                        Assert.assertEquals(oldPlotId(road, size, x, z), BukkitAbstractGenManager.internalgetPlotId(road, size, x, z));
+                        Assert.assertEquals(oldPlotId(road, size, x, z),
+                                BukkitAbstractGenManager.internalgetPlotId(road, size, x, z, loc.getWorld()));
                     }
                 }
             }
@@ -52,7 +53,7 @@ public class GeneratorTest {
         if (road) {
             return null;
         } else {
-            return new PlotId(x, z);
+            return new PlotId(x, z, world);
         }
     }
 }

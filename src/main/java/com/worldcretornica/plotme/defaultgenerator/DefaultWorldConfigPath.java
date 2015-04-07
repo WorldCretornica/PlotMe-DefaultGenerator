@@ -15,7 +15,8 @@ public enum DefaultWorldConfigPath implements WorldConfigPath {
     WALL_BLOCK("WallBlock", "44"),
     PROTECTED_WALL_BLOCK("ProtectedWallBlock", "44:4"),
     FOR_SALE_WALL_BLOCK("ForSaleWallBlock", "44:1"),
-    UNCLAIMED_WALL("UnclaimedBorder", "44:7");
+    UNCLAIMED_WALL("UnclaimedBorder", "44:7"),
+    BIOME("BIOME", "PLAINS");
 
     private final String key;
     private final Object def;

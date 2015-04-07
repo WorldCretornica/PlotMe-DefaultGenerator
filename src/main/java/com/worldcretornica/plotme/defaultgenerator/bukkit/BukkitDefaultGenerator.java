@@ -1,14 +1,17 @@
-package com.worldcretornica.plotme.defaultgenerator;
+package com.worldcretornica.plotme.defaultgenerator.bukkit;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
 
-import com.worldcretornica.configuration.ConfigurationSection;
+import com.worldcretornica.plotme.defaultgenerator.DefaultChunkGenerator;
+import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
+import com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.ChunkGenerator;
 
-public class DefaultGenerator extends BukkitAbstractGenerator {
+public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {

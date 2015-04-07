@@ -1,15 +1,12 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_SIZE;
 
-import com.worldcretornica.configuration.ConfigurationSection;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
@@ -17,16 +14,19 @@ import java.util.Random;
 public class DefaultContentPopulator extends BlockPopulator {
 
     private final ConfigurationSection worldGenConfig;
+    private final int plotSize;
+    private final int pathSize;
+    private final int roadHeight;
 
-    public DefaultContentPopulator(ConfigurationSection worldGenConfig) {
+    public DefaultContentPopulator(ConfigurationSection worldGenConfig, int plotSize, int pathSize, int roadHeight) {
         this.worldGenConfig = worldGenConfig;
+        this.plotSize = plotSize;
+        this.pathSize = pathSize;
+        this.roadHeight = roadHeight;
     }
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        int plotSize = worldGenConfig.getInt(PLOT_SIZE.key());
-        int pathSize = worldGenConfig.getInt(PATH_WIDTH.key());
-        int roadHeight = worldGenConfig.getInt(GROUND_LEVEL.key());
         byte plotFloor = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(PLOT_FLOOR_BLOCK.key(), "2"));
         byte filling = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(FILL_BLOCK.key(), "3"));
 

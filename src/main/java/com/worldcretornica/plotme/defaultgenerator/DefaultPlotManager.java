@@ -8,7 +8,7 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
 import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
 
-import com.worldcretornica.configuration.ConfigurationSection;
+import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import com.worldcretornica.plotme_core.PlotId;
@@ -21,6 +21,7 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
-    public DefaultPlotManager(DefaultGenerator instance, ConfigurationSection wgc) {
+    public DefaultPlotManager(BukkitDefaultGenerator instance, ConfigurationSection wgc) {
         super(instance, wgc);
     }
 
@@ -39,7 +40,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int pathSize = wgc.getInt(PATH_WIDTH.key());
         int size = getPlotSize() + pathSize;
 
-        return internalgetPlotId(pathSize, size, posx, posz);
+        return internalgetPlotId(pathSize, size, posx, posz, loc.getWorld());
     }
 
     @SuppressWarnings("deprecation")
