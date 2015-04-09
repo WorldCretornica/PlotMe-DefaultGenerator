@@ -13,6 +13,8 @@ import static com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPa
 
 import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
+import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
+import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -38,13 +40,14 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     private short plotFloor;
     private short filling;
 
-    public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName) {
-        wgc = instance.getWGC(worldName);
-        blockPopulators.add(new DefaultRoadPopulator(wgc, plotSize, pathSize, roadHeight));
-        blockPopulators.add(new DefaultContentPopulator(wgc, plotSize, pathSize, roadHeight));
+    public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName, PlotMe_CorePlugin plotMePlugin) {
+        wgc = instance.createConfigSection(worldName.toLowerCase());
+        plotMePlugin.getAPI().addManager(worldName, new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(instance, wgc)));
         plotSize = wgc.getInt(PLOT_SIZE.key());
         pathSize = wgc.getInt(PATH_WIDTH.key());
         roadHeight = wgc.getInt(GROUND_LEVEL.key());
+        blockPopulators.add(new DefaultRoadPopulator(wgc, plotSize, pathSize, roadHeight));
+        blockPopulators.add(new DefaultContentPopulator(wgc, plotSize, pathSize, roadHeight));
         wall = BukkitBlockRepresentation.getBlockId(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
         floorMain = BukkitBlockRepresentation.getBlockId(wgc.getString(ROAD_MAIN_BLOCK.key(), "5"));
         floorAlt = BukkitBlockRepresentation.getBlockId(wgc.getString(ROAD_ALT_BLOCK.key(), "5:2"));

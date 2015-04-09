@@ -13,7 +13,6 @@ import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenMana
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import com.worldcretornica.plotme_core.PlotId;
 import com.worldcretornica.plotme_core.api.ILocation;
-import com.worldcretornica.plotme_core.api.IWorld;
 import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -45,12 +44,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillRoad(PlotId id1, PlotId id2, IWorld w) {
-        World world = ((BukkitWorld) w).getWorld();
-        Location bottomPlot1 = getPlotBottomLoc(w, id1);
-        Location topPlot1 = getPlotTopLoc(w, id1);
-        Location bottomPlot2 = getPlotBottomLoc(w, id2);
-        Location topPlot2 = getPlotTopLoc(w, id2);
+    public void fillRoad(PlotId id1, PlotId id2) {
+        World world = ((BukkitWorld) id1.getWorld()).getWorld();
+        ILocation bottomPlot1 = getPlotBottomLoc(id1);
+        ILocation topPlot1 = getPlotTopLoc(id1);
+        ILocation bottomPlot2 = getPlotBottomLoc(id2);
+        ILocation topPlot2 = getPlotTopLoc(id2);
 
         int minX;
         int maxX;
@@ -108,12 +107,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void fillMiddleRoad(PlotId id1, PlotId id2, IWorld w) {
-        World world = ((BukkitWorld) w).getWorld();
-        Location bottomPlot1 = getPlotBottomLoc(w, id1);
-        Location topPlot1 = getPlotTopLoc(w, id1);
-        Location bottomPlot2 = getPlotBottomLoc(w, id2);
-        Location topPlot2 = getPlotTopLoc(w, id2);
+    public void fillMiddleRoad(PlotId id1, PlotId id2) {
+        World world = ((BukkitWorld) id1.getWorld()).getWorld();
+        ILocation bottomPlot1 = getPlotBottomLoc(id1);
+        ILocation topPlot1 = getPlotTopLoc(id1);
+        ILocation bottomPlot2 = getPlotBottomLoc(id2);
+        ILocation topPlot2 = getPlotTopLoc(id2);
 
         int height = getGroundHeight();
         int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(PLOT_FLOOR_BLOCK.key()));
@@ -138,8 +137,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void setOwnerDisplay(IWorld world, PlotId id, String line1, String line2, String line3, String line4) {
-        Location pillar = new Location(((BukkitWorld) world).getWorld(), bottomX(id, world) - 1, getGroundHeight() + 1, bottomZ(id, world) - 1);
+    public void setOwnerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
+        Location pillar = new Location(((BukkitWorld) id.getWorld()).getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
         Block bsign = pillar.clone().add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR, false);
         bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 2, false);
@@ -156,10 +155,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setSellerDisplay(IWorld world, PlotId id, String line1, String line2, String line3, String line4) {
-        removeSellerDisplay(world, id);
+    public void setSellerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
+        removeSellerDisplay(id);
 
-        Location pillar = new Location(((BukkitWorld) world).getWorld(), bottomX(id, world) - 1, getGroundHeight() + 1, bottomZ(id, world) - 1);
+        Location pillar = new Location(((BukkitWorld) id.getWorld()).getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
 
         Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
@@ -176,9 +175,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeOwnerDisplay(IWorld w, PlotId id) {
-        World world = ((BukkitWorld) w).getWorld();
-        Location bottom = getPlotBottomLoc(w, id);
+    public void removeOwnerDisplay(PlotId id) {
+        World world = ((BukkitWorld) id.getWorld()).getWorld();
+        ILocation bottom = getPlotBottomLoc(id);
 
         Location pillar = new Location(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
@@ -187,18 +186,18 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void removeSellerDisplay(IWorld world, PlotId id) {
-        Location bottom = getPlotBottomLoc(world, id);
+    public void removeSellerDisplay(PlotId id) {
+        ILocation bottom = getPlotBottomLoc(id);
 
-        Location pillar = new Location(((BukkitWorld) world).getWorld(), bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
+        World w = ((BukkitWorld) id.getWorld()).getWorld();
+        Location pillar = new Location(w, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
         Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
 
     }
-
     @Override
-    public Location getPlotBottomLoc(IWorld world, PlotId id) {
+    public ILocation getPlotBottomLoc(PlotId id) {
         int px = id.getX();
         int pz = id.getZ();
 
@@ -207,11 +206,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int x = (px * (getPlotSize() + pathWidth)) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
         int z = pz * (getPlotSize() + pathWidth) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
 
-        return new Location(((BukkitWorld) world).getWorld(), x, 0, z);
+        return new ILocation(id.getWorld(), x, 0, z);
     }
 
     @Override
-    public Location getPlotTopLoc(IWorld world, PlotId id) {
+    public ILocation getPlotTopLoc(PlotId id) {
         int px = id.getX();
         int pz = id.getZ();
 
@@ -220,7 +219,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int x = px * (getPlotSize() + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
         int z = pz * (getPlotSize() + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
 
-        return new Location(((BukkitWorld) world).getWorld(), x, 256, z);
+        return new ILocation(id.getWorld(), x, 256, z);
     }
 
     @Override
@@ -238,7 +237,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         long nbBlockClearedBefore = 0;
 
-        World world = ((BukkitWorld) bottom).getWorld();
+        World world = ((BukkitWorld) bottom.getWorld()).getWorld();
 
         if (start == null) {
             bottomX = bottom.getBlockX();
@@ -297,14 +296,14 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
             bottomZ = bottom.getBlockZ();
         }
 
-        refreshPlotChunks(bottom.getWorld(), getPlotId(bottom));
+        refreshPlotChunks(getPlotId(bottom));
         return null;
     }
 
     @Override
-    public void adjustPlotFor(IWorld w, PlotId id, boolean claimed, boolean protect, boolean forSale) {
+    public void adjustPlotFor(PlotId id, boolean claimed, boolean protect, boolean forSale) {
         List<String> wallIds = new ArrayList<>();
-        World world = ((BukkitWorld) w).getWorld();
+        World world = ((BukkitWorld) id.getWorld()).getWorld();
         int roadHeight = getGroundHeight();
 
         String claimedId = wgc.getString(WALL_BLOCK.key());
@@ -327,8 +326,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int ctr = 0;
 
-        Location bottom = getPlotBottomLoc(w, id);
-        Location top = getPlotTopLoc(w, id);
+        ILocation bottom = getPlotBottomLoc(id);
+        ILocation top = getPlotTopLoc(id);
 
         int x;
         int z;
@@ -385,23 +384,23 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public Location getPlotHome(IWorld world, PlotId id) {
-        Location bottom = getPlotBottomLoc(world, id);
-        Location top = getPlotTopLoc(world, id);
-        return new Location(((BukkitWorld) world).getWorld(), (top.getX() + bottom.getX() + 1) / 2, getGroundHeight() + 2,
+    public ILocation getPlotHome(PlotId id) {
+        ILocation bottom = getPlotBottomLoc(id);
+        ILocation top = getPlotTopLoc(id);
+        return new ILocation(id.getWorld(), (top.getX() + bottom.getX() + 1) / 2, getGroundHeight() + 2,
                 (top.getZ() + bottom.getZ() + 1) / 2);
     }
 
     @Override
-    public Location getPlotMiddle(IWorld world, PlotId id) {
-        Location bottom = getPlotBottomLoc(world, id);
-        Location top = getPlotTopLoc(world, id);
+    public ILocation getPlotMiddle(PlotId id) {
+        ILocation bottom = getPlotBottomLoc(id);
+        ILocation top = getPlotTopLoc(id);
 
         double x = (top.getX() + bottom.getX() + 1) / 2;
         double y = getGroundHeight() + 1;
         double z = (top.getZ() + bottom.getZ() + 1) / 2;
 
 
-        return new Location(((BukkitWorld) world).getWorld(), x, y, z);
+        return new ILocation(id.getWorld(), x, y, z);
     }
 }

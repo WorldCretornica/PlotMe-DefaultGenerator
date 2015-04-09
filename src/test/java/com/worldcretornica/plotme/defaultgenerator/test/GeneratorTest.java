@@ -1,12 +1,8 @@
 package com.worldcretornica.plotme.defaultgenerator.test;
 
-import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
-import com.worldcretornica.plotme_core.PlotId;
-import org.junit.Assert;
-import org.junit.Test;
-
 public class GeneratorTest {
 
+/*
     @Test
     public void testGetPlotID() {
 
@@ -56,4 +52,5 @@ public class GeneratorTest {
             return new PlotId(x, z, world);
         }
     }
+*/
 }
