@@ -12,13 +12,13 @@ import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import com.worldcretornica.plotme_core.PlotId;
+import com.worldcretornica.plotme_core.api.IBlock;
 import com.worldcretornica.plotme_core.api.ILocation;
+import com.worldcretornica.plotme_core.api.IWorld;
 import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.InventoryHolder;
@@ -45,7 +45,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @SuppressWarnings("deprecation")
     @Override
     public void fillRoad(PlotId id1, PlotId id2) {
-        World world = ((BukkitWorld) id1.getWorld()).getWorld();
+        IWorld world = id1.getWorld();
         ILocation bottomPlot1 = getPlotBottomLoc(id1);
         ILocation topPlot1 = getPlotTopLoc(id1);
         ILocation bottomPlot2 = getPlotBottomLoc(id2);
@@ -88,17 +88,17 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = h; y < 255; y++) {
+                for (int y = h; y < 256; y++) {
                     if (y >= (h + 2)) {
                         world.getBlockAt(x, y, z).setType(Material.AIR, false);
                     } else if (y == (h + 1)) {
                         if (isWallX && (x == minX || x == maxX) || !isWallX && (z == minZ || z == maxZ)) {
-                            world.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, false);
+                            world.getBlockAt(x, y, z).setTypeIdAndData((short) wallId, wallValue, false);
                         } else {
                             world.getBlockAt(x, y, z).setType(Material.AIR, false);
                         }
                     } else {
-                        world.getBlockAt(x, y, z).setTypeIdAndData(fillId, fillValue, false);
+                        world.getBlockAt(x, y, z).setTypeIdAndData((short) fillId, fillValue, false);
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = height; y < 255; y++) {
+                for (int y = height; y < 256; y++) {
                     if (y >= (height + 1)) {
                         world.getBlockAt(x, y, z).setType(Material.AIR, false);
                     } else {
@@ -138,10 +138,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @Override
     public void setOwnerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
-        Location pillar = new Location(((BukkitWorld) id.getWorld()).getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
-        Block bsign = pillar.clone().add(0, 0, -1).getBlock();
+        ILocation pillar = new ILocation(id.getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
+        IBlock bsign = pillar.add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR, false);
-        bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 2, false);
+        bsign.setTypeIdAndData((short) Material.WALL_SIGN.getId(), (byte) 2, false);
 
         Sign sign = (Sign) bsign.getState();
 
@@ -158,11 +158,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void setSellerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(id);
 
-        Location pillar = new Location(((BukkitWorld) id.getWorld()).getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
+        ILocation pillar = new ILocation(id.getWorld(), bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
 
-        Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
+        IBlock bsign = pillar.add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
-        bsign.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) 4, false);
+        bsign.setTypeIdAndData((short) Material.WALL_SIGN.getId(), (byte) 4, false);
 
         Sign sign = (Sign) bsign.getState();
 
@@ -176,12 +176,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @Override
     public void removeOwnerDisplay(PlotId id) {
-        World world = ((BukkitWorld) id.getWorld()).getWorld();
+        IWorld world = id.getWorld();
         ILocation bottom = getPlotBottomLoc(id);
 
-        Location pillar = new Location(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
+        ILocation pillar = new ILocation(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
-        Block bsign = pillar.add(0, 0, -1).getBlock();
+        IBlock bsign = pillar.add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR, false);
     }
 
@@ -189,10 +189,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void removeSellerDisplay(PlotId id) {
         ILocation bottom = getPlotBottomLoc(id);
 
-        World w = ((BukkitWorld) id.getWorld()).getWorld();
-        Location pillar = new Location(w, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
+        IWorld w = id.getWorld();
+        ILocation pillar = new ILocation(w, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
-        Block bsign = pillar.clone().add(-1, 0, 0).getBlock();
+        IBlock bsign = pillar.add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
 
     }
@@ -237,7 +237,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         long nbBlockClearedBefore = 0;
 
-        World world = ((BukkitWorld) bottom.getWorld()).getWorld();
+        IWorld world = bottom.getWorld();
 
         if (start == null) {
             bottomX = bottom.getBlockX();
@@ -251,13 +251,13 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         long nbBlockCleared = 0;
         for (int x = bottomX; x <= topX; x++) {
             for (int z = bottomZ; z <= topZ; z++) {
-                Block block = world.getBlockAt(x, 0, z);
+                IBlock block = world.getBlockAt(x, 0, z);
                 if (!block.getType().equals(Material.BEDROCK)) {
                     block.setType(Material.BEDROCK, false);
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 1; y < 255; y++) {
+                for (int y = 1; y < 256; y++) {
                     block = world.getBlockAt(x, y, z);
 
                     if (block.getType() == Material.BEACON
@@ -282,7 +282,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                             block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), false);
                         }
                     } else if ((y != roadHeight + 1 || x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)
-                            && block.getType() != Material.AIR) {
+                            && !block.getType().equals(Material.AIR)) {
                         block.setType(Material.AIR, false);
                     }
 
@@ -303,7 +303,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @Override
     public void adjustPlotFor(PlotId id, boolean claimed, boolean protect, boolean forSale) {
         List<String> wallIds = new ArrayList<>();
-        World world = ((BukkitWorld) id.getWorld()).getWorld();
+        IWorld world = id.getWorld();
         int roadHeight = getGroundHeight();
 
         String claimedId = wgc.getString(WALL_BLOCK.key());
@@ -333,7 +333,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int z;
 
         String currentBlockId;
-        Block block;
+        IBlock block;
 
         for (x = bottom.getBlockX() - 1; x < top.getBlockX() + 1; x++) {
             if (ctr == wallIds.size() - 1) {
@@ -378,7 +378,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @SuppressWarnings("deprecation")
-    private void setWall(Block block, String currentBlockId) {
+    private void setWall(IBlock block, String currentBlockId) {
         BukkitBlockRepresentation blockRep = new BukkitBlockRepresentation(currentBlockId);
         block.setTypeIdAndData(blockRep.getId(), blockRep.getData(), false);
     }

@@ -6,7 +6,6 @@ import com.worldcretornica.plotme.defaultgenerator.DefaultChunkGenerator;
 import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
 import com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
-import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.ChunkGenerator;
@@ -24,7 +23,7 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
         assert mainWorldsSection != null;
         for (String worldName : mainWorldsSection.getKeys(false)) {
             ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName);
-            plotMeCorePlugin.getAPI().addManager(worldName, new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(this, wgc)));
+            plotMeCorePlugin.getAPI().addManager(worldName, new DefaultPlotManager(this, wgc));
         }
         setSchematicUtil(plotMeCorePlugin.getAPI().getSchematicUtil());
 

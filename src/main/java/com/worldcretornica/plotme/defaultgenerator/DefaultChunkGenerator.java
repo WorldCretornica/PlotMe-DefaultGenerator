@@ -13,7 +13,6 @@ import static com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPa
 
 import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
-import com.worldcretornica.plotme_core.bukkit.BukkitPlotMe_GeneratorManagerBridge;
 import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -42,7 +41,6 @@ public class DefaultChunkGenerator extends ChunkGenerator {
 
     public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName, PlotMe_CorePlugin plotMePlugin) {
         wgc = instance.createConfigSection(worldName.toLowerCase());
-        plotMePlugin.getAPI().addManager(worldName, new BukkitPlotMe_GeneratorManagerBridge(new DefaultPlotManager(instance, wgc)));
         plotSize = wgc.getInt(PLOT_SIZE.key());
         pathSize = wgc.getInt(PATH_WIDTH.key());
         roadHeight = wgc.getInt(GROUND_LEVEL.key());
