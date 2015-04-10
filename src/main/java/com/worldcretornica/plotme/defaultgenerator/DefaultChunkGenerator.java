@@ -30,14 +30,14 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     private final List<BlockPopulator> blockPopulators = new ArrayList<>();
     private final ConfigurationSection wgc;
 
-    private int plotSize;
-    private int pathSize;
-    private int roadHeight;
-    private short wall;
-    private short floorMain;
-    private short floorAlt;
-    private short plotFloor;
-    private short filling;
+    private final int plotSize;
+    private final int pathSize;
+    private final int roadHeight;
+    private final short wall;
+    private final short floorMain;
+    private final short floorAlt;
+    private final short plotFloor;
+    private final short filling;
 
     public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName, PlotMe_CorePlugin plotMePlugin) {
         wgc = instance.createConfigSection(worldName.toLowerCase());

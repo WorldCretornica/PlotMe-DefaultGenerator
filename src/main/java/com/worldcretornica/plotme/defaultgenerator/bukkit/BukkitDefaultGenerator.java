@@ -61,6 +61,7 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
     public ConfigurationSection createConfigSection(String worldName) {
         String wLower = worldName.toLowerCase();
         ConfigurationSection wgc;
+        assert mainWorldsSection != null;
         if (mainWorldsSection.contains(wLower)) {
             wgc = mainWorldsSection.getConfigurationSection(wLower);
         } else {
