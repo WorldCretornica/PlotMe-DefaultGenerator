@@ -225,7 +225,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @Override
     public Long[] clear(ILocation bottom, ILocation top, long maxBlocks, Long[] start) {
         clearEntities(bottom, top);
-
         int roadHeight = getGroundHeight();
         BukkitBlockRepresentation fillBlock = new BukkitBlockRepresentation(wgc.getString(FILL_BLOCK.key()));
         BukkitBlockRepresentation floorBlock = new BukkitBlockRepresentation(wgc.getString(PLOT_FLOOR_BLOCK.key()));
