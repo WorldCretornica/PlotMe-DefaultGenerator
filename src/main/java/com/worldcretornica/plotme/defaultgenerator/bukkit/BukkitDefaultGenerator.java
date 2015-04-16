@@ -6,27 +6,28 @@ import com.worldcretornica.plotme.defaultgenerator.DefaultChunkGenerator;
 import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
 import com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
-import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.ChunkGenerator;
+import org.mcstats.Metrics;
+
+import java.io.IOException;
 
 public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-        return new DefaultChunkGenerator(this, worldName.toLowerCase(), plotMePlugin);
+        return new DefaultChunkGenerator(this, worldName.toLowerCase());
     }
 
     @Override
-    public void initialize(PlotMe_CorePlugin plotMeCorePlugin) {
+    public void initialize() {
         setupConfigs();
+        setupMetrics();
         assert mainWorldsSection != null;
         for (String worldName : mainWorldsSection.getKeys(false)) {
             ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName);
-            plotMeCorePlugin.getAPI().addManager(worldName, new DefaultPlotManager(this, wgc));
+            plotMePlugin.getAPI().addManager(worldName, new DefaultPlotManager(this, wgc));
         }
-        setSchematicUtil(plotMeCorePlugin.getAPI().getSchematicUtil());
-
     }
 
     private void setupConfigs() {
@@ -74,4 +75,11 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
         return wgc;
     }
 
+    private void setupMetrics() {
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException ignored) {
+        }
+    }
 }

@@ -13,7 +13,6 @@ import static com.worldcretornica.plotme_abstractgenerator.AbstractWorldConfigPa
 
 import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
-import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -39,7 +38,7 @@ public class DefaultChunkGenerator extends ChunkGenerator {
     private final short plotFloor;
     private final short filling;
 
-    public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName, PlotMe_CorePlugin plotMePlugin) {
+    public DefaultChunkGenerator(BukkitDefaultGenerator instance, String worldName) {
         wgc = instance.createConfigSection(worldName.toLowerCase());
         plotSize = wgc.getInt(PLOT_SIZE.key());
         pathSize = wgc.getInt(PATH_WIDTH.key());
