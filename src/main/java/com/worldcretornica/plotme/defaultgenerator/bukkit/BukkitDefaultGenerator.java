@@ -6,6 +6,8 @@ import com.worldcretornica.plotme.defaultgenerator.DefaultChunkGenerator;
 import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
 import com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
+import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.generator.ChunkGenerator;
 import org.mcstats.Metrics;
@@ -23,10 +25,22 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
     public void initialize() {
         setupConfigs();
         setupMetrics();
-        assert mainWorldsSection != null;
-        for (String worldName : mainWorldsSection.getKeys(false)) {
+    }
+
+    @Override
+    protected void worldLoadEvent(World world) {
+        if (world.getGenerator() instanceof DefaultChunkGenerator) {
+            getLogger().info(world.getName() + " was found using the generator.");
+            getLogger().info("Sending data to PlotMe-Core");
+            String worldName = world.getName().toLowerCase();
+            getLogger().info("Looking for " + worldName + " in the config file.");
+            assert mainWorldsSection != null;
             ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName);
-            plotMePlugin.getAPI().addManager(worldName, new DefaultPlotManager(this, wgc));
+            if (wgc == null) {
+                getLogger().severe(worldName + " was not found in the config file!");
+
+            }
+            plotMePlugin.getAPI().addManager(new BukkitWorld(world), new DefaultPlotManager(this, wgc, new BukkitWorld(world)));
         }
     }
 

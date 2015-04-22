@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class DefaultChunkGenerator extends ChunkGenerator {
 
-    private final List<BlockPopulator> blockPopulators = new ArrayList<>();
+    private final List<BlockPopulator> blockPopulators = new ArrayList<>(2);
     private final ConfigurationSection wgc;
 
     private final int plotSize;
@@ -82,11 +82,11 @@ public class DefaultChunkGenerator extends ChunkGenerator {
         int mod1 = 1;
         short[][] result = new short[16][];
         for (int x = 0; x < 16; x++) {
-            int valx = (cx * 16) + x;
+            int valx = (cx << 4) + x;
 
             for (int z = 0; z < 16; z++) {
                 int height = roadHeight + 2;
-                int valz = (cz * 16) + z;
+                int valz = (cz << 4) + z;
 
                 setBlock(result, x, 0, z, (short) 7);
                 biomes.setBiome(x, z, Biome.PLAINS);
@@ -208,6 +208,6 @@ public class DefaultChunkGenerator extends ChunkGenerator {
         if (result[y >> 4] == null) {
             result[y >> 4] = new short[4096];
         }
-        result[y >> 4][(y & 0xF) * 256 | (z << 4) | x] = blockId;
+        result[y >> 4][(y & 0xF) << 8 | (z << 4) | x] = blockId;
     }
 }
