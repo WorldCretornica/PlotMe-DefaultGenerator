@@ -11,6 +11,7 @@ import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath
 import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
+import com.worldcretornica.plotme_core.Plot;
 import com.worldcretornica.plotme_core.PlotId;
 import com.worldcretornica.plotme_core.api.IBlock;
 import com.worldcretornica.plotme_core.api.ILocation;
@@ -251,7 +252,6 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
                 for (int y = 1; y < 256; y++) {
                     block = world.getBlockAt(x, y, z);
-
                     if (block.getType() == Material.BEACON
                             || block.getType() == Material.CHEST
                             || block.getType() == Material.BREWING_STAND
@@ -293,7 +293,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public void adjustPlotFor(PlotId id, boolean claimed, boolean protect, boolean forSale) {
+    public void adjustPlotFor(Plot plot, boolean claimed, boolean protect, boolean forSale) {
         List<String> wallIds = new ArrayList<>();
         int roadHeight = getGroundHeight();
 
@@ -317,8 +317,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int ctr = 0;
 
-        Vector bottom = getPlotBottomLoc(id);
-        Vector top = getPlotTopLoc(id);
+        Vector bottom = getPlotBottomLoc(plot.getId());
+        Vector top = getPlotTopLoc(plot.getId());
 
         int x;
         int z;
