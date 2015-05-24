@@ -250,7 +250,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                 }
                 block.setBiome(Biome.PLAINS);
 
-                for (int y = 1; y < 256; y++) {
+                for (int y = 1; y < 255; y++) {
                     block = world.getBlockAt(x, y, z);
                     if (block.getType() == Material.BEACON
                             || block.getType() == Material.CHEST

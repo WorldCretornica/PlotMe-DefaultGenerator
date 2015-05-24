@@ -81,11 +81,11 @@ public class DefaultChunkGenerator extends ChunkGenerator {
 
         int mod1 = 1;
         short[][] result = new short[16][];
+        int height = roadHeight + 2;
         for (int x = 0; x < 16; x++) {
             int valx = (cx << 4) + x;
 
             for (int z = 0; z < 16; z++) {
-                int height = roadHeight + 2;
                 int valz = (cz << 4) + z;
 
                 setBlock(result, x, 0, z, (short) 7);
