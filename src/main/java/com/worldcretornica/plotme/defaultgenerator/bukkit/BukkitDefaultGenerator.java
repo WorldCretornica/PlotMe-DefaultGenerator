@@ -38,9 +38,11 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
             ConfigurationSection wgc = mainWorldsSection.getConfigurationSection(worldName);
             if (wgc == null) {
                 getLogger().severe(worldName + " was not found in the config file!");
-
+                getLogger().severe("Did you remember to modify your configuration file?");
+                getLogger().severe("Please review the setup instructions at http://plotme.worldcretornica.com");
             }
-            plotMePlugin.getAPI().addManager(new BukkitWorld(world), new DefaultPlotManager(this, wgc, new BukkitWorld(world)));
+            BukkitWorld world1 = new BukkitWorld(world);
+            plotMePlugin.getAPI().addManager(world1, new DefaultPlotManager(this, wgc, world1));
         }
     }
 
