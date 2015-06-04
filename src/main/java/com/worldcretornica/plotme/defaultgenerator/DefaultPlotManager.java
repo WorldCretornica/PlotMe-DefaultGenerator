@@ -14,8 +14,8 @@ import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresenta
 import com.worldcretornica.plotme_core.Plot;
 import com.worldcretornica.plotme_core.PlotId;
 import com.worldcretornica.plotme_core.api.IBlock;
-import com.worldcretornica.plotme_core.api.ILocation;
 import com.worldcretornica.plotme_core.api.IWorld;
+import com.worldcretornica.plotme_core.api.Location;
 import com.worldcretornica.plotme_core.api.Vector;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -136,7 +136,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @Override
     public void setOwnerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
-        ILocation pillar = new ILocation(world, bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
+        Location pillar = new Location(world, bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
         IBlock bsign = pillar.add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR, false);
         bsign.setTypeIdAndData((short) Material.WALL_SIGN.getId(), (byte) 2, false);
@@ -156,7 +156,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void setSellerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
         removeSellerDisplay(id);
 
-        ILocation pillar = new ILocation(world, bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
+        Location pillar = new Location(world, bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
 
         IBlock bsign = pillar.add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
@@ -176,7 +176,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void removeOwnerDisplay(PlotId id) {
         Vector bottom = getPlotBottomLoc(id);
 
-        ILocation pillar = new ILocation(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
+        Location pillar = new Location(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
         IBlock bsign = pillar.add(0, 0, -1).getBlock();
         bsign.setType(Material.AIR, false);
@@ -186,7 +186,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public void removeSellerDisplay(PlotId id) {
         Vector bottom = getPlotBottomLoc(id);
 
-        ILocation pillar = new ILocation(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
+        Location pillar = new Location(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
 
         IBlock bsign = pillar.add(-1, 0, 0).getBlock();
         bsign.setType(Material.AIR, false);
@@ -375,10 +375,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public ILocation getPlotHome(PlotId id) {
+    public Location getPlotHome(PlotId id) {
         Vector bottom = getPlotBottomLoc(id);
         Vector top = getPlotTopLoc(id);
-        return new ILocation(world, (top.getX() + bottom.getX() + 1) / 2, getGroundHeight() + 2,
+        return new Location(world, (top.getX() + bottom.getX() + 1) / 2, getGroundHeight() + 2,
                 (top.getZ() + bottom.getZ() + 1) / 2);
     }
 
