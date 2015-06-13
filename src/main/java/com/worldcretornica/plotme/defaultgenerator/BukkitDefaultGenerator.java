@@ -1,10 +1,5 @@
-package com.worldcretornica.plotme.defaultgenerator.bukkit;
+package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.GROUND_LEVEL;
-
-import com.worldcretornica.plotme.defaultgenerator.DefaultChunkGenerator;
-import com.worldcretornica.plotme.defaultgenerator.DefaultPlotManager;
-import com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenerator;
 import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
 import org.bukkit.World;
@@ -66,9 +61,9 @@ public class BukkitDefaultGenerator extends BukkitAbstractGenerator {
 
             saveConfigFile();
             // Validate config
-            if (wgc.getInt(GROUND_LEVEL.key()) > 250 || wgc.getInt(GROUND_LEVEL.key()) < 1) {
+            if (wgc.getInt(DefaultWorldConfigPath.GROUND_LEVEL.key()) > 250 || wgc.getInt(DefaultWorldConfigPath.GROUND_LEVEL.key()) < 1) {
                 getLogger().severe("Unsafe RoadHeight. Resetting to 64");
-                wgc.set(GROUND_LEVEL.key(), 64);
+                wgc.set(DefaultWorldConfigPath.GROUND_LEVEL.key(), 64);
             }
             super.putWGC(worldName.toLowerCase(), wgc);
         }

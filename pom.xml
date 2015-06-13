@@ -8,7 +8,7 @@
     <name>PlotMe-DefaultGenerator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <main.class>com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator</main.class>
+        <main.class>com.worldcretornica.plotme.defaultgenerator.BukkitDefaultGenerator</main.class>
     </properties>
     <build>
         <defaultGoal>clean package install</defaultGoal>
@@ -72,6 +72,26 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

@@ -1,14 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PATH_WIDTH;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PROTECTED_WALL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.WALL_BLOCK;
-
-import com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGenerator;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitAbstractGenManager;
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import com.worldcretornica.plotme_core.Plot;
@@ -36,7 +27,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public PlotId getPlotId(Vector loc) {
         int posx = loc.getBlockX();
         int posz = loc.getBlockZ();
-        int pathSize = wgc.getInt(PATH_WIDTH.key());
+        int pathSize = wgc.getInt(DefaultWorldConfigPath.PATH_WIDTH.key());
         int size = getPlotSize() + pathSize;
 
         return internalgetPlotId(pathSize, size, posx, posz);
@@ -56,10 +47,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int maxZ;
 
         int h = getGroundHeight();
-        int wallId = BukkitBlockRepresentation.getBlockId(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
-        byte wallValue = BukkitBlockRepresentation.getBlockData(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
-        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(FILL_BLOCK.key(), "3"));
-        byte fillValue = BukkitBlockRepresentation.getBlockData(wgc.getString(FILL_BLOCK.key(), "3"));
+        int wallId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
+        byte wallValue = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
+        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
+        byte fillValue = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
 
         if (bottomPlot1.getBlockX() == bottomPlot2.getBlockX()) {
             minX = bottomPlot1.getBlockX();
@@ -113,7 +104,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         Vector topPlot2 = getPlotTopLoc(id2);
 
         int height = getGroundHeight();
-        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(PLOT_FLOOR_BLOCK.key()));
+        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key()));
 
         int minX = Math.min(topPlot1.getBlockX(), topPlot2.getBlockX());
         int maxX = Math.max(bottomPlot1.getBlockX(), bottomPlot2.getBlockX());
@@ -197,7 +188,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int px = id.getX();
         int pz = id.getZ();
 
-        int pathWidth = wgc.getInt(PATH_WIDTH.key());
+        int pathWidth = wgc.getInt(DefaultWorldConfigPath.PATH_WIDTH.key());
 
         int x = (px * (getPlotSize() + pathWidth)) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
         int z = pz * (getPlotSize() + pathWidth) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
@@ -210,7 +201,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int px = id.getX();
         int pz = id.getZ();
 
-        int pathWidth = wgc.getInt(PATH_WIDTH.key());
+        int pathWidth = wgc.getInt(DefaultWorldConfigPath.PATH_WIDTH.key());
 
         int x = px * (getPlotSize() + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
         int z = pz * (getPlotSize() + pathWidth) - ((int) Math.floor(pathWidth / 2)) - 1;
@@ -222,8 +213,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public long[] clear(Vector bottom, Vector top, long maxBlocks, long[] start) {
         clearEntities(bottom, top);
         int roadHeight = getGroundHeight();
-        BukkitBlockRepresentation fillBlock = new BukkitBlockRepresentation(wgc.getString(FILL_BLOCK.key()));
-        BukkitBlockRepresentation floorBlock = new BukkitBlockRepresentation(wgc.getString(PLOT_FLOOR_BLOCK.key()));
+        BukkitBlockRepresentation fillBlock = new BukkitBlockRepresentation(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key()));
+        BukkitBlockRepresentation floorBlock = new BukkitBlockRepresentation(wgc.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key()));
 
         int bottomX;
         int topX = top.getBlockX();
@@ -297,10 +288,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         List<String> wallIds = new ArrayList<>();
         int roadHeight = getGroundHeight();
 
-        String claimedId = wgc.getString(WALL_BLOCK.key());
-        String wallId = wgc.getString(UNCLAIMED_WALL.key());
-        String protectedWallId = wgc.getString(PROTECTED_WALL_BLOCK.key());
-        String forsaleWallId = wgc.getString(FOR_SALE_WALL_BLOCK.key());
+        String claimedId = wgc.getString(DefaultWorldConfigPath.WALL_BLOCK.key());
+        String wallId = wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key());
+        String protectedWallId = wgc.getString(DefaultWorldConfigPath.PROTECTED_WALL_BLOCK.key());
+        String forsaleWallId = wgc.getString(DefaultWorldConfigPath.FOR_SALE_WALL_BLOCK.key());
 
         if (protect) {
             wallIds.add(protectedWallId);

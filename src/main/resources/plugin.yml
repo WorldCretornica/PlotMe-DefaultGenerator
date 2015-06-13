@@ -1,5 +1,5 @@
 name: PlotMe-DefaultGenerator
-main: com.worldcretornica.plotme.defaultgenerator.bukkit.BukkitDefaultGeneratorerator
+main: com.worldcretornica.plotme.defaultgenerator.BukkitDefaultGenerator
 version: 0.17
 authors: [ZachBora, MattBDev]
 load: STARTUP

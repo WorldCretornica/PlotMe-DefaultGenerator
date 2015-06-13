@@ -1,9 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_ALT_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.ROAD_MAIN_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.UNCLAIMED_WALL;
-
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -28,9 +24,9 @@ public class DefaultRoadPopulator extends BlockPopulator {
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        byte wall = BukkitBlockRepresentation.getBlockData(wgc.getString(UNCLAIMED_WALL.key(), "44:7"));
-        byte floorMain = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_MAIN_BLOCK.key(), "5"));
-        byte floorAlt = BukkitBlockRepresentation.getBlockData(wgc.getString(ROAD_ALT_BLOCK.key(), "5:2"));
+        byte wall = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
+        byte floorMain = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.ROAD_MAIN_BLOCK.key(), "5"));
+        byte floorAlt = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.ROAD_ALT_BLOCK.key(), "5:2"));
 
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;

@@ -1,8 +1,5 @@
 package com.worldcretornica.plotme.defaultgenerator;
 
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.FILL_BLOCK;
-import static com.worldcretornica.plotme.defaultgenerator.DefaultWorldConfigPath.PLOT_FLOOR_BLOCK;
-
 import com.worldcretornica.plotme_abstractgenerator.bukkit.BukkitBlockRepresentation;
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -27,8 +24,8 @@ public class DefaultContentPopulator extends BlockPopulator {
 
     @Override
     public void populate(World world, Random rand, Chunk chunk) {
-        byte plotFloor = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(PLOT_FLOOR_BLOCK.key(), "2"));
-        byte filling = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(FILL_BLOCK.key(), "3"));
+        byte plotFloor = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key(), "2"));
+        byte filling = BukkitBlockRepresentation.getBlockData(worldGenConfig.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
 
         int xx = chunk.getX() << 4;
         int zz = chunk.getZ() << 4;
