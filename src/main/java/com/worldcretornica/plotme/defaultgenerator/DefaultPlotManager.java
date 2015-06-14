@@ -47,9 +47,9 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         int maxZ;
 
         int h = getGroundHeight();
-        int wallId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
+        short wallId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
         byte wallValue = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.UNCLAIMED_WALL.key(), "44:7"));
-        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
+        short fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
         byte fillValue = BukkitBlockRepresentation.getBlockData(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key(), "3"));
 
         if (bottomPlot1.getBlockX() == bottomPlot2.getBlockX()) {
@@ -83,12 +83,12 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                         world.getBlockAt(x, y, z).setType(Material.AIR, false);
                     } else if (y == (h + 1)) {
                         if (isWallX && (x == minX || x == maxX) || !isWallX && (z == minZ || z == maxZ)) {
-                            world.getBlockAt(x, y, z).setTypeIdAndData((short) wallId, wallValue, false);
+                            world.getBlockAt(x, y, z).setTypeIdAndData(wallId, wallValue, false);
                         } else {
                             world.getBlockAt(x, y, z).setType(Material.AIR, false);
                         }
                     } else {
-                        world.getBlockAt(x, y, z).setTypeIdAndData((short) fillId, fillValue, false);
+                        world.getBlockAt(x, y, z).setTypeIdAndData(fillId, fillValue, false);
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         Vector topPlot2 = getPlotTopLoc(id2);
 
         int height = getGroundHeight();
-        int fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key()));
+        short fillId = BukkitBlockRepresentation.getBlockId(wgc.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key()));
 
         int minX = Math.min(topPlot1.getBlockX(), topPlot2.getBlockX());
         int maxX = Math.max(bottomPlot1.getBlockX(), bottomPlot2.getBlockX());
