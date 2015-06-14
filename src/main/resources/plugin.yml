@@ -4,6 +4,6 @@ version: 0.17
 authors: [ZachBora, MattBDev]
 load: STARTUP
 loadbefore: [Multiverse-Core, MultiWorld]
-softdepend: [PlotMe]
+depend: [PlotMe]
 description: >
              Handles plot creation
