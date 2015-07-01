@@ -243,15 +243,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
                 for (int y = 1; y < 255; y++) {
                     block = world.getBlockAt(x, y, z);
-                    if (block.getType() == Material.BEACON
-                            || block.getType() == Material.CHEST
-                            || block.getType() == Material.BREWING_STAND
-                            || block.getType() == Material.DISPENSER
-                            || block.getType() == Material.FURNACE
-                            || block.getType() == Material.DROPPER
-                            || block.getType() == Material.TRAPPED_CHEST
-                            || block.getType() == Material.HOPPER
-                            || block.getType() == Material.STORAGE_MINECART) {
+                    if (block.getState() instanceof InventoryHolder) {
                         InventoryHolder holder = (InventoryHolder) block.getState();
                         holder.getInventory().clear();
                     }
