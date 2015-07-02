@@ -361,8 +361,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     public Location getPlotHome(PlotId id) {
         Vector bottom = getPlotBottomLoc(id);
         Vector top = getPlotTopLoc(id);
-        return new Location(world, (top.getX() + bottom.getX() + 1) / 2, getGroundHeight() + 2,
-                (top.getZ() + bottom.getZ() + 1) / 2);
+        return new Location(world, bottom.getX() + ((top.getX() - bottom.getX()) / 2), getGroundHeight() + 2,
+                bottom.getZ() - 2);
     }
 
     @Override
