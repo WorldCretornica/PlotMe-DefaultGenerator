@@ -159,4 +159,9 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <ciManagement>
+        <url>http://ci.worldcretornica.com/</url>
+        <system>jenkins</system>
+    </ciManagement>
 </project>
