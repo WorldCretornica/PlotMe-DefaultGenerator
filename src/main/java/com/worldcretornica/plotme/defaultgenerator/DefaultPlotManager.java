@@ -8,14 +8,17 @@ import com.worldcretornica.plotme_core.api.IBlock;
 import com.worldcretornica.plotme_core.api.IWorld;
 import com.worldcretornica.plotme_core.api.Location;
 import com.worldcretornica.plotme_core.api.Vector;
+import com.worldcretornica.plotme_core.bukkit.api.BukkitBlock;
+import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DefaultPlotManager extends BukkitAbstractGenManager {
 
@@ -183,6 +186,7 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
         bsign.setType(Material.AIR, false);
 
     }
+
     @Override
     public Vector getPlotBottomLoc(PlotId id) {
         int px = id.getX();
@@ -210,69 +214,56 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     }
 
     @Override
-    public long[] clear(Vector bottom, Vector top, long maxBlocks, long[] start) {
+    public void clear(Vector bottom, Vector top) {
         clearEntities(bottom, top);
-        int roadHeight = getGroundHeight();
-        BukkitBlockRepresentation fillBlock = new BukkitBlockRepresentation(wgc.getString(DefaultWorldConfigPath.FILL_BLOCK.key()));
-        BukkitBlockRepresentation floorBlock = new BukkitBlockRepresentation(wgc.getString(DefaultWorldConfigPath.PLOT_FLOOR_BLOCK.key()));
+        IBlock[] materials = new IBlock[65536];
+        Set<ChunkCoords> chunks = new HashSet<>();
 
-        int bottomX;
-        int topX = top.getBlockX();
-        int bottomZ;
-        int topZ = top.getBlockZ();
-
-        long nbBlockClearedBefore = 0;
-
-        if (start == null) {
-            bottomX = bottom.getBlockX();
-            bottomZ = bottom.getBlockZ();
-        } else {
-            bottomX = (int) start[0];
-            bottomZ = (int) start[2];
-            nbBlockClearedBefore = start[3];
+        for (int x = bottom.getBlockX(); x <= top.getBlockX(); ++x) {
+            for (int z = bottom.getBlockZ(); z <= top.getBlockZ(); ++z) {
+                chunks.add(new ChunkCoords(x >> 4, z >> 4));
+            }
         }
-
-        long nbBlockCleared = 0;
-        for (int x = bottomX; x <= topX; x++) {
-            for (int z = bottomZ; z <= topZ; z++) {
-                IBlock block = world.getBlockAt(x, 0, z);
-                if (!block.getType().equals(Material.BEDROCK)) {
-                    block.setType(Material.BEDROCK, false);
-                }
-                block.setBiome(Biome.PLAINS);
-
-                for (int y = 1; y < 255; y++) {
-                    block = world.getBlockAt(x, y, z);
-                    if (block.getState() instanceof InventoryHolder) {
-                        InventoryHolder holder = (InventoryHolder) block.getState();
-                        holder.getInventory().clear();
-                    }
-
-                    if (y < roadHeight) {
-                        if (block.getTypeId() != (int) fillBlock.getId()) {
-                            block.setTypeIdAndData(fillBlock.getId(), fillBlock.getData(), false);
-                        }
-                    } else if (y == roadHeight) {
-                        if (block.getTypeId() != (int) floorBlock.getId()) {
-                            block.setTypeIdAndData(floorBlock.getId(), floorBlock.getData(), false);
-                        }
-                    } else if ((y != roadHeight + 1 || x != bottomX - 1 && x != topX + 1 && z != bottomZ - 1 && z != topZ + 1)
-                            && !block.getType().equals(Material.AIR)) {
-                        block.setType(Material.AIR, false);
-                    }
-
-                    nbBlockCleared++;
-
-                    if (nbBlockCleared >= maxBlocks) {
-                        return new long[]{x, y, z, nbBlockClearedBefore + nbBlockCleared};
+        for (ChunkCoords chunk : chunks) {
+            Vector min = new Vector(chunk.getX() << 4, 0, chunk.getZ() << 4);
+            for (int x = 0; x < 16; ++x) {
+                for (int y = 0; y < 256; ++y) {
+                    for (int z = 0; z < 16; ++z) {
+                        Vector pt = min.add(x, y, z);
+                        int index = y * 16 * 16 + z * 16 + x;
+                        materials[index] = world.getBlockAt(pt);
                     }
                 }
             }
-            bottomZ = bottom.getBlockZ();
-        }
+            ((BukkitWorld) world).getWorld().regenerateChunk(chunk.getX(), chunk.getZ());
+            for (int x = 0; x < 16; ++x) {
+                for (int y = 0; y < 256; ++y) {
+                    for (int z = 0; z < 16; ++z) {
+                        Vector pt = min.add(x, y, z);
+                        int index = y * 256 + z * 16 + x;
+                        int lowestX = Math.min(bottom.getBlockX(), top.getBlockX());
+                        int highestX = Math.max(bottom.getBlockX(), top.getBlockX());
+                        int lowestZ = Math.min(bottom.getBlockZ(), top.getBlockZ());
+                        int highestZ = Math.max(bottom.getBlockZ(), top.getBlockZ());
 
-        refreshPlotChunks(getPlotId(bottom));
-        return null;
+                        boolean contains =
+                                pt.getBlockX() >= lowestX && pt.getBlockX() <= highestX && pt.getBlockZ() >= lowestZ && pt.getBlockZ() <= highestZ;
+                        if (!contains) {
+                            BukkitBlock block = ((BukkitBlock) materials[index]);
+                            BukkitBlock blockAt = (BukkitBlock) world.getBlockAt(pt);
+                            blockAt.setTypeIdAndData((short) block.getTypeId(), block.getData(), false);
+                            if (block.getState() instanceof InventoryHolder) {
+                                if (blockAt.getState() instanceof InventoryHolder) {
+                                    ((InventoryHolder) blockAt.getState()).getInventory()
+                                            .setContents(((InventoryHolder) block.getState()).getInventory().getContents());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            world.refreshChunk(chunk.getX(), chunk.getZ());
+        }
     }
 
     @Override
@@ -376,5 +367,24 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
 
         return new Vector(x, y, z);
+    }
+
+    private class ChunkCoords {
+
+        private final int x;
+        private final int z;
+
+        public ChunkCoords(int x, int z) {
+            this.x = x;
+            this.z = z;
+        }
+
+        public int getZ() {
+            return z;
+        }
+
+        public int getX() {
+            return x;
+        }
     }
 }

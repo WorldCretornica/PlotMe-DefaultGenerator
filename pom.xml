@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.worldcretornica</groupId>
     <artifactId>PlotMe-DefaultGenerator</artifactId>
-    <version>0.17.1</version>
+    <version>0.17.2</version>
     <name>PlotMe-DefaultGenerator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -124,8 +124,8 @@
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.8.3-R0.1-SNAPSHOT</version>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.8.7-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
@@ -138,14 +138,14 @@
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-Core</artifactId>
-            <version>0.17.1</version>
+            <version>0.17.5-BETA</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.worldcretornica</groupId>
             <artifactId>PlotMe-AbstractGenerator</artifactId>
-            <version>0.17.1</version>
+            <version>0.17.2</version>
         </dependency>
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
