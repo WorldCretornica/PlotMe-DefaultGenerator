@@ -194,8 +194,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
         int pathWidth = wgc.getInt(DefaultWorldConfigPath.PATH_WIDTH.key());
 
-        int x = (px * (getPlotSize() + pathWidth)) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
-        int z = pz * (getPlotSize() + pathWidth) - (getPlotSize()) - ((int) Math.floor(pathWidth / 2));
+        int x = px * (getPlotSize() + pathWidth) - (getPlotSize()) - (int) Math.floor(pathWidth / 2);
+        int z = pz * (getPlotSize() + pathWidth) - (getPlotSize()) - (int) Math.floor(pathWidth / 2);
 
         return new Vector(x, 0, z);
     }
