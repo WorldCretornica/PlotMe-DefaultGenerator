@@ -130,12 +130,11 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
 
     @Override
     public void setOwnerDisplay(PlotId id, String line1, String line2, String line3, String line4) {
-        Location pillar = new Location(world, bottomX(id) - 1, getGroundHeight() + 1, bottomZ(id) - 1);
-        IBlock bsign = pillar.add(0, 0, -1).getBlock();
-        bsign.setType(Material.AIR, false);
-        bsign.setTypeIdAndData((short) Material.WALL_SIGN.getId(), (byte) 2, false);
+        Vector bottom = getPlotBottomLoc(id);
+        Vector subtract = bottom.add(-1, getGroundHeight() + 1, -2);
+        world.getBlockAt(subtract).setTypeIdAndData((short) Material.WALL_SIGN.getId(), (byte) 2, false);
 
-        Sign sign = (Sign) bsign.getState();
+        Sign sign = (Sign) world.getBlockAt(subtract).getState();
 
         sign.setLine(0, line1);
         sign.setLine(1, line2);
@@ -169,11 +168,8 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
     @Override
     public void removeOwnerDisplay(PlotId id) {
         Vector bottom = getPlotBottomLoc(id);
-
-        Location pillar = new Location(world, bottom.getX() - 1, getGroundHeight() + 1, bottom.getZ() - 1);
-
-        IBlock bsign = pillar.add(0, 0, -1).getBlock();
-        bsign.setType(Material.AIR, false);
+        Vector subtract = bottom.add(-1, getGroundHeight() + 1, -2);
+        world.getBlockAt(subtract).setType(Material.AIR, false);
     }
 
     @Override
@@ -241,10 +237,10 @@ public class DefaultPlotManager extends BukkitAbstractGenManager {
                     for (int z = 0; z < 16; ++z) {
                         Vector pt = min.add(x, y, z);
                         int index = y * 256 + z * 16 + x;
-                        int lowestX = Math.min(bottom.getBlockX(), top.getBlockX());
-                        int highestX = Math.max(bottom.getBlockX(), top.getBlockX());
-                        int lowestZ = Math.min(bottom.getBlockZ(), top.getBlockZ());
-                        int highestZ = Math.max(bottom.getBlockZ(), top.getBlockZ());
+                        int lowestX = Math.min(bottom.getBlockX() + 1, top.getBlockX() - 1);
+                        int highestX = Math.max(bottom.getBlockX() + 1, top.getBlockX() - 1);
+                        int lowestZ = Math.min(bottom.getBlockZ() - 1, top.getBlockZ() + 1);
+                        int highestZ = Math.max(bottom.getBlockZ() - 1, top.getBlockZ() + 1);
 
                         boolean contains =
                                 pt.getBlockX() >= lowestX && pt.getBlockX() <= highestX && pt.getBlockZ() >= lowestZ && pt.getBlockZ() <= highestZ;
